@@ -1,12 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import Home from './containers/Home'
+// import CommentApp from './containers/CommentApp'
+import commentsReducer from './reducers/comments'
+import './index.less'
 
-ReactDOM.render(<App />, document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+// createStore 函数专门生产state和dispatch的集合， 调用后返回state和dispatch
+const store = createStore(commentsReducer)
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Home />
+  </Provider>,
+  document.getElementById('root')
+);
