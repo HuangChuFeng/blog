@@ -1,0 +1,26 @@
+.img-page-header {
+    width: 100%;
+    height: 56px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    .img-nav-ul {
+        overflow: hidden;
+        display: inline-block;
+        &:hover {
+            cursor: pointer;
+        }
+        li {
+            float: left;
+            margin: 0 20px;
+            line-height: 56px;
+            &.active {
+                color: #072d8a;
+            }
+        }
+    }
+    .to-index-link {
+        float: right;
+        margin-right: 20px;
+        line-height: 56px;
+        color: rgba(0, 0, 0, 0.65);
+    }
+}

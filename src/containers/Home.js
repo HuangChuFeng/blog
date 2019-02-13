@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Anchor, Button } from 'antd';
 
+import '../css/home.less'
 const { Link } = Anchor;
 
 export default class Home extends Component {
@@ -45,9 +46,9 @@ export default class Home extends Component {
             <span className="top-left-text">黄初凤</span>
             <span className="left-center-text">关于我—</span>
               <ul className="nav-ul">
-                <li><a href="#" />摄影</li>
-                <li><a href="#" />视频</li>
-                <li><a href="#" />文章</li>
+                <li><a href="#">摄影</a></li>
+                <li><a href="#">视频</a></li>
+                <li><a href="#">文章</a></li>
               </ul>
             <div className="center-text">
               <p>PHOTOGRAPH</p>
@@ -58,7 +59,7 @@ export default class Home extends Component {
               <div className="line"></div>
               <div className="order-text">01</div>
               <Anchor>
-                  <Link href="#secondPage" title="向下滑动" />
+                <Link href="#secondPage" className="to-bottom-link" title="向下滑动" />
               </Anchor>
             </div>
           </div>
@@ -72,13 +73,6 @@ export default class Home extends Component {
                 <p>2018.11.22</p>
               </div>
             </div>
-            <div className="img-wrap">
-              <div className="describe-text">
-                <p>light------------</p>
-                <p>2018.11.22</p>
-              </div>
-            <img src={require("../static/img/light.jpeg")} alt=""/>
-            </div>
           </div>
           <div className="content-box">
             <span className="left-center-text">摄影—</span>
@@ -88,10 +82,9 @@ export default class Home extends Component {
               <p>VIDEO</p>
             </div>
             <div className="left-content-wrap">
-              <Button className="common-btn photo-btn">Default</Button>
+              <Button className="common-btn photo-btn"><a href="/photograph">照片集</a></Button>
               <div className="order-box">02</div>
             </div>
-            
           </div>
         </div>
         <Anchor>
