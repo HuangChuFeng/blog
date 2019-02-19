@@ -21,23 +21,13 @@ const menu = (
   );
 
 class ImgListContainer extends Component {
-    static propTypes = {
-        // imgs: PropTypes.arrayOf(PropTypes.shape({
-        //     src: PropTypes.string
-        // })),
-        imgs: PropTypes.array,
-        onSubmit: PropTypes.func
-    }
 
     componentWillMount() {
         this._loadimgs();
     }
 
     _loadimgs() {
-        let imgs = localStorage.getItem('imgs');
-        imgs = imgs ? JSON.parse(imgs) : [];
-        this.props.initImgs(imgs);
-        localStorage.setItem('imgs', JSON.stringify(imgs));
+        this.props.initImgs(this.props.imgs);
     }
 
     handleDeleteComment(index) {
@@ -81,23 +71,27 @@ class ImgListContainer extends Component {
     }
 }
 
-// 发给子组件的状态
+// 当前组件需要的state数据
 const mapStateToProps = (state) => {
     return {
         imgs: state.imgs
     }
 }
   
-// 发给子组件的事件
+// 当前组件需要发起是事件
 const mapDispatchToProps = (dispatch) => {
     return {
         initImgs: (imgs) => {
-            return fetchImgs(imgs).then(result => {
-                const {data} = result; // 取result的data属性值
-                if (data) {
-                  dispatch(initImgs(data.imgs));
-                } 
-              });
+            if(imgs && imgs.length === 0) {
+                return fetchImgs(imgs).then(result => {
+                    const {data} = result;
+                    if (data) {
+                        dispatch(initImgs(data.imgs));
+                    } 
+                });
+            } else {
+                dispatch(initImgs([]));
+            }
         },
         onDeleteComment: (commentIndex) => {
             // dispatch(deleteComment(commentIndex))

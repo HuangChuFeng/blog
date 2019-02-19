@@ -6,14 +6,19 @@ import PropTypes from 'prop-types'
 import { Affix } from 'antd';
 
 export default class ImgList extends Component {
-    // 类型检测
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
+    // 对父组件传入的props数据进行类型检测
     static propTypes = {
-        imgs: PropTypes.array
+        imgs: PropTypes.array,
     }
 
     // 声明变量, 初始化默认值
     static defaultProps = {
-        imgs: []
+        imgs: [],
     }
 
     handleDeleteComment(index) {
@@ -23,22 +28,21 @@ export default class ImgList extends Component {
     }
 
     render() {
-        // for(var i = 0; i < this.props.imgs.length; i++) {
-        //     this.props.imgs[i].src = require(`"${this.props.imgs[i].src}"`)
-        // }
         return (
             <div className="img-container">
-            <Masonry
-                disableImagesLoaded={false}
-                updateOnEachImageLoad={false} >
-                {this.props.imgs.map((img, i) =>
-                <Img
-                    img={img}
-                    key={i}
-                    index={i}
-                    onDeleteComment={this.handleDeleteComment.bind(this)} />
-                )}
-                </Masonry>
+                <div>
+                    <Masonry
+                    disableImagesLoaded={false}
+                    updateOnEachImageLoad={false} >
+                        {this.props.imgs.map((img, i) =>
+                        <Img
+                            img={img}
+                            key={i}
+                            index={i}
+                            onDeleteComment={this.handleDeleteComment.bind(this)} />
+                        )}
+                    </Masonry>
+                </div>
             </div>
         )
     }

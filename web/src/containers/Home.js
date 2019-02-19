@@ -6,14 +6,6 @@ import '../css/home.less'
 const { Link } = Anchor;
 
 export default class Home extends Component {
-  static propTypes = {
-    bgHeight: PropTypes.object,
-  }
-
-  static defaultProps = {
-    bgHeight: {},
-  }
-
   constructor(props) {
       super(props);
       this.state = {
