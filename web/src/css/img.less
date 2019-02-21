@@ -1,41 +1,4 @@
-.img-page-header {
-    width: 100%;
-    min-width: 450px;
-    height: 56px;
-    background: #fff;
-    top: 0;
-    z-index: 999;
-    position: fixed;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    .img-nav-ul {
-        overflow: hidden;
-        display: inline-block;
-        &:hover {
-            cursor: pointer;
-        }
-        li {
-            float: left;
-            margin: 0 20px;
-            line-height: 56px;
-            &.active {
-                color: #072d8a;
-            }
-        }
-    }
-    .to-index-link {
-        float: right;
-        margin-right: 20px;
-        line-height: 56px;
-        color: rgba(0, 0, 0, 0.65);
-    }
-}
-
 .img-container {
-    position: absolute;
-    height: calc(100% - 56px);
-    width: 100%;
-    top: 56px;
-    overflow-y: auto;
     &>div {
         width: 90%;
         margin: 0 auto;
@@ -43,7 +6,7 @@
     .img-wraper {
         padding: 10px;
         width: calc(100%/3);
-        min-height: 300px;
+        // min-height: 300px;
         position: relative;
         &:hover .img-cover {
             cursor: pointer;

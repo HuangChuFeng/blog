@@ -38,9 +38,9 @@ export default class Home extends Component {
             <span className="top-left-text">黄初凤</span>
             <span className="left-center-text">关于我—</span>
               <ul className="nav-ul">
-                <li><a href="#">摄影</a></li>
+                <li><a href="/photograph">摄影</a></li>
                 <li><a href="#">视频</a></li>
-                <li><a href="#">文章</a></li>
+                <li><a href="/articles">文章</a></li>
               </ul>
             <div className="center-text">
               <p>PHOTOGRAPH</p>

@@ -6,8 +6,12 @@ import Home from './containers/Home'
 import imgsReducer from './reducers/imgs'
 import './index.less'
 
-import ImgList from './containers/ImgList'
-import ImgDetail from './containers/ImgDetail'
+import ImgList from './containers/photograph/ImgList'
+import ImgDetail from './containers/photograph/ImgDetail'
+import ArticleList from './containers/article/ArticleList'
+import ArticleDetail from './containers/article/ArticleDetail'
+import EditArticle from './containers/article/EditArticle'
+
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 // createStore 函数专门生产state和dispatch的集合， 调用后返回state和dispatch
@@ -20,6 +24,9 @@ ReactDOM.render(
         <Route exact path="/" component={Home} />
         <Route exact path="/photograph" component={ImgList} />
         <Route exact path="/photograph/:id" component={ImgDetail} />
+        <Route exact path="/articles" component={ArticleList} />
+        <Route exact path="/articles/:id" component={ArticleDetail} />
+        <Route exact path="/articles/edit/:id" component={EditArticle} />
       </div>
     </Router>
   </Provider>,
