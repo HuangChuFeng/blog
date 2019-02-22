@@ -81,8 +81,10 @@ class ArticleForm extends React.Component {
     }
 
     componentDidMount() {
-        this.initForm();
         this.props.onRef(this)
+        console.log('mount');
+        
+        this.initForm();
     }
 
     handleSubmit = (e) => {
@@ -113,8 +115,8 @@ class ArticleForm extends React.Component {
 
     }
 
-    getFormData() {
-        console.log('表单值', this.props.form.getFieldsValue())
+    getFormData = () => {
+        return this.props.form.getFieldsValue();
     }
 
     render() {
@@ -167,22 +169,4 @@ class ArticleForm extends React.Component {
     }
 }
 
-const WrappedArticleForm = Form.create({ name: 'artile-form' })(ArticleForm);
-
-export default class EditForm extends Component {
-    static propTypes = {
-        article: PropTypes.object,
-        onRef: PropTypes.func,
-    }
-    componentDidMount() {
-        this.props.onRef(this)
-    }
-    onRef = (ref) => {
-        this.child = ref;
-    }
-    render() {
-        return (
-            <WrappedArticleForm onRef={this.onRef} article={this.props.article} />
-        )
-    }
-}
+export default Form.create({ name: 'artile-form' })(ArticleForm);
