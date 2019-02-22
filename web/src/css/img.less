@@ -1,3 +1,4 @@
+@import './common.less';
 .img-container {
     &>div {
         width: 90%;
@@ -49,7 +50,7 @@
                 transform: scale(1.5);
             }
             .count-span {
-                color: #eee;
+                color: @common-font-color;
                 margin: 0 0 0 10px;
             }
             .collection-icon {
@@ -65,7 +66,7 @@
         .info-box {
             bottom: 0;
             left: 0;
-            color: #eee;
+            color: @common-font-color;
         }
     }
 }
@@ -93,7 +94,7 @@
             }
             .icon {
                 position: absolute;
-                color: #eee;
+                color: @common-font-color;
                 transform: scale(2);
                 width: 20px;
                 height: 20px;

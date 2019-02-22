@@ -19,10 +19,6 @@ export default class Article extends Component {
         onClickArticle: PropTypes.func,
     }
 
-    static defaultProps = {
-        article: null
-    }
-
     // 查看图片详情
     toArticleDetailPage = id =>  {
         this.context.router.history.push(`/articles/${id}`);       

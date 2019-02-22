@@ -47,7 +47,7 @@ export default class Img extends Component {
     render() {
         return (
             <div className="img-wraper" onClick={this.toImgDetailPage.bind(this, this.props.img.id)}>
-                <img src={require('../' + this.props.img.src)} alt=""
+                <img src={require('../../' + this.props.img.src)} alt=""
                 onLoad={this.imgOnLoad.bind(this)} />
 
                 <div className="img-cover">

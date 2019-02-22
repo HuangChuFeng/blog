@@ -1,3 +1,4 @@
+@import './common.less';
 .article-container {
     position: relative;
     padding: 32px 120px;
@@ -13,7 +14,7 @@
             transform: translateY(30%);
             opacity: 0;
             padding: 30px 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid @common-font-color;
             animation: show .6s;
             animation-fill-mode: forwards;
             &:hover {
@@ -35,7 +36,7 @@
                 }
             }
             .title {
-                color: #072d8a;
+                color: @common-blue;
             }
             .time {
                 color: #ccc;
@@ -43,7 +44,7 @@
             }
             .browse-num {
                 float: right;
-                color: #072d8a;
+                color: @common-blue;
                 .fire-icon {
                     margin: 0 3px 0 0;
                 }
@@ -86,12 +87,12 @@
         .top-info-box {
             padding: 0 0 15px 10px;
             letter-spacing: .1em;
-            border-bottom: 1px solid #072d8a;
+            border-bottom: 1px solid @common-blue;
             h1 {
                 color: inherit;
                 font-size: 48px;
                 margin: 0;
-                color: #072d8a;
+                color: @common-blue;
             }
             .top-bottom {
                 font-size: 12px;
@@ -119,7 +120,7 @@
                 cursor: pointer;
             }
             span {
-                color: #072d8a;
+                color: @common-blue;
                 margin-right: 20px;
             }
         }
@@ -140,24 +141,49 @@
 }
 
 .edit-container {
-    padding: 32px 120px;
+    padding: 32px 15%;
+    .ant-tag-blue {
+        background: @light-blue;
+        border-radius: 10px;
+        color: @common-font-color;
+        border-color: @light-blue;
+        &:first-child {
+            margin-left: 40px;
+        }
+        &:hover {
+            opacity: 1 !important;
+        }
+        i {
+            color: inherit;
+            &:hover {
+                color: inherit;
+            }
+        }
+    }
+    .ant-form-item {
+        margin-bottom: 10px;
+    }
     .edit-wrapper {
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         text-align: left;
+        margin-top: 20px;
         .w-e-toolbar {
             padding: 10px 15px !important; 
             background-color: #fff !important;
             border: none !important;
-            border-bottom: 1px solid #eee !important;
+            border-bottom: 1px solid @common-font-color !important;
             i {
-                color: #072d8a;
-                opacity: .8;
+                color: fadeout(@common-blue, 20%);
             }
         }
         .w-e-text-container {
+            min-height: 300px !important;
             padding: 10px 15px;
             border: none !important;
         }
     }
-    
+    .publish-btn {
+        margin-top: 20px;
+        float: right;
+    }
 }
