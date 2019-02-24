@@ -72,7 +72,8 @@ class ArticleForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tagList: [],
+            tagList: this.props.article.tags.split(','),
+            inputTag: '',
         }
     }
     static propTypes = {
@@ -81,9 +82,7 @@ class ArticleForm extends React.Component {
     }
 
     componentDidMount() {
-        this.props.onRef(this)
-        console.log('mount');
-        
+        this.props.onRef(this);
         this.initForm();
     }
 
@@ -100,15 +99,29 @@ class ArticleForm extends React.Component {
         let { type, title, description } = this.props.article;
         
         let option = {
-            type: (type == 0 ? '原创' : '分享'),
+            type,
             title,
             description,
         }
         this.props.form.setFieldsValue(option);
     }
 
-    delTagHandler(e) {
-        console.log('删除标签');
+    delTagHandler(index) {
+        this.state.tagList.splice(index, 1);
+    }
+
+    tagInputChange = (e) => {
+        this.setState({ inputTag: e.target.value });
+    }
+
+    addTagHandler = (e) => {
+        if (e.keyCode === 13) {
+            console.log('增加标签', this.state.inputTag)
+            this.state.tagList.push(this.state.inputTag);
+            this.setState({
+                inputTag: '' 
+            });
+        }
     }
 
     handleTypeChange(value) {
@@ -116,13 +129,12 @@ class ArticleForm extends React.Component {
     }
 
     getFormData = () => {
-        return this.props.form.getFieldsValue();
+        return Object.assign({tags: this.state.tagList}, this.props.form.getFieldsValue());
     }
 
     render() {
         const { getFieldDecorator } = this.props.form;
         const Option = Select.Option;
-        let tagList = this.props.article.tag.split(',');
 
         return (
             <Form onSubmit={this.handleSubmit} className="artile-form">
@@ -131,8 +143,8 @@ class ArticleForm extends React.Component {
                         <Form.Item>
                             {getFieldDecorator('type')(
                             <Select style={{ width: 100 }} onChange={this.handleTypeChange}>
-                                <Option value="原创">原创</Option>
-                                <Option value="分享">分享</Option>
+                                <Option value="0">原创</Option>
+                                <Option value="1">分享</Option>
                             </Select>)}
                         </Form.Item>
                     </Col>
@@ -155,10 +167,10 @@ class ArticleForm extends React.Component {
                 </Form.Item>
                 <Form.Item>
                     <Row>
-                        <Col span={3} ><Input placeholder="输入标签回车" /></Col>
-                        <Col span={18} >
-                            {tagList.map((item, i) => {
-                                return (<Tag key={i} closable onClose={this.delTagHandler} color="blue">{ item }</Tag>)
+                        <Col span={3} ><Input placeholder="输入标签回车" value={this.state.inputTag} onChange={this.tagInputChange.bind(this)} onKeyDown={this.addTagHandler.bind(this)} /></Col>
+                        <Col span={18} className="tag-wrap" >
+                            {this.state.tagList.map((item, i) => {
+                                return (<Tag key={i} closable onClose={this.delTagHandler.bind(this, i)} color="blue">{ item }</Tag>)
                             })}
                         </Col>
                         <Col span={2} ><Cover /></Col>

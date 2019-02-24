@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import WrappedArticleForm from './EditForm'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import WrappedArticleForm from './EditForm';
 import { Button } from 'antd';
 
-import E from 'wangeditor'
+import E from 'wangeditor';
 export default class EditArticle extends Component {
     constructor(props) {
         super(props);
         this.state = {
             editorContent: this.props.article.content,
-        }
+        };
     }
 
     static propTypes = {
@@ -42,16 +42,20 @@ export default class EditArticle extends Component {
     }
     
     getFormData() {
-        console.log('child==== ', this.child)
+        console.log('child==== ', this.child);
+        let formData = Object.assign({
+            content: this.state.editorContent
+        }, this.child.getFormData());
+        this.props.onSaveArticle.bind(this, formData)();
     }
     
-    render () {
+    render() {
         return (
             <div>
                 <WrappedArticleForm onRef={this.onRef} article={this.props.article} />
                 <div ref="editorElem" className="edit-wrapper">
                 </div>
-                <Button type="primary" className="common-btn publish-btn" onClick={this.props.onSaveArticle.bind(this, this.getFormData)}>
+                <Button type="primary" className="common-btn publish-btn" onClick={this.getFormData.bind(this)}>
                     发布
                 </Button>
             </div>

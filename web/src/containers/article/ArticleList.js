@@ -41,7 +41,7 @@ const mapStateToProps = (state) => {
             type: 0, // 0 原创, 1 分享
             cover_url: '',
             title: 'Koa 框架教程',
-            tag: 'koa, node',
+            tags: 'koa, node',
             category_id: '',
             publish_time: '2019-01-20 12:00:00',
             description: 'Koa 就是一种简单好用的 Web 框架。它的特点是优雅、简洁、表达力强、自由度高。本身代码只有1000多行，所有功能都通过插件实现，很符合 Unix 哲学',

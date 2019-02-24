@@ -36,7 +36,7 @@ export default class Home extends Component {
           <div className="mask" style={ this.state.bgHeight }></div>
           <div className="content-box">
             <span className="top-left-text">黄初凤</span>
-            <span className="left-center-text">关于我—</span>
+            <span className="left-center-text"><a href="#">关于我—</a></span>
               <ul className="nav-ul">
                 <li><a href="/photograph">摄影</a></li>
                 <li><a href="#">视频</a></li>
@@ -74,7 +74,7 @@ export default class Home extends Component {
               <p>VIDEO</p>
             </div>
             <div className="left-content-wrap">
-              <Button className="common-btn photo-btn"><a href="/photograph">照片集</a></Button>
+              <Button className="photo-btn"><a href="/photograph">照片集</a></Button>
               <div className="order-box">02</div>
             </div>
           </div>

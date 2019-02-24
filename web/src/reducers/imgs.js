@@ -29,7 +29,7 @@ export default function(state, action) {
 
         case ADD_IMG:
             return { 
-                imgs: [...state.imgs, action.imgs],
+                imgs: [action.imgs, ...state.imgs],
             };
 
         case GET_IMG_BY_ID:
@@ -44,10 +44,11 @@ export default function(state, action) {
         
         case DELETE_IMG:
             return {
-                imgs: [
-                    ...state.imgs.slice(0, action.imgsIndex),
-                    ...state.imgs.slice(action.imgsIndex + 1)
-                ]
+                imgs: []
+                // imgs: [
+                //     ...state.imgs.slice(0, action.imgsIndex),
+                //     ...state.imgs.slice(action.imgsIndex + 1)
+                // ]
             };
 
         default: 

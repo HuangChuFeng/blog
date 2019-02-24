@@ -3,21 +3,31 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { initImgs, deleteImg } from '../../reducers/imgs'
-import { Affix, Icon } from 'antd';
+import { Affix, Icon, Button } from 'antd';
 import ImgList from '../../components/photograph/ImgList'
+import UploadImg from '../../components/photograph/UploadImg'
 import Header from '../../components/Header'
 import '../../css/img.less'
 
 import { fetchImgs } from "../../service/fetch";
 
 class ImgListContainer extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            dialogVisible: false,
+        }
+    }
     componentWillMount() {
         this._loadimgs();
     }
 
     _loadimgs() {
         this.props.initImgs(this.props.imgs);
+    }
+
+    openDialog = () => {
+        this.setState({ dialogVisible: true });
     }
 
     handleDeleteComment(index) {
@@ -40,9 +50,14 @@ class ImgListContainer extends Component {
         return (
             <div>
                 <Header type="0" />
-                <ImgList
-                    imgs= {this.props.imgs}
-                    onDeleteComment= {this.handleDeleteComment.bind(this)} />
+                <div className="container img-container">
+                    <Button type="primary" className="common-btn" onClick={this.openDialog.bind(this)}>
+                        上传照片
+                    </Button>
+                    <ImgList
+                        imgs= {this.props.imgs}
+                        onDeleteComment= {this.handleDeleteComment.bind(this)} />
+                </div>
             </div>
         )
     }
@@ -72,6 +87,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         onDeleteComment: (commentIndex) => {
             // dispatch(deleteComment(commentIndex))
+        },
+        deleteImg: (imgIndex) => {
+            dispatch(deleteImg(imgIndex))
+        },
+        addImg: (img) => {
+            dispatch(addImg(img))
         }
     }
 }

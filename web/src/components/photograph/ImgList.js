@@ -29,20 +29,18 @@ export default class ImgList extends Component {
 
     render() {
         return (
-            <div className="container img-container">
-                <div>
-                    <Masonry
-                    disableImagesLoaded={false}
-                    updateOnEachImageLoad={false} >
-                        {this.props.imgs.map((img, i) =>
-                        <Img
-                            img={img}
-                            key={i}
-                            index={i}
-                            onDeleteComment={this.handleDeleteComment.bind(this)} />
-                        )}
-                    </Masonry>
-                </div>
+            <div>
+                <Masonry
+                disableImagesLoaded={false}
+                updateOnEachImageLoad={false} >
+                    {this.props.imgs.map((img, i) =>
+                    <Img
+                        img={img}
+                        key={i}
+                        index={i}
+                        onDeleteComment={this.handleDeleteComment.bind(this)} />
+                    )}
+                </Masonry>
             </div>
         )
     }
