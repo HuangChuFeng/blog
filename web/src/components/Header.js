@@ -24,6 +24,7 @@ const imgNavArr = [
     { text: '人像' },
     { text: '街拍' },
     { text: '风景' },
+    { text: '其他' },
 ]
 
 export default class Img extends Component {

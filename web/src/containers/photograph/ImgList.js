@@ -26,8 +26,8 @@ class ImgListContainer extends Component {
         this.props.initImgs(this.props.imgs);
     }
 
-    openDialog = () => {
-        this.setState({ dialogVisible: true });
+    visibleHandler = (flag) => {
+        this.setState({ dialogVisible: flag });
     }
 
     handleDeleteComment(index) {
@@ -51,9 +51,10 @@ class ImgListContainer extends Component {
             <div>
                 <Header type="0" />
                 <div className="container img-container">
-                    <Button type="primary" className="common-btn" onClick={this.openDialog.bind(this)}>
+                    <Button type="primary" className="common-btn" onClick={this.visibleHandler.bind(this, true)}>
                         上传照片
                     </Button>
+                    <UploadImg visible={this.state.dialogVisible} visibleHandler={this.visibleHandler}/>
                     <ImgList
                         imgs= {this.props.imgs}
                         onDeleteComment= {this.handleDeleteComment.bind(this)} />
