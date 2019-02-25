@@ -71,7 +71,7 @@ const mapStateToProps = (state) => {
     }
 }
   
-// 当前组件需要发起是事件
+// 当前组件需要发起的事件
 const mapDispatchToProps = (dispatch) => {
     return {
         initImgs: (imgs) => {

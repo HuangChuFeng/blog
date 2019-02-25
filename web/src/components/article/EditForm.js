@@ -129,7 +129,7 @@ class ArticleForm extends React.Component {
     }
 
     getFormData = () => {
-        return Object.assign({tags: this.state.tagList}, this.props.form.getFieldsValue());
+        return Object.assign({tags: this.state.tagList.join(',')}, this.props.form.getFieldsValue());
     }
 
     render() {

@@ -3,8 +3,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Header from '../../components/Header'
+import { addArticle } from '../../reducers/articles'
 import EditArticle from '../../components/article/EditArticle'
 import '../../css/article.less'
+import { createArticle } from "../../service/fetch";
 
 import E from 'wangeditor'
 
@@ -26,11 +28,19 @@ class EditArticleContainer extends Component {
             console.log('编辑====: ', formData);
             
         }
+        // return createArticle(formData).then(result => {
+        //     const {data} = result;
+        //     if (data) {
+                console.log(this.props)
+        //         this.props.addArticle(data.res);
+        //     } 
+        // });
     }
 
     loadArticles() {
         this.props.initArticles(this.props.articles);
     }
+
     render () {
         return (
             <div>
@@ -45,7 +55,6 @@ class EditArticleContainer extends Component {
     }
 }
 
-// 当前组件需要的state数据
 const mapStateToProps = (state) => {
     return {
         // articles: state.articles
@@ -64,21 +73,11 @@ const mapStateToProps = (state) => {
         }
     }
 }
-  
-// 当前组件需要发起是事件
+
 const mapDispatchToProps = (dispatch) => {
     return {
-        initImgs: (imgs) => {
-            if(imgs && imgs.length === 0) {
-                return fetchImgs(imgs).then(result => {
-                    const {data} = result;
-                    if (data) {
-                        dispatch(initImgs(data.imgs));
-                    } 
-                });
-            } else {
-                dispatch(initImgs([]));
-            }
+        addArticle: (article) => {
+            dispatch(addArticle(article));
         }
     }
 }

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Anchor, Button } from 'antd';
 
+import { login } from "../service/fetch";
+
 import '../css/home.less'
 const { Link } = Anchor;
 
@@ -18,6 +20,12 @@ export default class Home extends Component {
   componentDidMount() {
       // 高度设置
       this.screenChange();
+      login().then(result => {
+          const {data} = result;
+          if (data) {
+            console.log('======', data)
+          } 
+      });
   }
   screenChange() {
     window.addEventListener('resize', () => {

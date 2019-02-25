@@ -11,3 +11,18 @@ import { get, post, formPost } from "../util/post";
 export const fetchImgs = id => {
   return get(`http://localhost:3000/api/imgs`);
 };
+
+export const login = id => {
+  return get(`http://localhost:3000/api/login`);
+};
+
+export const fetchArticle = id => {
+  return get(`http://localhost:3000/api/articles`);
+};
+
+export const createArticle = article => {
+  
+  return post(`http://localhost:3000/api/articles/create`, {
+    article: article
+  });
+};
