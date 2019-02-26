@@ -16,7 +16,7 @@ export const login = id => {
   return get(`http://localhost:3000/api/login`);
 };
 
-export const fetchArticle = id => {
+export const fetchArticles = id => {
   return get(`http://localhost:3000/api/articles`);
 };
 

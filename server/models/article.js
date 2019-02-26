@@ -6,15 +6,16 @@ module.exports = {
         if (author) {
             query.author = author;
         }
-        return Post
+        return Article
         .find(query)
-        .populate({ path: 'author', model: 'User' })
-        .sort({ _id: -1 })
+        // .populate({ path: 'author', model: 'User' })
         .addCreatedAt()
+        .sort({ _id: -1 })
         .exec();
     },
     // 创建文章
     create: function create(article) {
+        article.browse_num = 0;
         return Article.create(article).exec();
     }
 }

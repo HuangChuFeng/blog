@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Header from '../../components/Header'
 import { addArticle } from '../../reducers/articles'
 import EditArticle from '../../components/article/EditArticle'
 import '../../css/article.less'
+import { Button } from 'antd';
 import { createArticle } from "../../service/fetch";
-
-import E from 'wangeditor'
 
 class EditArticleContainer extends Component {
     constructor(props) {
@@ -17,25 +15,37 @@ class EditArticleContainer extends Component {
             articleId: this.props.match.params.id,
         }
     }
+
+    static contextTypes = {
+        router: PropTypes.object.isRequired,
+    }
+
     componentDidMount() {
+        console.log(this.props.articles)
         
     }
     // 保存文章 id存在时为编辑状态
-    saveArticleHandler(formData) {
+    saveArticleHandler() {
+        let formData = this.child.getFormData();
+        
         if(this.state.articleId) {
-            console.log('新建====: ', formData);
-        } else {
             console.log('编辑====: ', formData);
-            
+        } else {
+            console.log('新建====: ', formData);
         }
-        // return createArticle(formData).then(result => {
-        //     const {data} = result;
-        //     if (data) {
-                console.log(this.props)
-        //         this.props.addArticle(data.res);
-        //     } 
-        // });
+        return createArticle(formData).then(result => {
+            const {data} = result;
+            if (data) {
+                this.props.addArticle(data.res);
+                this.context.router.history.push(`/articles`);     
+            } 
+        });
     }
+
+    onRef = (ref) => {
+        this.child = ref;
+    }
+    
 
     loadArticles() {
         this.props.initArticles(this.props.articles);
@@ -46,9 +56,12 @@ class EditArticleContainer extends Component {
             <div>
                 <Header type="1" />
                 <div className="container edit-container">
-                    <EditArticle 
-                        article={this.props.article}
-                        onSaveArticle={this.saveArticleHandler}/>
+                    <EditArticle  
+                        onRef={this.onRef}
+                        article={this.props.article}/>
+                    <Button type="primary" className="common-btn publish-btn" onClick={this.saveArticleHandler.bind(this)}>
+                        发布
+                    </Button>
                 </div>
             </div>
         )
@@ -57,7 +70,7 @@ class EditArticleContainer extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        // articles: state.articles
+        articles: state.articlesReducer.articles,
 
         article: {
             id: 1,

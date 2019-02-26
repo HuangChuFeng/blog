@@ -72,7 +72,7 @@ class ArticleForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tagList: this.props.article.tags.split(','),
+            tagList: this.props.article ? this.props.article.tags.split(',') : [],
             inputTag: '',
         }
     }

@@ -39,12 +39,11 @@ exports.Article = mongolass.model('Article', {
     tags: { type: 'string' },
     category_id: { type: 'string' },
     description: { type: 'string' },
-    publish_time: { type: 'string' },
     content: { type: 'string' },
     browse_num: { type: 'number'},
 });
 
-exports.Article.index({ author: 1, _id: -1 }).exec();// 按创建时间降序查看用户的文章列表
+exports.Article.index({ author: 1, _id: -1 }).exec();   // 按创建时间降序查看用户的文章列表
 
 
 exports.Img = mongolass.model('Img', {
@@ -53,4 +52,4 @@ exports.Img = mongolass.model('Img', {
     favor_count: { type: 'number' },
 });
 
-exports.Img.index({ id: 1}, { unique: true }).exec();// 按创建时间降序查看用户的文章列表
+exports.Img.index({ id: 1}).exec();// 按创建时间降序查看用户的文章列表

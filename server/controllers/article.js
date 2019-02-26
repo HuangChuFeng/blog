@@ -4,9 +4,11 @@ module.exports = {
         let resCode = 200,
             message;
         try {
-            var articles = await AritcleModel.getAritcleModel();
+            var articles = await AritcleModel.getArticles();
         } catch (e) {
             resCode = 500;
+            console.log('捕获异常=========================', e);
+            
             message = "服务器出错了";
         }
         ctx.response.body = {
@@ -22,7 +24,6 @@ module.exports = {
         try {
             var result = await AritcleModel.create(article),
                 res = result.ops[0];
-            
         } catch (e) {
             resCode = 500;
             message = "发表失败";

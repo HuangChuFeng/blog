@@ -24,7 +24,7 @@ const log = require("./logs/log");
 app.use(historyFallback())
 
 app.use(bodyParser());
-console.log('session=====', config.session);
+console.log('session=====++++', config.session);
 
 // app.keys = [config.session.secret];
 app.use(

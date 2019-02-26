@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { initImgs, deleteImg } from '../../reducers/imgs'
@@ -67,7 +66,7 @@ class ImgListContainer extends Component {
 // 当前组件需要的state数据
 const mapStateToProps = (state) => {
     return {
-        imgs: state.imgs
+        imgs: state.imgsReducer.imgs
     }
 }
   

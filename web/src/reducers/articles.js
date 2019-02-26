@@ -1,4 +1,5 @@
 // action types
+const INIT_ARTICLES = 'INIT_ARTICLES';
 const ADD_ARTICLE = 'ADD_ARTICLE';
 const DELETE_ARTICLE = 'DELETE_ARTICLE';
 
@@ -11,14 +12,22 @@ export default function(state, action) {
     }
 
     switch (action.type) {
-        case ADD_ARTICLE:
+        case INIT_ARTICLES:
             return { 
-                articles: [action.articles, ...state.articles],
+                ...state,
+                articles: action.articles,
+            };
+
+        case ADD_ARTICLE:
+            console.log(state.articles);
+        
+            return { 
+                articles: [action.article, ...state.articles],
             };
         
         case DELETE_ARTICLE:
             return {
-                imgs: [
+                articles: [
                     ...state.articles.slice(0, action.articleIndex),
                     ...state.articles.slice(action.articleIndex + 1)
                 ]
@@ -29,12 +38,16 @@ export default function(state, action) {
     }
 }
 
-export const addArticle = (img) => {
-    return { type: ADD_IMG, img }
+export const initArticles = (articles) => {
+    return { type: INIT_ARTICLES, articles }
 }
 
-export const deleteArticle = (imgIndex) => {
-    return { type: DELETE_IMG, imgIndex }
+export const addArticle = (article) => {
+    return { type: ADD_ARTICLE, article }
+}
+
+export const deleteArticle = (articleIndex) => {
+    return { type: DELETE_ARTICLE, articleIndex }
 }
 
 
