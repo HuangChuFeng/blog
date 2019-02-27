@@ -13,7 +13,8 @@ export default class ArticleList extends Component {
     // 对父组件传入的props数据进行类型检测
     static propTypes = {
         articles: PropTypes.array,
-        deleteArticle: PropTypes.func
+        deleteArticle: PropTypes.func,
+        editArticle: PropTypes.func,
     }
 
     // 声明变量, 初始化默认值
@@ -31,6 +32,7 @@ export default class ArticleList extends Component {
                         key={i}
                         index={i} 
                         deleteArticle={this.props.deleteArticle}
+                        editArticle={this.props.editArticle}
                         />
                     )}
                 </div>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { Divider, Icon } from 'antd';
 import Header from '../../components/Header'
@@ -20,7 +21,7 @@ export default class ArticleDetail extends Component {
                 <Header type="1" />
                 <div className="container article-detail-container">
                     <div className="left">
-                        <a href="/articles"><Icon type="left"  className="back-btn"/></a>                    
+                        <Link to="/articles"><Icon type="left" className="back-btn"/></Link>                    
                         <div className="top-info-box">
                             <h1>2019</h1>
                             <div className="top-bottom">

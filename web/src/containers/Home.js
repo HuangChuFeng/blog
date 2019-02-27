@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Anchor, Button } from 'antd';
 
-import { login } from "../service/fetch";
+import { login, getLocation } from "../service/fetch";
 
 import '../css/home.less'
 const { Link } = Anchor;
@@ -20,6 +20,7 @@ export default class Home extends Component {
   componentDidMount() {
       // 高度设置
       this.screenChange();
+      this.getLocationCity();
       login({name: 'admin', password: '123'}).then(result => {
           const {data} = result;
           if (data) {
@@ -27,6 +28,16 @@ export default class Home extends Component {
           } 
       });
   }
+
+  getLocationCity() {
+    getLocation().then(result => {
+      // const {data} = result;
+      // if (data) {
+        console.log('======', result)
+      // } 
+  });
+  }
+
   screenChange() {
     window.addEventListener('resize', () => {
       this.setState({ 

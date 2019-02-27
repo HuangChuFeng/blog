@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import ArticleList from '../../components/article/ArticleList'
 import Header from '../../components/Header'
 import { Affix, Menu, Dropdown, Icon } from 'antd';
-import { initArticles, deleteArticle } from '../../reducers/articles'
+import { initArticles, deleteArticle, getArticleById } from '../../reducers/articles'
 import { Button } from 'antd';
 import '../../css/article.less'
 
@@ -16,7 +16,7 @@ import { fetchArticles, deleteArticleById } from "../../service/fetch";
 class ArticleListContainer extends Component {
 
     componentWillMount() {
-        if(this.props.articles.length == 0) {
+        if(this.props.articles && this.props.articles.length == 0) {
             this.loadArticles();
         }
     }
@@ -44,8 +44,9 @@ class ArticleListContainer extends Component {
             } 
         })
     }    
-    toNewPage = () => {
-        this.context.router.history.push(`/articles/edit/1`)
+    onEditArticle = (articleId) => {
+        this.props.getArticleById(articleId);
+        this.context.router.history.push(`/articles/edit/${articleId}`);
     }
 
     render () {
@@ -53,8 +54,12 @@ class ArticleListContainer extends Component {
             <div>
                 <Header type="1" />
                 <div className="container article-container">
-                <Link to='/articles/edit/1'>写文章</Link>
-                    <ArticleList articles= {this.props.articles} deleteArticle={this.onDeleteArticle.bind(this)}/>
+                    <Link to='/articles/new'>写文章</Link>
+                    <ArticleList 
+                        articles= {this.props.articles} 
+                        deleteArticle={this.onDeleteArticle.bind(this)}
+                        editArticle={this.onEditArticle.bind(this)}
+                    />
                 </div>
             </div>
         )
@@ -89,6 +94,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         deleteArticle: (articleId) => {
             dispatch(deleteArticle(articleId));
+        },
+        getArticleById: (articleId) => {
+            dispatch(getArticleById(articleId));
         }
     }
 }

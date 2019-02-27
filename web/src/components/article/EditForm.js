@@ -83,7 +83,7 @@ class ArticleForm extends React.Component {
 
     componentDidMount() {
         this.props.onRef(this);
-        this.initForm();
+        this.props.article && this.initForm();
     }
 
     handleSubmit = (e) => {

@@ -2,32 +2,29 @@
 const INIT_ARTICLES = 'INIT_ARTICLES';
 const ADD_ARTICLE = 'ADD_ARTICLE';
 const DELETE_ARTICLE = 'DELETE_ARTICLE';
+const GET_ARTICLE_BY_ID = 'GET_ARTICLE_BY_ID';
 
 export default function(state, action) {
     if(!state) {
         // 初始化
         state = { 
             articles: [],
+            curArticle: null,       // 当前查看或编辑的文章
         }; 
     }
 
     switch (action.type) {
         case INIT_ARTICLES:
             return { 
-                ...state,
                 articles: action.articles,
             };
 
         case ADD_ARTICLE:
-            console.log(state.articles);
-        
             return { 
                 articles: [action.article, ...state.articles],
             };
         
         case DELETE_ARTICLE:
-            console.log('del article');
-            
             return {
                 ...state,
                 articles: [
@@ -35,6 +32,16 @@ export default function(state, action) {
                     ...state.articles.slice(action.articleIndex + 1)
                 ]
             };
+        
+        case GET_ARTICLE_BY_ID:
+            let cur = null;
+            state.articles.forEach(item => {
+                if(item._id === action.articleId) {
+                    cur = item;
+                    return false;
+                }
+            });
+            return { curArticle: cur };
 
         default: 
             return state;
@@ -51,6 +58,10 @@ export const addArticle = (article) => {
 
 export const deleteArticle = (articleIndex) => {
     return { type: DELETE_ARTICLE, articleIndex }
+}
+
+export const getArticleById = (articleId) => {
+    return { type: GET_ARTICLE_BY_ID, articleId }
 }
 
 

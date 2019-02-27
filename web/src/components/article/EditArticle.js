@@ -8,7 +8,7 @@ export default class EditArticle extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editorContent: this.props.article.content,
+            editorContent: this.props.article ? this.props.article.content : '',
         };
     }
 

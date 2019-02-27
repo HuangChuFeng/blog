@@ -18,6 +18,7 @@ export default class Article extends Component {
         article: PropTypes.object,
         index: PropTypes.number,
         deleteArticle: PropTypes.func,
+        editArticle: PropTypes.func,
     }
 
     // 查看图片详情
@@ -33,10 +34,10 @@ export default class Article extends Component {
                     <img src={require('../../static/img/img15.jpg')} alt=""/>
                 </div>
                 <h3 className="title">
-                    <a herf="#" onClick={this.toArticleDetailPage.bind(this, this.props.article.id)}>{ article.title }</a>
+                    <a herf="#" onClick={this.toArticleDetailPage.bind(this, this.props.article._id)}>{ article.title }</a>
                     <span className="operate-btn">
                         <Icon type="delete" onClick={this.props.deleteArticle.bind(this, article._id, this.props.index)}/>
-                        <Icon type="edit" />
+                        <Icon type="edit" onClick={this.props.editArticle.bind(this, article._id)}/>
                     </span>
                 </h3>
                 <p className="time">{ article.created_at }
