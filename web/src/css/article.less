@@ -21,6 +21,9 @@
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
                 border-bottom: 1px solid #fff;
             }
+            &:hover .remove-btn {
+                display: block;
+            }
             .cover-box {
                 float: left;
                 width: 150px;
@@ -37,6 +40,19 @@
             }
             .title {
                 color: @common-blue;
+            }
+            .remove-btn {
+                display: none;
+                float: right;
+                color: #ccc;
+                font-size: 14px;
+                font-weight: normal;
+                vertical-align: middle;
+                transition: .3s;
+                &:hover {
+                    cursor: pointer;
+                    color: @common-blue;
+                }
             }
             .time {
                 color: #ccc;

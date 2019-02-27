@@ -26,7 +26,10 @@ export default function(state, action) {
             };
         
         case DELETE_ARTICLE:
+            console.log('del article');
+            
             return {
+                ...state,
                 articles: [
                     ...state.articles.slice(0, action.articleIndex),
                     ...state.articles.slice(action.articleIndex + 1)

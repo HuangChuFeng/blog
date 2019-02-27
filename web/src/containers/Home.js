@@ -20,7 +20,7 @@ export default class Home extends Component {
   componentDidMount() {
       // 高度设置
       this.screenChange();
-      login().then(result => {
+      login({name: 'admin', password: '123'}).then(result => {
           const {data} = result;
           if (data) {
             console.log('======', data)

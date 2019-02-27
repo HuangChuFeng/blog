@@ -12,17 +12,26 @@ export const fetchImgs = id => {
   return get(`http://localhost:3000/api/imgs`);
 };
 
-export const login = id => {
-  return get(`http://localhost:3000/api/login`);
+export const login = (user) => {
+  return post(`http://localhost:3000/api/login`, {
+    name: user.name,
+    password: user.password
+  });
 };
 
+// 获取文章列表
 export const fetchArticles = id => {
   return get(`http://localhost:3000/api/articles`);
 };
 
+// 创建文章
 export const createArticle = article => {
-  
   return post(`http://localhost:3000/api/articles/create`, {
     article: article
   });
+};
+
+// 删除文章
+export const deleteArticleById = params => {
+  return get(`http://localhost:3000/api/articles/${params.articleId}/remove`);
 };

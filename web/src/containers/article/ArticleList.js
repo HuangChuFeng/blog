@@ -5,11 +5,11 @@ import { connect } from 'react-redux'
 import ArticleList from '../../components/article/ArticleList'
 import Header from '../../components/Header'
 import { Affix, Menu, Dropdown, Icon } from 'antd';
-import { initArticles } from '../../reducers/articles'
+import { initArticles, deleteArticle } from '../../reducers/articles'
 import { Button } from 'antd';
 import '../../css/article.less'
 
-import { fetchArticles } from "../../service/fetch";
+import { fetchArticles, deleteArticleById } from "../../service/fetch";
 
 
 class ArticleListContainer extends Component {
@@ -32,13 +32,25 @@ class ArticleListContainer extends Component {
             } 
         });
     }
+
+    onDeleteArticle(articleId, index) {
+        deleteArticleById({articleId: articleId}).then(result => {
+            console.log(this.props)
+            const { data } = result;
+            if (data) {
+                this.props.deleteArticle(index);
+                console.log(data.message, this.props.articles);
+            } 
+        })
+    }
+
     render () {
         return (
             <div>
                 <Header type="1" />
                 <div className="container article-container">
                 <a href="/articles/edit/1">写文章</a>
-                    <ArticleList articles= {this.props.articles} />
+                    <ArticleList articles= {this.props.articles} deleteArticle={this.onDeleteArticle.bind(this)}/>
                 </div>
             </div>
         )
@@ -70,6 +82,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         initArticles: (articles) => {
             dispatch(initArticles(articles));
+        },
+        deleteArticle: (articleId) => {
+            dispatch(deleteArticle(articleId));
         }
     }
 }
