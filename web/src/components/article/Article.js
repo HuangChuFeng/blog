@@ -34,7 +34,10 @@ export default class Article extends Component {
                 </div>
                 <h3 className="title">
                     <a herf="#" onClick={this.toArticleDetailPage.bind(this, this.props.article.id)}>{ article.title }</a>
-                    <span className="remove-btn" onClick={this.props.deleteArticle.bind(this, article._id, this.props.index)}>删除</span>
+                    <span className="operate-btn">
+                        <Icon type="delete" onClick={this.props.deleteArticle.bind(this, article._id, this.props.index)}/>
+                        <Icon type="edit" />
+                    </span>
                 </h3>
                 <p className="time">{ article.created_at }
                     <span className="browse-num"><Icon type="fire" className="fire-icon" />{ article.browse_num || 0 }</span>

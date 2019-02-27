@@ -1,3 +1,4 @@
+const moment = require('moment');
 const Article = require('../lib/mongo').Article;
 module.exports = {
 
@@ -10,7 +11,7 @@ module.exports = {
         return Article
         .find(query)
         // .populate({ path: 'author', model: 'User' })
-        .addCreatedAt()
+        // .addCreatedAt()
         .sort({ _id: -1 })
         .exec();
     },
@@ -18,6 +19,7 @@ module.exports = {
     // 创建文章
     create: function create(article) {
         article.browse_num = 0;
+        article.created_at = moment().format('YYYY-MM-DD HH:mm');
         return Article.create(article).exec();
     },
 

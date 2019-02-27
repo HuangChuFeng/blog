@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -42,6 +43,9 @@ class ArticleListContainer extends Component {
                 console.log(data.message, this.props.articles);
             } 
         })
+    }    
+    toNewPage = () => {
+        this.context.router.history.push(`/articles/edit/1`)
     }
 
     render () {
@@ -49,7 +53,7 @@ class ArticleListContainer extends Component {
             <div>
                 <Header type="1" />
                 <div className="container article-container">
-                <a href="/articles/edit/1">写文章</a>
+                <Link to='/articles/edit/1'>写文章</Link>
                     <ArticleList articles= {this.props.articles} deleteArticle={this.onDeleteArticle.bind(this)}/>
                 </div>
             </div>

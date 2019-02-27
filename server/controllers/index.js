@@ -1,3 +1,4 @@
+
 const UserModel = require("../models/user");
 const index = async (ctx) => {
 	ctx.session.flag = "1";

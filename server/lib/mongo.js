@@ -41,6 +41,7 @@ exports.Article = mongolass.model('Article', {
     description: { type: 'string' },
     content: { type: 'string' },
     browse_num: { type: 'number'},
+    created_at: { type: 'string' }
 });
 
 exports.Article.index({ author: 1, _id: -1 }).exec();   // 按创建时间降序查看用户的文章列表
