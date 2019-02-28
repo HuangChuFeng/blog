@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Anchor, Button } from 'antd';
+import { Link as RouteLink } from 'react-router-dom';
 
 import { login, getLocation } from "../service/fetch";
 
@@ -54,12 +55,12 @@ export default class Home extends Component {
           <div className="img" style={ this.state.bgHeight }></div>
           <div className="mask" style={ this.state.bgHeight }></div>
           <div className="content-box">
-            <span className="top-left-text">黄初凤</span>
-            <span className="left-center-text"><a href="#">关于我—</a></span>
+            <span className="top-left-text">___cranky</span>
+            <span className="left-center-text"><a href="#">关于—</a></span>
               <ul className="nav-ul">
-                <li><a href="/photograph">摄影</a></li>
-                <li><a href="#">视频</a></li>
-                <li><a href="/articles">文章</a></li>
+                <li><RouteLink to="/photograph">摄影</RouteLink></li>
+                <li><RouteLink to="#">视频</RouteLink></li>
+                <li><RouteLink to="/articles">文章</RouteLink></li>
               </ul>
             <div className="center-text">
               <p>PHOTOGRAPH</p>
@@ -93,7 +94,7 @@ export default class Home extends Component {
               <p>VIDEO</p>
             </div>
             <div className="left-content-wrap">
-              <Button className="photo-btn"><a href="/photograph">照片集</a></Button>
+              <Button className="photo-btn"><RouteLink to="/photograph">照片集</RouteLink></Button>
               <div className="order-box">02</div>
             </div>
           </div>

@@ -59,4 +59,27 @@ module.exports = {
             message
         };
     },
+
+    // GET /posts/:postId/update 更新文章
+    "POST /api/articles/:articleId/update": async ctx => {
+        let { articleId } = ctx.params,
+            { article } = ctx.request.body,
+            // author = ctx.session.user._id,
+            resCode = 200,
+            message = "更新成功";
+        try {
+            if (!articleId) {
+                throw new Error("文章不存在");
+            }
+            await AritcleModel.updateArticleById(articleId, article);
+        } catch (e) {
+            console.log(e);
+            message = "更新失败";
+            resCode = 500;
+        }
+        ctx.response.body = {
+            resCode,
+            message,
+        };
+    },
 }

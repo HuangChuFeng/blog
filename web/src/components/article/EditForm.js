@@ -72,7 +72,7 @@ class ArticleForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tagList: this.props.article ? this.props.article.tags.split(',') : [],
+            tagList: this.props.article && this.props.article.tags != '' ? this.props.article.tags.split(',') : [],
             inputTag: '',
         }
     }
@@ -83,7 +83,7 @@ class ArticleForm extends React.Component {
 
     componentDidMount() {
         this.props.onRef(this);
-        this.props.article && this.initForm();
+        this.props.article ? this.initForm() : this.props.form.setFieldsValue({ type: '0' });
     }
 
     handleSubmit = (e) => {
@@ -135,7 +135,6 @@ class ArticleForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const Option = Select.Option;
-
         return (
             <Form onSubmit={this.handleSubmit} className="artile-form">
                 <Row>

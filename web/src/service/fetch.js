@@ -36,6 +36,13 @@ export const deleteArticleById = params => {
   return get(`http://localhost:3000/api/articles/${params.articleId}/remove`);
 };
 
+// 更新文章
+export const updateArticleById = (id, article) => {
+  return post(`http://localhost:3000/api/articles/${id}/update`, {
+    article: article,
+  });
+};
+
 // 获取当前城市
 export const getLocation = params => {
   return get(`http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js`);

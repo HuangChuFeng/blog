@@ -21,6 +21,7 @@ export default function(state, action) {
 
         case ADD_ARTICLE:
             return { 
+                ...state,
                 articles: [action.article, ...state.articles],
             };
         
@@ -41,7 +42,10 @@ export default function(state, action) {
                     return false;
                 }
             });
-            return { curArticle: cur };
+            return { 
+                ...state,
+                curArticle: cur 
+            };
 
         default: 
             return state;

@@ -37,9 +37,10 @@ export default class EditArticle extends Component {
     }
     
     getFormData() {
-        let formData = Object.assign({
-            content: this.state.editorContent
-        }, this.child.getFormData());
+        let formData = Object.assign(
+            { content: this.state.editorContent }, 
+            this.child.getFormData()
+        );
         return formData;
     }
     

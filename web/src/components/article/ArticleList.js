@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import Article from '../article/Article'
 import PropTypes from 'prop-types'
-
-import ArticleDetail from '../../containers/article/ArticleDetail'
-
 export default class ArticleList extends Component {
     constructor(props) {
         super(props);
@@ -15,6 +12,7 @@ export default class ArticleList extends Component {
         articles: PropTypes.array,
         deleteArticle: PropTypes.func,
         editArticle: PropTypes.func,
+        viewDetail: PropTypes.func,
     }
 
     // 声明变量, 初始化默认值
@@ -29,10 +27,11 @@ export default class ArticleList extends Component {
                     {this.props.articles.map((article, i) =>
                     <Article
                         article={article}
-                        key={i}
+                        key={article._id}
                         index={i} 
-                        deleteArticle={this.props.deleteArticle}
-                        editArticle={this.props.editArticle}
+                        deleteArticle={this.props.deleteArticle.bind(this)}
+                        editArticle={this.props.editArticle.bind(this)}
+                        viewDetail={this.props.viewDetail.bind(this)}
                         />
                     )}
                 </div>

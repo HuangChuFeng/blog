@@ -15,7 +15,7 @@ import { fetchArticles, deleteArticleById } from "../../service/fetch";
 
 class ArticleListContainer extends Component {
 
-    componentWillMount() {
+    componentDidMount() {
         if(this.props.articles && this.props.articles.length == 0) {
             this.loadArticles();
         }
@@ -29,7 +29,6 @@ class ArticleListContainer extends Component {
             const { data } = result;
             if (data) {
                 this.props.initArticles(data.articles);
-                console.log(this.props.articles)
             } 
         });
     }
@@ -44,9 +43,15 @@ class ArticleListContainer extends Component {
             } 
         })
     }    
+
     onEditArticle = (articleId) => {
         this.props.getArticleById(articleId);
         this.context.router.history.push(`/articles/edit/${articleId}`);
+    }
+
+    onViewDetail = (articleId) => {
+        this.props.getArticleById(articleId);
+        this.context.router.history.push(`/articles/detail/${articleId}`);
     }
 
     render () {
@@ -59,6 +64,7 @@ class ArticleListContainer extends Component {
                         articles= {this.props.articles} 
                         deleteArticle={this.onDeleteArticle.bind(this)}
                         editArticle={this.onEditArticle.bind(this)}
+                        viewDetail={this.onViewDetail.bind(this)}
                     />
                 </div>
             </div>

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Divider, Icon } from 'antd';
 import Header from '../../components/Header'
 
-export default class ArticleDetail extends Component {
+class ArticleDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +16,13 @@ export default class ArticleDetail extends Component {
         artilceId: PropTypes.number,
     }
 
+    componentDidMount() {
+        console.log(this.props.article)
+    }
+
     render() {
+        let date = this.props.article.created_at.split(' ')[0].split('-');
+        let year = date[0], time = date[1] + ' ' + date[2];
         return (
             <div>
                 <Header type="1" />
@@ -23,20 +30,20 @@ export default class ArticleDetail extends Component {
                     <div className="left">
                         <Link to="/articles"><Icon type="left" className="back-btn"/></Link>                    
                         <div className="top-info-box">
-                            <h1>2019</h1>
+                            <h1>{ year }</h1>
                             <div className="top-bottom">
-                                <span>01. 20 Beijing</span>
-                                <span className="browse-num"><Icon type="fire" className="fire-icon" />{ 30 }</span>
+                                <span>{ time } Beijing</span>
+                                <span className="browse-num"><Icon type="fire" className="fire-icon" />{ this.props.article.browse_num }</span>
                                 <ul className="tag-list">
-                                    <li>javascript</li>
-                                    <li>webpack</li>
-                                    <li>node</li>
+                                    { this.props.article.tags.split(',').map((item, i) => {
+                                        return (<li key={i}>{ item }</li>)
+                                    }) }
                                 </ul>
                             </div>
                         </div>
                         <div className="left-bottom-box">
-                            <h3>title title title title</h3>
-                            description  description  description  description  description  description  description  description  description  description  description  description  description 
+                            <h3>{ this.props.article.title }</h3>
+                            { this.props.article.description } 
                         </div>
                         <div className="control-box">
                             <span>上一篇</span>
@@ -44,16 +51,30 @@ export default class ArticleDetail extends Component {
                         </div>
                     </div>
                     <div className="right">
-                    <div>
-                    detail=== {this.state.id}
-                    脏检查大法 这三个字想必大家已经如雷贯耳，我2年多前出去面试的时候被问及最多的就是angular的脏检查，什么是脏检查？angular脏检查的时机是什么？
-脏检查的原理就是，拷贝一份copy_viewModel在内存中，一旦有用户点击，输入操作，或ajax请求，setInterval，setTimeout等这些可能导致viewModel发生改变的行为，框架都会把copy_viewModel和最新的viewModel进行深度比较，一旦发现有属性（如vm.message）发生变化，则重新渲染与message绑定的DOM节点。
-这也是为什么，一旦你没有使用ng自带的$http，$interval,$timeout,ng-click这些angular自己封装的API去操作viewModel，angular都不会自动去同步view，因为已经超出他的管辖范围了，你必须手动调用apply函数去强制执行一次脏检查，以同步view。
-                    </div>
+                        <div dangerouslySetInnerHTML={{__html: this.props.article.content }}></div>
                     </div>
                 </div>
             </div>
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        article: state.articlesReducer.curArticle,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        // addArticle: (article) => {
+        //     dispatch(addArticle(article));
+        // }
+    }
+}
+  
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleDetail)
 

@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Header from '../../components/Header'
 import { addArticle } from '../../reducers/articles'
 import EditArticle from '../../components/article/EditArticle'
 import '../../css/article.less'
-import { Button } from 'antd';
-import { createArticle } from "../../service/fetch";
+import { Button, Icon } from 'antd';
+import { createArticle, updateArticleById } from "../../service/fetch";
 
 class EditArticleContainer extends Component {
     constructor(props) {
@@ -21,7 +22,6 @@ class EditArticleContainer extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.article)
         
     }
     // 保存文章 id存在时为编辑状态
@@ -30,16 +30,23 @@ class EditArticleContainer extends Component {
         
         if(this.state.articleId) {
             console.log('编辑====: ', formData);
+            updateArticleById(this.state.articleId, formData).then(result => {
+                const {data} = result;
+                if (data) {
+                    // this.props.addArticle(data.res);
+                    this.context.router.history.push(`/articles`);     
+                } 
+            });
         } else {
             console.log('新建====: ', formData);
+            createArticle(formData).then(result => {
+                const {data} = result;
+                if (data) {
+                    this.props.addArticle(data.res);
+                    this.context.router.history.push(`/articles`);     
+                } 
+            });
         }
-        return createArticle(formData).then(result => {
-            const {data} = result;
-            if (data) {
-                this.props.addArticle(data.res);
-                this.context.router.history.push(`/articles`);     
-            } 
-        });
     }
 
     onRef = (ref) => {
@@ -50,13 +57,14 @@ class EditArticleContainer extends Component {
         return (
             <div>
                 <Header type="1" />
-                <div className="container edit-container">
+                <div className="container edit-container">        
                     <EditArticle  
                         onRef={this.onRef}
                         article={this.props.article}/>
-                    <Button type="primary" className="common-btn publish-btn" onClick={this.saveArticleHandler.bind(this)}>
+                    <Button type="primary" className="common-btn operate-btn" onClick={this.saveArticleHandler.bind(this)}>
                         发布
                     </Button>
+                    <Button className="operate-btn"><Link to="/articles">取消</Link></Button>
                 </div>
             </div>
         )

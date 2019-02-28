@@ -19,11 +19,7 @@ export default class Article extends Component {
         index: PropTypes.number,
         deleteArticle: PropTypes.func,
         editArticle: PropTypes.func,
-    }
-
-    // 查看图片详情
-    toArticleDetailPage = id =>  {
-        this.context.router.history.push(`/articles/${id}`);       
+        viewDetail: PropTypes.func
     }
 
     render() {
@@ -34,7 +30,7 @@ export default class Article extends Component {
                     <img src={require('../../static/img/img15.jpg')} alt=""/>
                 </div>
                 <h3 className="title">
-                    <a herf="#" onClick={this.toArticleDetailPage.bind(this, this.props.article._id)}>{ article.title }</a>
+                    <a herf="#" onClick={this.props.viewDetail.bind(this, article._id)}>{ article.title }</a>
                     <span className="operate-btn">
                         <Icon type="delete" onClick={this.props.deleteArticle.bind(this, article._id, this.props.index)}/>
                         <Icon type="edit" onClick={this.props.editArticle.bind(this, article._id)}/>

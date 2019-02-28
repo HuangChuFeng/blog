@@ -25,7 +25,7 @@ ReactDOM.render(
         <Route exact path="/photograph" component={ImgList} />
         <Route exact path="/photograph/:id" component={ImgDetail} />
         <Route exact path="/articles" component={ArticleList} />
-        <Route exact path="/articles/:id" component={ArticleDetail} />
+        <Route exact path="/articles/detail/:id" component={ArticleDetail} />
         <Route exact path="/articles/new" component={EditArticle} />
         <Route exact path="/articles/edit/:id" component={EditArticle} />
       </div>

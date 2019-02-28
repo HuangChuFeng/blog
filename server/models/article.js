@@ -33,5 +33,10 @@ module.exports = {
         //       return CommentModel.delCommentsByPostId(postId);
         //     }
         // });
+    },
+
+    // 编辑文章
+    updateArticleById: function updateArticleById(id, data) {
+        return Article.update({ _id: id }, { $set: data }).exec();
     }
 }
