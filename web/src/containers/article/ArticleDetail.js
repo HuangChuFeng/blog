@@ -9,7 +9,8 @@ class ArticleDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: this.props.match.params.id
+            id: this.props.match.params.id,
+            article: this.props.curArticle,
         }
     }
     static propTypes = {
@@ -20,9 +21,25 @@ class ArticleDetail extends Component {
         console.log(this.props.article)
     }
 
+    // 上一篇
+    lastArticle = () => {
+        let index = this.props.curArticle.index > 0 ? this.props.curArticle.index - 1 : 0;
+        this.setState({ 
+            article: this.props.articles[index]
+        })
+    }
+
+    // 下一篇
+    nextArticle = () => {
+        let index = this.props.curArticle.index < this.props.articles.length - 1 ? this.props.curArticle.index + 1 : this.props.curArticle.index;
+        this.setState({ 
+            article: this.props.articles[index]
+        })
+    }
+
     render() {
-        let date = this.props.article.created_at.split(' ')[0].split('-');
-        let year = date[0], time = date[1] + ' ' + date[2];
+        let date = this.state.article.created_at.split(' ')[0].split('-');
+        let year = date[0], time = date[1] + '. ' + date[2];
         return (
             <div>
                 <Header type="1" />
@@ -33,25 +50,25 @@ class ArticleDetail extends Component {
                             <h1>{ year }</h1>
                             <div className="top-bottom">
                                 <span>{ time } Beijing</span>
-                                <span className="browse-num"><Icon type="fire" className="fire-icon" />{ this.props.article.browse_num }</span>
+                                <span className="browse-num"><Icon type="fire" className="fire-icon" />{ this.state.article.browse_num }</span>
                                 <ul className="tag-list">
-                                    { this.props.article.tags.split(',').map((item, i) => {
+                                    { this.state.article.tags.split(',').map((item, i) => {
                                         return (<li key={i}>{ item }</li>)
                                     }) }
                                 </ul>
                             </div>
                         </div>
                         <div className="left-bottom-box">
-                            <h3>{ this.props.article.title }</h3>
-                            { this.props.article.description } 
+                            <h3>{ this.state.article.title }</h3>
+                            { this.state.article.description } 
                         </div>
                         <div className="control-box">
-                            <span>上一篇</span>
-                            <span>下一篇</span>
+                            <span onClick={this.lastArticle.bind(this)}>上一篇</span>
+                            <span onClick={this.nextArticle.bind(this)}>下一篇</span>
                         </div>
                     </div>
                     <div className="right">
-                        <div dangerouslySetInnerHTML={{__html: this.props.article.content }}></div>
+                        <div dangerouslySetInnerHTML={{__html: this.state.article.content }}></div>
                     </div>
                 </div>
             </div>
@@ -61,15 +78,13 @@ class ArticleDetail extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        article: state.articlesReducer.curArticle,
+        curArticle: state.articlesReducer.curArticle,
+        articles: state.articlesReducer.articles,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // addArticle: (article) => {
-        //     dispatch(addArticle(article));
-        // }
     }
 }
   

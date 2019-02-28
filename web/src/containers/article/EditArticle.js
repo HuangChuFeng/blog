@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Header from '../../components/Header'
-import { addArticle } from '../../reducers/articles'
+import { addArticle, updateArticle } from '../../reducers/articles'
 import EditArticle from '../../components/article/EditArticle'
 import '../../css/article.less'
 import { Button, Icon } from 'antd';
@@ -14,6 +14,7 @@ class EditArticleContainer extends Component {
         super(props);
         this.state = {
             articleId: this.props.match.params.id,
+            article: this.props.match.params.id ? this.props.curArticle : null,
         }
     }
 
@@ -22,6 +23,7 @@ class EditArticleContainer extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.match.params.id, this.state.article);
         
     }
     // 保存文章 id存在时为编辑状态
@@ -33,9 +35,9 @@ class EditArticleContainer extends Component {
             updateArticleById(this.state.articleId, formData).then(result => {
                 const {data} = result;
                 if (data) {
-                    // this.props.addArticle(data.res);
+                    this.props.updateArticle(Object.assign(formData, { _id: this.state.articleId }));
                     this.context.router.history.push(`/articles`);     
-                } 
+                }
             });
         } else {
             console.log('新建====: ', formData);
@@ -60,7 +62,7 @@ class EditArticleContainer extends Component {
                 <div className="container edit-container">        
                     <EditArticle  
                         onRef={this.onRef}
-                        article={this.props.article}/>
+                        article={this.state.article}/>
                     <Button type="primary" className="common-btn operate-btn" onClick={this.saveArticleHandler.bind(this)}>
                         发布
                     </Button>
@@ -74,7 +76,7 @@ class EditArticleContainer extends Component {
 const mapStateToProps = (state) => {
     return {
         articles: state.articlesReducer.articles,
-        article: state.articlesReducer.curArticle,
+        curArticle: state.articlesReducer.curArticle,
     }
 }
 
@@ -82,6 +84,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         addArticle: (article) => {
             dispatch(addArticle(article));
+        },
+        updateArticle: (article) => {
+            dispatch(updateArticle(article))
         }
     }
 }
