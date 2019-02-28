@@ -19,6 +19,11 @@ export const login = (user) => {
   });
 };
 
+// 获取上传图片token
+export const getUploadToken = params => {
+  return post(`http://localhost:3000/api/token`);
+};
+
 // 获取文章列表
 export const fetchArticles = id => {
   return get(`http://localhost:3000/api/articles`);

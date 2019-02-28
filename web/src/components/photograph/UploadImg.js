@@ -1,18 +1,21 @@
 import React, { Component } from 'react'
-
+// import * as qiniu from 'qiniu-js'
 import PropTypes from 'prop-types'
 import { Upload, Form, Input, Select, Modal, Button, Icon } from 'antd';
+import { getUploadToken } from "../../service/fetch";
 
+let uploadToken = '';
 class PicturesWall extends React.Component {
     state = {
         previewVisible: false,
         previewImage: '',
-        fileList: [{
-            uid: '-1',
-            name: 'xxx.png',
-            status: 'done',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        }],
+        fileList: [],
+        // {
+        //     uid: '-1',
+        //     name: 'xxx.png',
+        //     status: 'done',
+        //     url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        // }
     };
 
     handleCancel = () => this.setState({ previewVisible: false })
@@ -22,6 +25,11 @@ class PicturesWall extends React.Component {
             previewImage: file.url || file.thumbUrl,
             previewVisible: true,
         });
+    }
+
+    onUploadRemove = (info) => {
+        console.log(info)
+        console.log(this.state.fileList)
     }
 
     handleChange = ({ fileList }) => this.setState({ fileList })
@@ -37,11 +45,13 @@ class PicturesWall extends React.Component {
         return (
             <div className="clearfix">
                 <Upload
-                    action="//jsonplaceholder.typicode.com/posts/"
+                    action="https://upload.qiniup.com"
                     listType="picture-card"
                     fileList={fileList}
                     onPreview={this.handlePreview}
+                    onRemove={this.onUploadRemove}
                     onChange={this.handleChange}
+                    data={{token: uploadToken}}
                 >
                     {fileList.length >= 3 ? null : uploadButton}
                 </Upload>
@@ -64,6 +74,15 @@ class UploadImg extends Component {
         visible: PropTypes.bool,
         visibleHandler: PropTypes.func
     }
+
+    componentWillMount() {
+        getUploadToken().then(result => {
+            const {data} = result;
+            if (data) {
+                uploadToken = data.uploadToken;
+            } 
+        });
+    }
     handleOk = (e) => {
         this.props.visibleHandler(false);
     }
@@ -73,6 +92,8 @@ class UploadImg extends Component {
     }
 
     render() {
+        // console.log(qiniu.getUploadUrl());
+        
         const categorys = ['建筑', '人像', '街拍', '风景', '其他'];
         const { getFieldDecorator } = this.props.form;
         const Option = Select.Option;

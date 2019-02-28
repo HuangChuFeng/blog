@@ -32,7 +32,8 @@ export default class ImgList extends Component {
             <div>
                 <Masonry
                 disableImagesLoaded={false}
-                updateOnEachImageLoad={false} >
+                updateOnEachImageLoad={false}
+                options={{transitionDuration: 0}} >
                     {this.props.imgs.map((img, i) =>
                     <Img
                         img={img}
