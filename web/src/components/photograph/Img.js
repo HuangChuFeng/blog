@@ -10,7 +10,10 @@ export default class Img extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            bgColor: bgColors[Math.floor(Math.random()*bgColors.length)]
+            imgBoxStyle: {
+                background: bgColors[Math.floor(Math.random()*bgColors.length)],
+                height: ''
+            }
         }
     }
 
@@ -26,6 +29,39 @@ export default class Img extends Component {
 
     static defaultProps = {
         img: null
+    }
+
+    componentDidMount() {
+        window.onresize = this.resizeThrottle(this.onResizeHandler, 500, true);
+    }
+
+    onResizeHandler() {
+        // resize节流 500ms内只能触发一次
+        console.log('resize');
+        // let vm = this;
+        // let width = vm.refs.imgBox.clientWidth;
+    }
+
+    resizeThrottle(fn, wait, immediate) {
+        let timer = null, callNow = immediate;
+        console.log('start'); // 此处只执行一次
+        return function() {
+            console.log('1111')
+            let context = this,
+                args = arguments;
+            if (callNow) {
+                console.log('调用时最开始执行, 只执行一次')
+                fn.apply(context, args);
+                callNow = false;
+            }
+            if (!timer) {
+                timer = setTimeout(() => {
+                    console.log('timer is null')
+                    fn.apply(context, args);
+                    timer = null;
+                }, wait);
+            }
+        }
     }
 
     handleDeleteComment(index) {
@@ -46,10 +82,9 @@ export default class Img extends Component {
 
     render() {
         return (
-            <div className="img-wraper"  onClick={this.toImgDetailPage.bind(this, this.props.img.id)}>
-                <div className="img-box">   
-                    {/* <img src={require('../../' + this.props.img.src)} alt="" onLoad={this.imgOnLoad.bind(this)} /> */}
-                    <img src="http://pnmpntc1j.bkt.clouddn.com/img1.jpg" alt="" onLoad={this.imgOnLoad.bind(this)} />
+            <div className="img-wraper" onClick={this.toImgDetailPage.bind(this, this.props.img.id)}>
+                <div className="img-box" ref="imgBox" style={this.state.imgBoxStyle}>   
+                    {/* <img src={this.props.img.src} alt="" onLoad={this.imgOnLoad.bind(this)} /> */}
                 </div>  
 
                 <div className="img-cover">
