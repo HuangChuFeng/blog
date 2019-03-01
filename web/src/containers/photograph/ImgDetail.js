@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { initImgs, getImgById } from '../../reducers/imgs'
@@ -38,9 +39,9 @@ class ImgDetail extends Component {
                 <div className={["img-switch-wraper", this.state.imgEnlargeble ? 'active' : ''].join(' ')}>
                     <div className="center-box">
                         { !this.state.imgEnlargeble &&
-                            <a href="/photograph">
+                            <Link to="/photograph">
                                 <Icon type="close" className="icon close-icon" />
-                            </a>
+                            </Link>
                         }
                         <Icon type="left" className="icon left-icon" />
                         { this.props.curImg && this.props.curImg.src ? 

@@ -18,7 +18,6 @@ module.exports = {
 
     // 创建文章
     create: function create(article) {
-        article.browse_num = 0;
         article.created_at = moment().format('YYYY-MM-DD HH:mm');
         return Article.create(article).exec();
     },

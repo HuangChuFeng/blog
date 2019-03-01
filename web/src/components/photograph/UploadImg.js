@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 // import * as qiniu from 'qiniu-js'
 import PropTypes from 'prop-types'
 import { Upload, Form, Input, Select, Modal, Button, Icon } from 'antd';
-import { getUploadToken } from "../../service/fetch";
+import { getUploadToken, uploadImgs } from "../../service/fetch";
 
 let uploadToken = '';
 class PicturesWall extends React.Component {
@@ -18,6 +18,9 @@ class PicturesWall extends React.Component {
         // }
     };
 
+    static propTypes = {
+        getUploadList: PropTypes.func,
+    }
     handleCancel = () => this.setState({ previewVisible: false })
 
     handlePreview = (file) => {
@@ -32,7 +35,12 @@ class PicturesWall extends React.Component {
         console.log(this.state.fileList)
     }
 
-    handleChange = ({ fileList }) => this.setState({ fileList })
+    handleChange = ({ fileList }) => {
+        this.setState({ fileList })
+        this.props.getUploadList(fileList.map(item => {
+            return item.response;
+        }))
+    }
 
     render() {
         const { previewVisible, previewImage, fileList } = this.state;
@@ -68,6 +76,12 @@ class UploadImg extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            imgList: [{
+                h: 1861,
+                hash: "Ftjy41MK6nPmG8HS9KVcQSxZSXzL",
+                key: "Ftjy41MK6nPmG8HS9KVcQSxZSXzL",
+                w: 2792
+            }],
         }
     }
     static propTypes = {
@@ -75,7 +89,7 @@ class UploadImg extends Component {
         visibleHandler: PropTypes.func
     }
 
-    componentWillMount() {
+    componentDidMount() {
         getUploadToken().then(result => {
             const {data} = result;
             if (data) {
@@ -83,17 +97,40 @@ class UploadImg extends Component {
             } 
         });
     }
+
     handleOk = (e) => {
-        this.props.visibleHandler(false);
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                let group = {
+                    imgs: this.state.imgList,
+                    info: this.props.form.getFieldsValue()
+                }
+                uploadImgs(group).then(result => {
+                    console.log(result)
+                    const {data} = result;
+                    if (data.resCode === 200) {
+                        this.props.visibleHandler(false);
+                    } 
+                });
+            }
+        });
     }
 
     handleCancel = (e) => {
         this.props.visibleHandler(false);
     }
 
+    getUploadList = (list) => {
+        list = {
+            h: 1861,
+            hash: "FlbTMLzKeV0Z3rXjKt2zECmML6nL",
+            key: "FlbTMLzKeV0Z3rXjKt2zECmML6nL",
+            w: 2792
+        }
+        this.setState({ imgList: list });
+    }
+
     render() {
-        // console.log(qiniu.getUploadUrl());
-        
         const categorys = ['建筑', '人像', '街拍', '风景', '其他'];
         const { getFieldDecorator } = this.props.form;
         const Option = Select.Option;
@@ -105,11 +142,12 @@ class UploadImg extends Component {
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
             >
-                <PicturesWall />
-                <Form layout="inline" onSubmit={this.handleSubmit}>
+                <PicturesWall getUploadList={this.getUploadList.bind(this)}/>
+                <Form layout="inline" onSubmit={this.handleOk}>
                     <Form.Item label="类别">
-                        {getFieldDecorator('category', 
-                            { initialValue: categorys[0]})(
+                        {getFieldDecorator('category', { 
+                            initialValue: categorys[0]
+                        })(
                             <Select style={{ width: 100 }} onChange={this.handleTypeChange}>
                                 {categorys.map((item, i) => {
                                     return (<Option key={i} value={item}>{item}</Option>)
@@ -119,9 +157,8 @@ class UploadImg extends Component {
                     <Form.Item label="标题">
                         {getFieldDecorator('title', {
                             rules: [{ required: true, message: '请输入照片标题' }],
-                        })(
-                            <Input placeholder="为这组照片起个名字吧" />
-                            )}
+                        })(<Input placeholder="为这组照片起个名字吧" />
+                        )}
                     </Form.Item>
                 </Form>
             </Modal>

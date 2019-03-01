@@ -1,4 +1,7 @@
 import { get, post, formPost } from "../util/post";
+
+const DEV_URL = 'http://localhost:3000';
+
 /*
     处理所有网络请求_目前没有和action集成异步数据流，
     使用同步数据流达成类似效果的后遗症应该就是组件耦合性巨高。。
@@ -9,11 +12,11 @@ import { get, post, formPost } from "../util/post";
     /api/imgs
  */
 export const fetchImgs = id => {
-  return get(`http://localhost:3000/api/imgs`);
+  return get(`${DEV_URL}/api/imgs`);
 };
 
 export const login = (user) => {
-  return post(`http://localhost:3000/api/login`, {
+  return post(`${DEV_URL}/api/login`, {
     name: user.name,
     password: user.password
   });
@@ -21,29 +24,34 @@ export const login = (user) => {
 
 // 获取上传图片token
 export const getUploadToken = params => {
-  return post(`http://localhost:3000/api/token`);
+  return post(`${DEV_URL}/api/token`);
+};
+
+// 上传照片
+export const uploadImgs = group => {
+  return post(`${DEV_URL}/api/imgs/upload`, group);
 };
 
 // 获取文章列表
 export const fetchArticles = id => {
-  return get(`http://localhost:3000/api/articles`);
+  return get(`${DEV_URL}/api/articles`);
 };
 
 // 创建文章
 export const createArticle = article => {
-  return post(`http://localhost:3000/api/articles/create`, {
+  return post(`${DEV_URL}/api/articles/create`, {
     article: article
   });
 };
 
 // 删除文章
 export const deleteArticleById = params => {
-  return get(`http://localhost:3000/api/articles/${params.articleId}/remove`);
+  return get(`${DEV_URL}/api/articles/${params.articleId}/remove`);
 };
 
 // 更新文章
 export const updateArticleById = (id, article) => {
-  return post(`http://localhost:3000/api/articles/${id}/update`, {
+  return post(`${DEV_URL}/api/articles/${id}/update`, {
     article: article,
   });
 };

@@ -20,6 +20,7 @@ mongolass.plugin('addCreatedAt', {
         return result;
     }
 });
+
 //用户模型
 exports.User = mongolass.model('User', {
     account: { type: 'string' },
@@ -30,6 +31,7 @@ exports.User = mongolass.model('User', {
 
 exports.User.index({ account: 1 }, { unique: true }).exec();// 根据用户名找到用户，用户名全局唯一
 
+// 文章模型
 exports.Article = mongolass.model('Article', {
     author: { type: Mongolass.Types.ObjectId },
     title: { type: 'string' },
@@ -40,17 +42,29 @@ exports.Article = mongolass.model('Article', {
     category_id: { type: 'string' },
     description: { type: 'string' },
     content: { type: 'string' },
-    browse_num: { type: 'number'},
+    browse_num: { type: 'number', default: 0},
     created_at: { type: 'string' }
 });
 
 exports.Article.index({ author: 1, _id: -1 }).exec();   // 按创建时间降序查看用户的文章列表
 
-
+// 照片模型
 exports.Img = mongolass.model('Img', {
-    id: { type: Mongolass.Types.ObjectId },
+    group_id: { type: 'object' },
     src: { type: 'string' },
-    favor_count: { type: 'number' },
+    favor_count: { type: 'number', default: 0 },
+    h: { type: 'number' },
+    w: { type: 'number' },
 });
 
-exports.Img.index({ id: 1}).exec();// 按创建时间降序查看用户的文章列表
+exports.Img.index({ id: 1}).exec(); // 按创建时间降序查看用户的照片列表
+
+// 照片组模型
+exports.ImgsGroup = mongolass.model('ImgsGroup', {
+    location: { type: 'string' },
+    title: { type: 'string' },
+    created_at: { type: 'string' },
+    category: { type: 'string' },
+});
+
+exports.ImgsGroup.index({ _id: 1}).exec();    // 按创建时间降序查看用户的照片列表
