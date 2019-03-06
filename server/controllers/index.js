@@ -21,14 +21,16 @@ module.exports = {
 	"POST /api/login": async ctx => {
 		let resCode = 200,
 			message = '登录成功',
-			{ name, password } = ctx.request.body;
+			{ name, password } = ctx.request.body,
+			user;
 		try {
-			let user = await UserModel.getUserByName(name);
-			if(user && password == user.password) {
+			user = await UserModel.getUserByName(name);
+			console.log('user====', user);
+			if (user && password == user.password) {
 				delete user.password;
-				  ctx.session.user = user.name;
-				  console.log('*******', ctx.session);
-				  
+				ctx.session.user = user.name;
+				console.log('*******', ctx.session);
+
 			} else {
 				resCode = 500;
 				message = '用户名或密码错误';
@@ -41,6 +43,7 @@ module.exports = {
 		ctx.response.body = {
 			resCode,
 			message,
+			user
 		};
 	},
 }

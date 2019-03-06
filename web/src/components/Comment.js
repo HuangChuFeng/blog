@@ -1,60 +1,117 @@
 import React, { Component } from 'react'
-import { Comment, Tooltip, List } from 'antd';
+import PropTypes from 'prop-types'
+import {
+  Comment, Avatar, Form, Button, List, Input,
+} from 'antd';
 import moment from 'moment';
 
-const data = [
-  {
-    actions: [<span>Reply to</span>],
-    author: 'Han Solo',
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    content: (
-      <p>We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.</p>
-    ),
-    datetime: (
-      <Tooltip title={moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-        <span>{moment().subtract(1, 'days').fromNow()}</span>
-      </Tooltip>
-    ),
-  },
-  {
-    actions: [<span>Reply to</span>],
-    author: 'Han Solo',
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    content: (
-      <p>We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.</p>
-    ),
-    datetime: (
-      <Tooltip title={moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')}>
-        <span>{moment().subtract(2, 'days').fromNow()}</span>
-      </Tooltip>
-    ),
-  },
-];
+const TextArea = Input.TextArea;
+
+const CommentList = ({ comments }) => (
+  <List
+    dataSource={comments}
+    header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
+    itemLayout="horizontal"
+    renderItem={props => <Comment {...props} />}
+  />
+);
+
+const Editor = ({
+  onChange, onSubmit, submitting, value,
+}) => (
+    <div>
+      <Form.Item>
+        <TextArea rows={4} onChange={onChange} value={value} />
+      </Form.Item>
+      <Form.Item>
+        <Button
+          className="common-btn"
+          htmlType="submit"
+          loading={submitting}
+          onClick={onSubmit}
+          type="primary"
+        >
+          评论
+      </Button>
+      </Form.Item>
+    </div>
+  );
 export default class MyComment extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
+  state = {
+    comments: [{
+      author: 'Han Solo',
+      avatar: 'http://pnmpntc1j.bkt.clouddn.com/Ftjy41MK6nPmG8HS9KVcQSxZSXzL',
+      content: <p>1111111111111</p>,
+      datetime: moment().fromNow(),
+    }],
+    submitting: false,
+    value: '',
+  }
+
+  static propTypes = {
+      onSubmit: PropTypes.func,
+      comments: PropTypes.array,
+  }
+
+  handleSubmit = () => {
+    if (!this.state.value) {
+      return;
     }
-    static propTypes = {
-    }
-    render() {
-        return (
-            <List
-                className="comment-list"
-                header={`${data.length} replies`}
-                itemLayout="horizontal"
-                dataSource={data}
-                renderItem={item => (
-                <Comment
-                    actions={item.actions}
-                    author={item.author}
-                    avatar={item.avatar}
-                    content={item.content}
-                    datetime={item.datetime}
-                />
-                )}
-            />
-        )
-    }
+    this.setState({
+      submitting: true,
+    });
+
+    this.props.onSubmit({
+              author: 'Han Solo',
+              content: this.state.value
+            });
+
+    // setTimeout(() => {
+    //   this.setState({
+    //     submitting: false,
+    //     value: '',
+    //     comments: [
+    //       {
+    //         author: 'Han Solo',
+    //         avatar: 'http://pnmpntc1j.bkt.clouddn.com/Ftjy41MK6nPmG8HS9KVcQSxZSXzL',
+    //         content: <p>{this.state.value}</p>,
+    //         datetime: moment().fromNow(),
+    //       },
+    //       ...this.state.comments,
+    //     ],
+    //   });
+    // }, 1000);
+  }
+
+handleChange = (e) => {
+  this.setState({
+    value: e.target.value,
+  });
+}
+
+render() {
+  const { comments, submitting, value } = this.state;
+
+  return (
+    <div>
+      {comments.length > 0 && <CommentList comments={comments} />}
+      <Comment
+        avatar={(
+          <Avatar
+            src="http://pnmpntc1j.bkt.clouddn.com/Ftjy41MK6nPmG8HS9KVcQSxZSXzL"
+            alt="Han Solo"
+          />
+        )}
+        content={(
+          <Editor
+            onChange={this.handleChange}
+            onSubmit={this.handleSubmit}
+            submitting={submitting}
+            value={value}
+          />
+        )}
+      />
+    </div>
+  );
+}
 }

@@ -61,6 +61,13 @@ export const updateArticleById = (id, article) => {
   });
 };
 
+// 发表评论
+export const commentArticle = (id, comment) => {
+  return post(`${DEV_URL}/api/articles/${id}/comment`, comment);
+};
+
+
+
 // 获取当前城市
 export const getLocation = params => {
   return get(`http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js`);

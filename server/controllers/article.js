@@ -1,4 +1,5 @@
 const AritcleModel = require("../models/article");
+const AritcleCommentModel = require("../models/articleComment");
 module.exports = {
     // 获取所有文章
     "GET /api/articles": async ctx => {
@@ -24,13 +25,17 @@ module.exports = {
         let resCode = 200,
             message = 'ok';
         try {
-            var article = [];
+            var article = [], comment = [];
             if(typeNum !== 'undefined') {
                 article = await AritcleModel.getLastOrNextArticle(articleId, typeNum);
-                console.log('=====', article);
+                // console.log('=====', article);
             } else {
-                article = await AritcleModel.getArticleById(articleId);
-                
+                result = await Promise.all([
+                    AritcleModel.getArticleById(articleId),
+                    AritcleCommentModel.getComments(articleId), // 获取该文章所有留言
+                ]);
+                article = result[0];
+                comment = result[1];
             }
         } catch (e) {
             resCode = 500;
@@ -41,6 +46,7 @@ module.exports = {
             resCode,
             message,
             article,
+            comment
         };
     },
 
@@ -105,6 +111,32 @@ module.exports = {
         ctx.response.body = {
             resCode,
             message,
+        };
+    },
+
+    // 创建评论
+    "POST /api/articles/:articleId/comment": async ctx => {
+        let { articleId } = ctx.params.articleId,
+            author = ctx.request.body.author,
+            content = ctx.request.body.content,
+            resCode = 200,
+            message = "评论成功";
+        let comment = {
+            author,
+            articleId,
+            content
+        };
+        try {
+            await AritcleCommentModel.create(comment);
+        } catch (e) {
+            console.log(e);
+            message = "评论失败";
+            resCode = 500;
+        }
+        ctx.response.body = {
+            resCode,
+            message,
+            comment
         };
     },
 }

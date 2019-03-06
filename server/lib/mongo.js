@@ -47,6 +47,16 @@ exports.Article = mongolass.model('Article', {
 });
 exports.Article.index({ author: 1, _id: -1 }).exec();   // 按创建时间降序查看用户的文章列表
 
+// 文章评论模型
+exports.ArticleComment = mongolass.model('ArticleComment', {
+    author: { type: Mongolass.Types.ObjectId },
+    articleId: { type: Mongolass.Types.ObjectId },
+    content: { type: 'string' },
+    created_at: { type: 'string' },
+});
+
+exports.ArticleComment.index({ author: 1, _id: -1 }).exec();
+
 // 照片模型
 exports.Img = mongolass.model('Img', {
     group_id: { type: 'object', ref: 'ImgsGroup' },

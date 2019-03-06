@@ -35,7 +35,7 @@ module.exports = {
     getLastOrNextArticle: function getLastOrNextArticle(curId, typeNum) {
         var query = {};
         if (curId) {
-            console.log(typeNum === '1' ? '下一篇' : '上一篇')
+            // console.log(typeNum === '1' ? '下一篇' : '上一篇')
             query = typeNum === '1' ? { '_id': { '$lt': curId }} : { '_id': { '$gt': curId }} ;
         }
         return Article
