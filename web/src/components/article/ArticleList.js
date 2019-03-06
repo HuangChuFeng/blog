@@ -35,9 +35,9 @@ export default class ArticleList extends Component {
                         />
                     )}
                 </div>
-                {/* <div className="right">
+                <div className="right">
                     <img className="avator" src={require('../../static/img/avator.jpeg')} />
-                </div> */}
+                </div>
             </div>
         )
     }

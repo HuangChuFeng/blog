@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Divider, Icon, message } from 'antd';
 import Header from '../../components/Header'
+import MyComment from '../../components/Comment'
 import { getArticleDetail } from "../../service/fetch";
 
 class ArticleDetail extends Component {
@@ -114,6 +115,7 @@ class ArticleDetail extends Component {
                     </div>
                     <div className="right">
                         <div dangerouslySetInnerHTML={{__html: this.state.article.content }}></div>
+                        <MyComment />
                     </div>
                 </div>
             </div>
