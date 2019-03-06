@@ -76,12 +76,15 @@ class UploadImg extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            imgList: [{
-                h: 1861,
-                hash: "Ftjy41MK6nPmG8HS9KVcQSxZSXzL",
-                key: "Ftjy41MK6nPmG8HS9KVcQSxZSXzL",
-                w: 2792
-            }],
+            // imgList: [],
+            imgList: [ { key: 'FtWEY_zIVk8uAketYiC6sQ-qRE0G',
+            hash: 'FtWEY_zIVk8uAketYiC6sQ-qRE0G',
+            w: 781,
+            h: 1065 },
+          { key: 'FtgzmMUlHqyRraiG6918LlXOpHyo',
+            hash: 'FtgzmMUlHqyRraiG6918LlXOpHyo',
+            w: 1000,
+            h: 2805 } ]
         }
     }
     static propTypes = {
@@ -121,12 +124,12 @@ class UploadImg extends Component {
     }
 
     getUploadList = (list) => {
-        list = {
-            h: 1861,
-            hash: "FlbTMLzKeV0Z3rXjKt2zECmML6nL",
-            key: "FlbTMLzKeV0Z3rXjKt2zECmML6nL",
-            w: 2792
-        }
+        // list = [{
+        //     h: 1861,
+        //     hash: "FhiRzB1SS2by7pu1TgthCaDftNPl",
+        //     key: "FhiRzB1SS2by7pu1TgthCaDftNPl",
+        //     w: 2792
+        // }]
         this.setState({ imgList: list });
     }
 

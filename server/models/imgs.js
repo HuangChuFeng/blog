@@ -23,7 +23,7 @@ module.exports = {
   // 上传照片
   upLoadImgs: function upLoadImgs(group) {
     let { imgs, info } = group;
-    console.log(group, imgs, info)
+    console.log('______________调用了', group)
     info.created_at = moment().format('YYYY-MM-DD HH:mm');
 
     return ImgsGroup.create(info)
@@ -31,21 +31,24 @@ module.exports = {
       .then(function (res) {
         if (res.result.ok && res.result.n > 0) {
           let { _id, title } = res.ops[0];
-          imgs.map(item => {
+          // imgs.map(item => {
+          //   item.src = `http://pnmpntc1j.bkt.clouddn.com/${item.key}`;
+          //   item.group_id = _id;
+          // });
+          return Promise.all(imgs.map(item => {
             item.src = `http://pnmpntc1j.bkt.clouddn.com/${item.key}`;
             item.group_id = _id;
-          });
-
-          return Img.create(imgs).exec()
-          .then(function (imgsRes) {
-            imgsRes = imgsRes.ops.map(item => {
-              return {
-                ...item,
-                title
-              }
-            });
-            return imgsRes;
-          });
+            return Img.create(item).exec()
+                  .then(function (imgsRes) {
+                    // imgsRes = imgsRes.ops.map(item => {
+                    //   return {
+                    //     ...item,
+                    //     title
+                    //   }
+                    // });
+                    return imgsRes;
+                  });
+          }))
         }
     });
   }

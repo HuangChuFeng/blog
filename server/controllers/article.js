@@ -3,7 +3,6 @@ module.exports = {
     // 获取所有文章
     "GET /api/articles": async ctx => {
         console.log('session==========', ctx.session);
-
         let resCode = 200,
             message;
         try {
@@ -16,6 +15,32 @@ module.exports = {
             resCode,
             message,
             articles,
+        };
+    },
+    // 按照id获取单个文章 // 上一篇or下一篇
+    "GET /api/articles/:articleId": async ctx => {
+        const { articleId } = ctx.params,
+            typeNum =  ctx.request.query.typeNum;
+        let resCode = 200,
+            message = 'ok';
+        try {
+            var article = [];
+            if(typeNum !== 'undefined') {
+                article = await AritcleModel.getLastOrNextArticle(articleId, typeNum);
+                console.log('=====', article);
+            } else {
+                article = await AritcleModel.getArticleById(articleId);
+                
+            }
+        } catch (e) {
+            resCode = 500;
+            console.log(e);
+            message = "服务器出错了";
+        }
+        ctx.response.body = {
+            resCode,
+            message,
+            article,
         };
     },
 

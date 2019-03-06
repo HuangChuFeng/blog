@@ -42,25 +42,25 @@ exports.Article = mongolass.model('Article', {
     category_id: { type: 'string' },
     description: { type: 'string' },
     content: { type: 'string' },
-    browse_num: { type: 'number', default: 0},
-    created_at: { type: 'string' }
+    browse_num: { type: 'number', default: 0 },
+    created_at: { type: 'string' },
 });
-
 exports.Article.index({ author: 1, _id: -1 }).exec();   // 按创建时间降序查看用户的文章列表
 
 // 照片模型
 exports.Img = mongolass.model('Img', {
-    group_id: { type: 'object' },
+    group_id: { type: 'object', ref: 'ImgsGroup' },
     src: { type: 'string' },
     favor_count: { type: 'number', default: 0 },
     h: { type: 'number' },
     w: { type: 'number' },
 });
 
-exports.Img.index({ id: 1}).exec(); // 按创建时间降序查看用户的照片列表
+exports.Img.index({ _id: 1 }).exec(); // 按创建时间降序查看用户的照片列表
 
 // 照片组模型
 exports.ImgsGroup = mongolass.model('ImgsGroup', {
+    // imgs_group_id: { type: Mongolass.Types.ObjectId },
     location: { type: 'string' },
     title: { type: 'string' },
     created_at: { type: 'string' },

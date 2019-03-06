@@ -37,6 +37,11 @@ export const fetchArticles = id => {
   return get(`${DEV_URL}/api/articles`);
 };
 
+// 获取文章详情
+export const getArticleDetail = (id, typeNum) => {
+  return get(`${DEV_URL}/api/articles/${id}?typeNum=${typeNum}`);
+};
+
 // 创建文章
 export const createArticle = article => {
   return post(`${DEV_URL}/api/articles/create`, {

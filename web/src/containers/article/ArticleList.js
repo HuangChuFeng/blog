@@ -15,7 +15,7 @@ import { fetchArticles, deleteArticleById } from "../../service/fetch";
 
 class ArticleListContainer extends Component {
 
-    componentDidMount() {
+    componentWillMount() {
         if(this.props.articles && this.props.articles.length == 0) {
             this.loadArticles();
         }

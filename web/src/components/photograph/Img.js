@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Icon } from 'antd';
 
 
-const bgColors = ['#6A0AAB', '#C7007D', '#3415B0', '#44036F', '#4013AF', '#A600A6', '#6C006C'];
+const bgColors = ['rgba(106,10,171,.3)', 'rgba(199,0,125,.3)', 'rgba(52,21,176,.3)', 'rgba(68,3,111,.3)', 'rgba(64,19,175,.3)', 'rgba(166,0,166,.3)', 'rgba(108,0,108,.3)'];
 
 export default class Img extends Component {
     constructor(props) {
@@ -32,32 +32,32 @@ export default class Img extends Component {
     }
 
     componentDidMount() {
-        window.onresize = this.resizeThrottle(this.onResizeHandler, 500, true);
+        // 这里页面加载完成之后resizeThrottle函数立即执行了, 所以函数内的start直接打印了
+        // 以后每次发生resize事件时只会触发resizeThrottle函数的返回函数
+        this.onResizeHandler();
+        window.onresize = this.resizeThrottle(this.onResizeHandler.bind(this), 500, true);
     }
 
     onResizeHandler() {
         // resize节流 500ms内只能触发一次
-        console.log('resize');
-        // let vm = this;
-        // let width = vm.refs.imgBox.clientWidth;
+        let width = this.refs.imgBox.clientWidth; // 宽固定
+        let scale = this.props.img.h / this.props.img.w;
+        let height = width * scale;
+        this.refs.imgBox.style.height = height + 'px';
     }
 
     resizeThrottle(fn, wait, immediate) {
-        let timer = null, callNow = immediate;
-        console.log('start'); // 此处只执行一次
+        let timer = null;
         return function() {
-            console.log('1111')
-            let context = this,
-                args = arguments;
-            if (callNow) {
-                console.log('调用时最开始执行, 只执行一次')
-                fn.apply(context, args);
-                callNow = false;
+            let args = arguments;
+            if (immediate) {
+                fn.apply(this, args);
+                immediate = false;
             }
             if (!timer) {
                 timer = setTimeout(() => {
-                    console.log('timer is null')
-                    fn.apply(context, args);
+                    console.log('timer is null') // 每隔500ms清空一次timer;
+                    fn.apply(this, args);
                     timer = null;
                 }, wait);
             }
@@ -84,7 +84,7 @@ export default class Img extends Component {
         return (
             <div className="img-wraper" onClick={this.toImgDetailPage.bind(this, this.props.img.id)}>
                 <div className="img-box" ref="imgBox" style={this.state.imgBoxStyle}>   
-                    {/* <img src={this.props.img.src} alt="" onLoad={this.imgOnLoad.bind(this)} /> */}
+                    <img src={this.props.img.src} alt="" onLoad={this.imgOnLoad.bind(this)} />
                 </div>  
 
                 <div className="img-cover">

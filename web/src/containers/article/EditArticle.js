@@ -23,7 +23,6 @@ class EditArticleContainer extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.match.params.id, this.state.article);
         
     }
     // 保存文章 id存在时为编辑状态
