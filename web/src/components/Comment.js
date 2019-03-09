@@ -39,7 +39,7 @@ const Editor = ({
 export default class MyComment extends Component {
   state = {
     comments: [{
-      author: 'Han Solo',
+      author: '5c73933ffb58df995bc53926',
       avatar: 'http://pnmpntc1j.bkt.clouddn.com/Ftjy41MK6nPmG8HS9KVcQSxZSXzL',
       content: <p>1111111111111</p>,
       datetime: moment().fromNow(),
@@ -62,25 +62,25 @@ export default class MyComment extends Component {
     });
 
     this.props.onSubmit({
-              author: 'Han Solo',
-              content: this.state.value
-            });
+      author: '5c73933ffb58df995bc53926',
+      content: this.state.value
+    });
 
-    // setTimeout(() => {
-    //   this.setState({
-    //     submitting: false,
-    //     value: '',
-    //     comments: [
-    //       {
-    //         author: 'Han Solo',
-    //         avatar: 'http://pnmpntc1j.bkt.clouddn.com/Ftjy41MK6nPmG8HS9KVcQSxZSXzL',
-    //         content: <p>{this.state.value}</p>,
-    //         datetime: moment().fromNow(),
-    //       },
-    //       ...this.state.comments,
-    //     ],
-    //   });
-    // }, 1000);
+    setTimeout(() => {
+      this.setState({
+        submitting: false,
+        value: '',
+        comments: [
+          {
+            author: 'Han Solo',
+            avatar: 'http://pnmpntc1j.bkt.clouddn.com/Ftjy41MK6nPmG8HS9KVcQSxZSXzL',
+            content: <p>{this.state.value}</p>,
+            datetime: moment().fromNow(),
+          },
+          ...this.state.comments,
+        ],
+      });
+    }, 1000);
   }
 
 handleChange = (e) => {

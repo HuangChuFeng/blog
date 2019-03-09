@@ -28,16 +28,14 @@ module.exports = {
 			console.log('user====', user);
 			if (user && password == user.password) {
 				delete user.password;
-				ctx.session.user = user.name;
-				console.log('*******', ctx.session);
-
+				ctx.session.user = user;
+				console.log('设置过session了*******', ctx.session);
 			} else {
 				resCode = 500;
 				message = '用户名或密码错误';
 			}
 		} catch (e) {
 			resCode = 500;
-			console.log(e)
 			message = "服务器出错了";
 		}
 		ctx.response.body = {

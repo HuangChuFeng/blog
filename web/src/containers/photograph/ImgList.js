@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { initImgs, deleteImg } from '../../reducers/imgs'
+import { initImgs, deleteImg, addImg } from '../../reducers/imgs'
 import { Affix, Icon, Button } from 'antd';
 import ImgList from '../../components/photograph/ImgList'
 import UploadImg from '../../components/photograph/UploadImg'

@@ -1,9 +1,10 @@
 const AritcleModel = require("../models/article");
 const AritcleCommentModel = require("../models/articleComment");
+const authCheck = require("../middlewares/check").auth;
+
 module.exports = {
     // 获取所有文章
     "GET /api/articles": async ctx => {
-        console.log('session==========', ctx.session);
         let resCode = 200,
             message;
         try {
@@ -116,6 +117,12 @@ module.exports = {
 
     // 创建评论
     "POST /api/articles/:articleId/comment": async ctx => {
+        console.log('获取session==========', ctx.session);
+        const isLogined = await authCheck(ctx)
+        // 记得修改--取反(没有登录时才return)
+        if (!isLogined) {
+          return;
+        }
         let { articleId } = ctx.params.articleId,
             author = ctx.request.body.author,
             content = ctx.request.body.content,

@@ -87,8 +87,13 @@ class ArticleDetail extends Component {
         console.log(comment);
         
         commentArticle(this.state.id, comment).then(result => {
+            console.log(result);
+            
             const { data } = result;
             if (data) {
+                if(data.resCode === 401) {
+                    console.log('请登录')
+                }
             }
         });
     }

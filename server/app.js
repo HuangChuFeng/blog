@@ -1,17 +1,25 @@
 const Koa = require("koa");
-const bodyParser = require("koa-bodyparser");
+const bodyParser = require("koa-bodyparser");                 // 主要用于获取post请求的参数
 const controller = require("./middlewares/controller");
-const session = require("koa2-session-store");
+// const session = require("koa2-session-store");
+const session = require('koa-session');
 const MongoStore = require("koa2-session-mongolass");
 const convert = require("koa-convert");
 const path = require("path");
+
+// EJS是一个JavaScript模板库，用来从JSON数据中生成HTML字符串, Koa2框架中ejs可以把数据库查询的数据渲染到模板上面，实现一个动态网站。
 const render = require("koa-ejs");
-const server = require("koa-static");
-const config = require("config-lite");
+
+const server = require("koa-static");                         // koa-static主要是用于访问静态资源
+
+const config = require("config-lite");                        // 读取配置文件的模块
 const historyFallback = require("koa2-history-api-fallback");
-const koaWinston = require("./middlewares/koa-winston");
+const koaWinston = require("./middlewares/koa-winston");      // 基于winston的用于koa的日志中间件
 const onerror = require("koa-onerror");
+
+// koa2后台允许跨域的方法主要有两种：1.jsonp 2、koa2-cors让后台允许跨域直接就可以在客户端使用ajax请求数据。
 const cors = require('koa2-cors');
+
 const app = new Koa();
 
 // error handler
@@ -22,9 +30,9 @@ const isProduction = (process.env.NODE_ENV || "production") === "production";
 const log = require("./logs/log");
 
 const sessionConfig = {
-		secret: 'myblog',
-		key: 'myblog',
-		maxAge: '2592000000'
+  secret: 'myblog',
+  key: 'myblog',
+  maxAge: '2592000000'
 }
 
 app.use(historyFallback())
@@ -33,32 +41,45 @@ app.use(bodyParser());
 
 // app.keys = [config.session.secret];
 app.keys = [sessionConfig.secret];
-app.use(
-  session({
-    name: sessionConfig.key,       // 设置 cookie 中保存 session id 的字段名称
-    secret: sessionConfig.secret,  // 通过设置 secret 来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改
-    resave: true,                   // 强制更新 session
-    saveUninitialized: false,       // 设置为 false，强制创建一个 session，即使用户未登录
-    cookie: {
-      maxAge: sessionConfig.maxAge // 过期时间，过期后 cookie 中的 session id 自动删除
-    },
-    store: new MongoStore()
-  }, app)
-);
+const CONFIG = {
+  key: 'koa:sess',   //cookie key (default is koa:sess)
+  maxAge: 86400000,  // cookie的过期时间 maxAge in ms (default is 1 days)
+  overwrite: true,  //是否可以overwrite    (默认default true)
+  httpOnly: true, //cookie是否只有服务器端可以访问 httpOnly or not (default true)
+  signed: true,   //签名默认true
+  rolling: false,  //在每次请求时强行设置cookie，这将重置cookie过期时间（默认：false）
+  renew: false,  //(boolean) renew session when session is nearly expired,
+};
+app.use(session(CONFIG, app));
+// app.use(
+//   session({
+//     name: sessionConfig.key,       // 设置 cookie 中保存 session id 的字段名称
+//     secret: sessionConfig.secret,  // 通过设置 secret 来计算 hash 值并放在 cookie 中，使产生的 signedCookie 防篡改
+//     resave: true,                   // 强制更新 session
+//     saveUninitialized: false,       // 设置为 false，强制创建一个 session，即使用户未登录
+//     cookie: {
+//       maxAge: sessionConfig.maxAge // 过期时间，过期后 cookie 中的 session id 自动删除
+//     },
+//     store: new MongoStore()
+//   })
+// );
 
 
 // 具体参数我们在后面进行解释
 app.use(cors({
   origin: function (ctx) {
-      return "*";
+    return "*";
   },
   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
   maxAge: 5,
   credentials: true,
   allowMethods: ['GET', 'POST', 'DELETE'],
   allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  store: new MongoStore()
 }))
 
+
+// 静态资源就可以被koa中间件解析了
 app.use(convert(server(path.join(__dirname, "/build/"))));
 app.use(convert(server(path.join(__dirname, "/upload/"))));
 

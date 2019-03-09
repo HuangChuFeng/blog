@@ -5,7 +5,6 @@ module.exports = {
   getUserByName: function getUserByName(name) {
     return User
         .findOne({ name: name })
-        .addCreatedAt()
         .exec();
     },
     create: function create(user) {
