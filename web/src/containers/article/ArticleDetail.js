@@ -100,11 +100,9 @@ class ArticleDetail extends Component {
 
 
     render() {
-        let date, year, time;
+        let date;
         if (this.state.article.created_at) {
-            date = this.state.article.created_at.split(' ')[0].split('-');
-            year = date[0];
-            time = date[1] + '. ' + date[2];
+            date = this.state.article.created_at.replace(/-/g, '.');
         }
         return (
             <div>
@@ -113,19 +111,19 @@ class ArticleDetail extends Component {
                     <div className="left">
                         <Link to="/articles"><Icon type="left" className="back-btn" /></Link>
                         <div className="top-info-box">
-                            <h1>{year}</h1>
+                            <h2>{this.state.article.title}</h2>
                             <div className="top-bottom">
-                                <span>{time} Beijing</span>
+                                <span>{date} Beijing</span>
                                 <span className="browse-num"><Icon type="fire" className="fire-icon" />{this.state.article.browse_num || 0}</span>
-                                <ul className="tag-list">
-                                    {this.state.article.tags && this.state.article.tags.split(',').map((item, i) => {
-                                        return (<li key={i}>{item}</li>)
-                                    })}
-                                </ul>
+                                
                             </div>
                         </div>
                         <div className="left-bottom-box">
-                            <h3>{this.state.article.title}</h3>
+                            <ul className="tag-list">
+                                {this.state.article.tags && this.state.article.tags.split(',').map((item, i) => {
+                                    return (<li key={i}>{item}</li>)
+                                })}
+                            </ul>
                             {this.state.article.description}
                         </div>
                         <div className="control-box">

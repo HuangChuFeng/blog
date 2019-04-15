@@ -4,6 +4,7 @@ import { combineReducers, createStore } from 'redux'
 import { Provider } from 'react-redux'
 import Home from './containers/Home'
 import reducer from './reducers/index'
+import 'lib-flexible'
 import './index.less'
 
 import ImgList from './containers/photograph/ImgList'
@@ -16,6 +17,8 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 // createStore 函数专门生产state和dispatch的集合， 调用后返回state和dispatch
 const store = createStore(reducer);
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -28,6 +31,7 @@ ReactDOM.render(
         <Route exact path="/articles/detail/:id" component={ArticleDetail} />
         <Route exact path="/articles/new" component={EditArticle} />
         <Route exact path="/articles/edit/:id" component={EditArticle} />
+        <ToastContainer />
       </div>
     </Router>
   </Provider>,

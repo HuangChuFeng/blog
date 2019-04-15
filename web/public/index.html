@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
     <meta name="theme-color" content="#000000">
     <!--
       manifest.json provides metadata used when your web app is added to the
@@ -37,5 +37,20 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+      <script>
+      //   (function (doc, win) {
+      //   var docEl = doc.documentElement,
+      //     resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+      //     recalc = function () {
+      //       var clientWidth = docEl.clientWidth;
+      //       if (!clientWidth) return;
+      //       docEl.style.fontSize = 100 * (clientWidth / 375) + 'px';
+      //     };
+
+      //   if (!doc.addEventListener) return;
+      //   win.addEventListener(resizeEvt, recalc, false);
+      //   recalc();
+      // })(document, window);
+    </script>
   </body>
 </html>

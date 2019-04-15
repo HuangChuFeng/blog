@@ -49,8 +49,8 @@ export default class MyComment extends Component {
   }
 
   static propTypes = {
-      onSubmit: PropTypes.func,
-      comments: PropTypes.array,
+    onSubmit: PropTypes.func,
+    comments: PropTypes.array,
   }
 
   handleSubmit = () => {
@@ -83,35 +83,35 @@ export default class MyComment extends Component {
     }, 1000);
   }
 
-handleChange = (e) => {
-  this.setState({
-    value: e.target.value,
-  });
-}
+  handleChange = (e) => {
+    this.setState({
+      value: e.target.value,
+    });
+  }
 
-render() {
-  const { comments, submitting, value } = this.state;
+  render() {
+    const { comments, submitting, value } = this.state;
 
-  return (
-    <div>
-      {comments.length > 0 && <CommentList comments={comments} />}
-      <Comment
-        avatar={(
-          <Avatar
-            src="http://pnmpntc1j.bkt.clouddn.com/Ftjy41MK6nPmG8HS9KVcQSxZSXzL"
-            alt="Han Solo"
-          />
-        )}
-        content={(
-          <Editor
-            onChange={this.handleChange}
-            onSubmit={this.handleSubmit}
-            submitting={submitting}
-            value={value}
-          />
-        )}
-      />
-    </div>
-  );
-}
+    return (
+      <div>
+        {comments.length > 0 && <CommentList comments={comments} />}
+        <Comment
+          avatar={(
+            <Avatar
+              src="http://pnmpntc1j.bkt.clouddn.com/Ftjy41MK6nPmG8HS9KVcQSxZSXzL"
+              alt="Han Solo"
+            />
+          )}
+          content={(
+            <Editor
+              onChange={this.handleChange}
+              onSubmit={this.handleSubmit}
+              submitting={submitting}
+              value={value}
+            />
+          )}
+        />
+      </div>
+    );
+  }
 }

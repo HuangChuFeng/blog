@@ -16,10 +16,13 @@ export const fetchImgs = id => {
 };
 
 export const login = (user) => {
-  return post(`${DEV_URL}/api/login`, {
+  return post(`${DEV_URL}/api/user/login`, {
     name: user.name,
     password: user.password
   });
+};
+export const register = (user) => {
+  return post(`${DEV_URL}/api/user/register`, user);
 };
 
 // 获取上传图片token

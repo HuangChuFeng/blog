@@ -1,4 +1,7 @@
 import { toast } from "react-toastify";
+import React, { Component } from 'react'
+import LoginForm from '../containers/loginToast';
+
 const CREDENTIALS = process.env.ORIGIN ? "include" : "same-origin";
 
 export const get = async url => {
@@ -48,10 +51,14 @@ export const post = async (url, body) => {
     if (data.resCode !== 200) {
       if (data.resCode === 401) {
         console.log("USER_INVALID");
+        toast(<LoginForm />,{
+          autoClose: false,
+          closeOnClick: false,
+        });
       }
-      toast.error(data.message, {
-        position: toast.POSITION.TOP_RIGHT
-      });
+      // toast.error(data.message, {
+      //   position: toast.POSITION.TOP_CENTER
+      // });
       throw new Error(data.message);
     }
     return {

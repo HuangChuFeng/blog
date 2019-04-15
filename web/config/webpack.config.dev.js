@@ -13,6 +13,7 @@ const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
+const px2rem = require('postcss-px2rem');
 
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -60,9 +61,13 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
             },
             stage: 3,
           }),
+          px2rem({remUnit: 75})
         ],
       },
     },
+    {
+      loader: require.resolve('less-loader')
+    }
   ];
   if (preProcessor) {
     loaders.push(require.resolve(preProcessor));

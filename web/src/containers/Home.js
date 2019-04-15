@@ -34,7 +34,7 @@ export default class Home extends Component {
     getLocation().then(result => {
       // const {data} = result;
       // if (data) {
-        console.log('======', result)
+        console.log('获取当前城市', result)
       // } 
   });
   }
@@ -55,7 +55,7 @@ export default class Home extends Component {
           <div className="img" style={ this.state.bgHeight }></div>
           <div className="mask" style={ this.state.bgHeight }></div>
           <div className="content-box">
-            <span className="top-left-text">___cranky</span>
+            <span className="top-left-text">____________</span>
             <span className="left-center-text"><a href="#">关于—</a></span>
               <ul className="nav-ul">
                 <li><RouteLink to="/photograph">摄影</RouteLink></li>

@@ -55,7 +55,7 @@ module.exports = {
     "POST /api/articles/create": async ctx => {
         const { article } = ctx.request.body;
         let resCode = 200,
-            message = "成功发表";
+            message = "发表成功";
         try {
             var result = await AritcleModel.create(article),
                 res = result.ops[0];
