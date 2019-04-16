@@ -117,7 +117,7 @@ module.exports = {
 
     // 创建评论
     "POST /api/articles/:articleId/comment": async ctx => {
-        console.log('获取session==========', ctx.session);
+        console.log('评论时获取session==========', ctx.session);
         const isLogined = await authCheck(ctx)
         // 记得修改--取反(没有登录时才return)
         if (!isLogined) {

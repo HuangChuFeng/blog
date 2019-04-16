@@ -67,15 +67,14 @@ app.use(session(CONFIG, app));
 
 // 具体参数我们在后面进行解释
 app.use(cors({
-  origin: function (ctx) {
-    return "*";
-  },
+  origin: "http://localhost:3001",
   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
   maxAge: 5,
   credentials: true,
   allowMethods: ['GET', 'POST', 'DELETE'],
   allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
-  store: new MongoStore()
+  store: new MongoStore(),
+  // credentials : true,
 }))
 
 

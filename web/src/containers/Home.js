@@ -22,12 +22,12 @@ export default class Home extends Component {
       // 高度设置
       this.screenChange();
       this.getLocationCity();
-      login({name: 'admin', password: '123'}).then(result => {
-          const {data} = result;
-          if (data) {
-            console.log('======', data)
-          } 
-      });
+      // login({name: 'admin', password: '123'}).then(result => {
+      //     const {data} = result;
+      //     if (data) {
+      //       console.log('======', data)
+      //     } 
+      // });
   }
 
   getLocationCity() {

@@ -2,6 +2,8 @@ import { toast } from "react-toastify";
 import React, { Component } from 'react'
 import LoginForm from '../containers/loginToast';
 
+console.log(process.env);
+
 const CREDENTIALS = process.env.ORIGIN ? "include" : "same-origin";
 
 export const get = async url => {
@@ -54,11 +56,13 @@ export const post = async (url, body) => {
         toast(<LoginForm />,{
           autoClose: false,
           closeOnClick: false,
+          draggable: false,
+        });
+      } else {
+        toast.error(data.message, {
+          position: toast.POSITION.TOP_RIGHT
         });
       }
-      // toast.error(data.message, {
-      //   position: toast.POSITION.TOP_CENTER
-      // });
       throw new Error(data.message);
     }
     return {

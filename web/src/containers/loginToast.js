@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Icon, Input, Button } from 'antd';
+import { toast } from "react-toastify";
 import { login, register } from "../service/fetch";
 
 class LoginForm extends React.Component {
@@ -10,12 +11,11 @@ class LoginForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log(values);
                 register(values).then(result => {
-                    const {data} = result;
+                    const { data } = result;
                     if (data) {
-                      console.log('======', data)
-                    } 
+                        toast.dismiss();
+                    }
                 });
             }
         });
@@ -33,7 +33,7 @@ class LoginForm extends React.Component {
                     )}
                 </Form.Item>
                 <Form.Item label="的">
-                    {getFieldDecorator('userName', {
+                    {getFieldDecorator('name', {
                         rules: [{ required: true, message: '我要知道你的名字啊朋友' }],
                     })(
                         <Input placeholder="小可爱" />

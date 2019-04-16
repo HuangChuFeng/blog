@@ -30,7 +30,7 @@ exports.User = mongolass.model('User', {
     avatar: { type: 'string' },
 });
 
-exports.User.index({ email: 1 }, { unique: true }).exec();// 根据用户名找到用户，用户名全局唯一
+exports.User.index({ email: 1, _id: -1 }).exec();// 根据用户名找到用户，用户名全局唯一
 
 // 文章模型
 exports.Article = mongolass.model('Article', {

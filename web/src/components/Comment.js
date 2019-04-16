@@ -56,10 +56,11 @@ export default class MyComment extends Component {
   handleSubmit = () => {
     if (!this.state.value) {
       return;
+    } else {
+      this.setState({
+        submitting: true,
+      });
     }
-    this.setState({
-      submitting: true,
-    });
 
     this.props.onSubmit({
       author: '5c73933ffb58df995bc53926',

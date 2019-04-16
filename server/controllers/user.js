@@ -13,7 +13,7 @@ module.exports = {
 			if (user && password == user.password) {
 				delete user.password;
 				ctx.session.user = user;
-				console.log('设置过session了*******', ctx.session);
+				console.log('登录, session*******', ctx.session);
 			} else {
 				resCode = 500;
 				message = '用户名或密码错误';
@@ -32,14 +32,12 @@ module.exports = {
 		let resCode = 200,
 			message = '注册成功',
             user = ctx.request.body;
-            console.log('user====', user);
-            
+            ctx.session.user = user;
+            console.log('注册, session*******', ctx.session);
         try {
             var result = await UserModel.create(user),
                 res = result.ops[0];
         } catch (e) {
-            console.log(e);
-            
             resCode = 500;
             message = "注册失败";
         }

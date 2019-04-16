@@ -85,15 +85,12 @@ class ArticleDetail extends Component {
     // 发表评论
     handleSubmit = (comment) => {
         console.log(comment);
-        
         commentArticle(this.state.id, comment).then(result => {
-            console.log(result);
-            
             const { data } = result;
+            console.log(data);
+            
             if (data) {
-                if(data.resCode === 401) {
-                    console.log('请登录')
-                }
+                
             }
         });
     }
