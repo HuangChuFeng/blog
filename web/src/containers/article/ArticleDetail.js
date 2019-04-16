@@ -50,6 +50,7 @@ class ArticleDetail extends Component {
                         article: data.article[0],
                         id: data.article[0]._id,
                         clickTypeNum: 0,
+                        comments: data.comment,
                     })
                     this.context.router.history.push(`/articles/detail/${data.article[0]._id}`);
                 }
@@ -83,14 +84,10 @@ class ArticleDetail extends Component {
     }
 
     // 发表评论
-    handleSubmit = (comment) => {
-        console.log(comment);
+    handleSubmit = (comment, cb) => {
         commentArticle(this.state.id, comment).then(result => {
-            const { data } = result;
-            console.log(data);
-            
-            if (data) {
-                
+            if (result) {
+                cb && cb(result);
             }
         });
     }

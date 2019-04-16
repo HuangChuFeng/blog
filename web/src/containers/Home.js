@@ -36,7 +36,7 @@ export default class Home extends Component {
       // if (data) {
         console.log('获取当前城市', result)
       // } 
-  });
+    });
   }
 
   screenChange() {

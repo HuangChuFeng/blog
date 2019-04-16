@@ -29,28 +29,29 @@ const Editor = ({
           htmlType="submit"
           loading={submitting}
           onClick={onSubmit}
-          type="primary"
-        >
+          type="primary">
           评论
-      </Button>
+        </Button>
       </Form.Item>
     </div>
   );
 export default class MyComment extends Component {
   state = {
-    comments: [{
-      author: '5c73933ffb58df995bc53926',
-      avatar: 'http://pnmpntc1j.bkt.clouddn.com/Ftjy41MK6nPmG8HS9KVcQSxZSXzL',
-      content: <p>1111111111111</p>,
-      datetime: moment().fromNow(),
-    }],
     submitting: false,
     value: '',
+    comments: [],
   }
 
   static propTypes = {
     onSubmit: PropTypes.func,
     comments: PropTypes.array,
+  }
+  
+  componentWillMount() {
+    console.log(this.props);
+    this.setState({
+      comments: this.props.comments
+    })
   }
 
   handleSubmit = () => {
@@ -60,28 +61,31 @@ export default class MyComment extends Component {
       this.setState({
         submitting: true,
       });
-    }
-
-    this.props.onSubmit({
-      author: '5c73933ffb58df995bc53926',
-      content: this.state.value
-    });
-
-    setTimeout(() => {
-      this.setState({
-        submitting: false,
-        value: '',
-        comments: [
-          {
-            author: 'Han Solo',
-            avatar: 'http://pnmpntc1j.bkt.clouddn.com/Ftjy41MK6nPmG8HS9KVcQSxZSXzL',
-            content: <p>{this.state.value}</p>,
-            datetime: moment().fromNow(),
-          },
-          ...this.state.comments,
-        ],
+      this.props.onSubmit({
+        content: this.state.value
+      }, (result) => {
+        if(result.data.comment) {
+          let resComment = result.data.comment;
+          this.setState({
+            submitting: false,
+            value: '',
+            comments: [
+              {
+                author: window.localStorage.getItem('user'),
+                avatar: resComment.avatar || '',
+                content: <p>{ this.state.value }</p>,
+                datetime: resComment.created_at,
+              },
+              ...this.state.comments,
+            ],
+          });
+          console.log(this.state.comments);
+          
+        } else {
+          this.setState({ submitting: false })
+        }
       });
-    }, 1000);
+    }
   }
 
   handleChange = (e) => {
@@ -91,17 +95,22 @@ export default class MyComment extends Component {
   }
 
   render() {
-    const { comments, submitting, value } = this.state;
-
+    const { submitting, value } = this.state;
+    
+    const comments = this.state.comments.map(item => {
+      return {
+        author: `来自${item.user.source}的${item.user.name}`,
+        avatar: item.user.avatar || '',
+        content: <p>{ item.content }</p>,
+        datetime: item.created_at,
+      }
+    })
     return (
       <div>
         {comments.length > 0 && <CommentList comments={comments} />}
         <Comment
           avatar={(
-            <Avatar
-              src="http://pnmpntc1j.bkt.clouddn.com/Ftjy41MK6nPmG8HS9KVcQSxZSXzL"
-              alt="Han Solo"
-            />
+            <Avatar src="" alt="" />
           )}
           content={(
             <Editor

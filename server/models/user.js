@@ -2,9 +2,9 @@ const User = require('../lib/mongo').User;
 
 module.exports = {
   //通过用户名获取用户信息
-  getUserByName: function getUserByName(name) {
+  getUserById: function getUserById(id) {
     return User
-        .findOne({ name: name })
+        .findOne({ _id: id })
         .exec();
     },
     create: function create(user) {

@@ -1,5 +1,6 @@
 const moment = require('moment');
 const ArticleComment = require('../lib/mongo').ArticleComment;
+const User = require('../lib/mongo').User;
 module.exports = {
 
     // 创建评论
@@ -12,6 +13,7 @@ module.exports = {
     getComments: function getComments(articleId) {
         return ArticleComment
         .find({ articleId: articleId })
+        .populate({ path: 'user', model: 'User' })
         .sort({ _id: 1 })
         .exec();
     },

@@ -32,8 +32,8 @@ module.exports = {
 		let resCode = 200,
 			message = '注册成功',
             user = ctx.request.body;
+            delete user.password;
             ctx.session.user = user;
-            console.log('注册, session*******', ctx.session);
         try {
             var result = await UserModel.create(user),
                 res = result.ops[0];

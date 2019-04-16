@@ -2,8 +2,6 @@ import { toast } from "react-toastify";
 import React, { Component } from 'react'
 import LoginForm from '../containers/loginToast';
 
-console.log(process.env);
-
 const CREDENTIALS = process.env.ORIGIN ? "include" : "same-origin";
 
 export const get = async url => {

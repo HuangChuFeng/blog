@@ -50,13 +50,13 @@ exports.Article.index({ author: 1, _id: -1 }).exec();   // 按创建时间降序
 
 // 文章评论模型
 exports.ArticleComment = mongolass.model('ArticleComment', {
-    author: { type: Mongolass.Types.ObjectId },
+    user: { type: Mongolass.Types.ObjectId },
     articleId: { type: Mongolass.Types.ObjectId },
     content: { type: 'string' },
     created_at: { type: 'string' },
 });
 
-exports.ArticleComment.index({ author: 1, _id: -1 }).exec();
+exports.ArticleComment.index({ reader: 1, _id: -1 }).exec();
 
 // 照片模型
 exports.Img = mongolass.model('Img', {

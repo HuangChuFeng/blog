@@ -118,18 +118,17 @@ module.exports = {
     // 创建评论
     "POST /api/articles/:articleId/comment": async ctx => {
         console.log('评论时获取session==========', ctx.session);
-        const isLogined = await authCheck(ctx)
-        // 记得修改--取反(没有登录时才return)
-        if (!isLogined) {
-          return;
+        const isLogined = await authCheck(ctx);
+        if(!isLogined) {
+            return;
         }
-        let { articleId } = ctx.params.articleId,
-            author = ctx.request.body.author,
+        let { articleId } = ctx.params,
+            user = ctx.session.user._id,
             content = ctx.request.body.content,
             resCode = 200,
             message = "评论成功";
         let comment = {
-            author,
+            user,
             articleId,
             content
         };
