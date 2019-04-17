@@ -1,5 +1,6 @@
 const moment = require('moment');
 const Article = require('../lib/mongo').Article;
+const AritcleCommentModel = require("./articleComment");
 module.exports = {
 
     // 获取所有文章
@@ -55,12 +56,12 @@ module.exports = {
     delArticleById: function delArticleById(id) {
         return Article.remove({ _id: id })
           .exec()
-        //   .then(function (res) {
-        //     // 文章删除后，再删除该文章下的所有留言
-        //     if (res.result.ok && res.result.n > 0) {
-        //       return CommentModel.delCommentsByPostId(postId);
-        //     }
-        // });
+          .then(function (res) {
+            // 文章删除后，再删除该文章下的所有留言
+            if (res.result.ok && res.result.n > 0) {
+              return AritcleCommentModel.delCommentsByArticleId(id);
+            }
+        });
     },
 
     // 编辑文章

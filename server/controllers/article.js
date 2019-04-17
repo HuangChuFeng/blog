@@ -29,6 +29,7 @@ module.exports = {
             var article = [], comment = [];
             if(typeNum !== 'undefined') {
                 article = await AritcleModel.getLastOrNextArticle(articleId, typeNum);
+                comment = await AritcleCommentModel.getComments(article[0]._id);
                 // console.log('=====', article);
             } else {
                 result = await Promise.all([

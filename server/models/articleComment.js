@@ -18,6 +18,12 @@ module.exports = {
         .exec();
     },
 
+    // 删除某篇文章下的所有评论
+    delCommentsByArticleId: function delCommentsByArticleId(articleId) {
+        return ArticleComment.remove({ articleId: articleId })
+          .exec();
+    },
+
     // 通过文章 id 获取该文章下留言数
     getCommentsCount: function getCommentsCount(articleId) {
         return ArticleComment.count({ articleId: articleId }).exec();

@@ -46,13 +46,13 @@ export default class MyComment extends Component {
     onSubmit: PropTypes.func,
     comments: PropTypes.array,
   }
-  
-  componentWillMount() {
-    console.log(this.props);
+
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      comments: this.props.comments
+      comments: nextProps.comments
     })
   }
+
 
   handleSubmit = () => {
     if (!this.state.value) {
@@ -73,13 +73,12 @@ export default class MyComment extends Component {
               {
                 author: window.localStorage.getItem('user'),
                 avatar: resComment.avatar || '',
-                content: <p>{ this.state.value }</p>,
-                datetime: resComment.created_at,
+                content: this.state.value,
+                created_at: resComment.created_at,
               },
               ...this.state.comments,
             ],
           });
-          console.log(this.state.comments);
           
         } else {
           this.setState({ submitting: false })
@@ -96,11 +95,15 @@ export default class MyComment extends Component {
 
   render() {
     const { submitting, value } = this.state;
-    
     const comments = this.state.comments.map(item => {
+      let avatar = '';
+      if(item.user && item.user.avatar) {
+        avatar = item.user.avatar;
+      }
+      item.avatar && (avatar = item.avatar);
       return {
-        author: `来自${item.user.source}的${item.user.name}`,
-        avatar: item.user.avatar || '',
+        author: item.author || `来自${item.user.source}的${item.user.name}`,
+        avatar: avatar,
         content: <p>{ item.content }</p>,
         datetime: item.created_at,
       }
