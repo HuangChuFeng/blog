@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Divider, Icon, message } from 'antd';
 import Header from '../../components/Header'
 import MyComment from '../../components/Comment'
-import { getArticleDetail, commentArticle } from "../../service/fetch";
+import { getArticleDetail, commentArticle, addBrowseNum } from "../../service/fetch";
 
 class ArticleDetail extends Component {
     constructor(props) {
@@ -26,15 +26,30 @@ class ArticleDetail extends Component {
         router: PropTypes.object.isRequired,
     }
 
+    handleBrowser() {
+        setTimeout(() => {
+            let num = this.state.article.browse_num || 0;
+            addBrowseNum(this.state.id, num).then(result => {
+                const { data } = result;
+                if (data) {
+                    let article = Object.assign(this.state.article, { browse_num: this.state.article.browse_num + 1 })
+                    this.setState({
+                        article: article
+                    });
+                }
+            });
+        }, 2000);
+    }
+
     componentWillMount() {
-        if (this.props.curArticle) {
-            this.setState({
-                article: this.props.curArticle,
-                curPage: this.props.curArticle.index,
-            })
-        } else {
+        // if (this.props.curArticle) {
+        //     this.setState({
+        //         article: this.props.curArticle,
+        //         curPage: this.props.curArticle.index,
+        //     });
+        // } else {
             this.articleDetail(this.state.id);
-        }
+        // }
     }
 
     // 获取某一篇文章及评论
@@ -42,7 +57,7 @@ class ArticleDetail extends Component {
         getArticleDetail(id, typeNum).then(result => {
             const { data } = result;
             if (data) {
-                if (data.article.length === 0) {
+                if (data.noMore) {
                     message.warning('已经是最后一篇了', 1);
                     this.setState({ clickTypeNum: typeNum })
                 } else {
@@ -53,34 +68,35 @@ class ArticleDetail extends Component {
                         comments: data.comment,
                     })
                     this.context.router.history.push(`/articles/detail/${data.article[0]._id}`);
+                    this.handleBrowser();
                 }
             }
-        })
+        });
     }
 
     // 上一篇or上一篇
     lastOrNextArticle = (typeNum) => {
-        if (this.state.clickTypeNum === typeNum) return;
-        if (this.props.curArticle) {
-            let flag = this.state.clickTypeNum, index = 0;
-            if (typeNum === -1) {                   // 上一篇
-                index = this.state.curPage > 0 ? this.state.curPage - 1 : 0;
-            } else if (typeNum === 1) {             // 下一篇
-                index = this.state.curPage < this.props.articles.length - 1 ? this.state.curPage + 1 : this.state.curPage;
-            }
+        // if (this.state.clickTypeNum === typeNum) return;
+        // if (this.props.curArticle) {
+        //     let flag = this.state.clickTypeNum, index = 0;
+        //     if (typeNum === -1) {                   // 上一篇
+        //         index = this.state.curPage > 0 ? this.state.curPage - 1 : 0;
+        //     } else if (typeNum === 1) {             // 下一篇
+        //         index = this.state.curPage < this.props.articles.length - 1 ? this.state.curPage + 1 : this.state.curPage;
+        //     }
 
-            if (index === 0 || index === this.props.articles.length - 1) {
-                flag = 0;
-            }
-            this.setState({
-                article: this.props.articles[index],
-                curPage: index,
-                clickTypeNum: flag
-            })
-            this.context.router.history.push(`/articles/detail/${this.props.articles[index]._id}`);
-        } else {
+        //     if (index === 0 || index === this.props.articles.length - 1) {
+        //         flag = 0;
+        //     }
+        //     this.setState({
+        //         article: this.props.articles[index],
+        //         curPage: index,
+        //         clickTypeNum: flag
+        //     })
+        //     this.context.router.history.push(`/articles/detail/${this.props.articles[index]._id}`);
+        // } else {
             this.articleDetail(this.state.id, typeNum);
-        }
+        // }
     }
 
     // 发表评论
@@ -144,6 +160,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        
     }
 }
 

@@ -16,21 +16,10 @@ import { fetchArticles, deleteArticleById } from "../../service/fetch";
 class ArticleListContainer extends Component {
 
     componentWillMount() {
-        if(this.props.articles && this.props.articles.length == 0) {
-            this.loadArticles();
-        }
+        this.props.initArticles();
     }
     static contextTypes = {
         router: PropTypes.object.isRequired,
-    }
-
-    loadArticles() {
-        fetchArticles().then(result => {
-            const { data } = result;
-            if (data) {
-                this.props.initArticles(data.articles);
-            } 
-        });
     }
 
     onDeleteArticle(articleId, index) {
@@ -92,11 +81,17 @@ const mapStateToProps = (state) => {
     }
 }
   
-// 当前组件需要发起是事件
+// 当前组件需要发起的事件
 const mapDispatchToProps = (dispatch) => {
     return {
-        initArticles: (articles) => {
-            dispatch(initArticles(articles));
+        initArticles: () => {
+            fetchArticles().then(result => {
+                const { data } = result;
+                if (data) {
+                    dispatch(initArticles(data.articles));
+                } 
+            });
+            
         },
         deleteArticle: (articleId) => {
             dispatch(deleteArticle(articleId));

@@ -53,7 +53,6 @@ export default class MyComment extends Component {
     })
   }
 
-
   handleSubmit = () => {
     if (!this.state.value) {
       return;
@@ -64,7 +63,7 @@ export default class MyComment extends Component {
       this.props.onSubmit({
         content: this.state.value
       }, (result) => {
-        if(result.data.comment) {
+        if(result.data && result.data.comment) {
           let resComment = result.data.comment;
           this.setState({
             submitting: false,
@@ -79,7 +78,6 @@ export default class MyComment extends Component {
               ...this.state.comments,
             ],
           });
-          
         } else {
           this.setState({ submitting: false })
         }
@@ -107,7 +105,7 @@ export default class MyComment extends Component {
         content: <p>{ item.content }</p>,
         datetime: item.created_at,
       }
-    })
+    });
     return (
       <div>
         {comments.length > 0 && <CommentList comments={comments} />}

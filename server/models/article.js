@@ -46,6 +46,11 @@ module.exports = {
         .exec();
     },
 
+    // 更新文章浏览量
+    addArticleBrowserNum: function addArticleBrowserNum(articleId, num) {
+        return Article.update({ _id: articleId }, { $inc:{ browse_num: 1 }}).exec();
+    },
+
     // 创建文章
     create: function create(article) {
         article.created_at = moment().format('YYYY-MM-DD HH:mm');

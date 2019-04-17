@@ -24,20 +24,32 @@ module.exports = {
         const { articleId } = ctx.params,
             typeNum =  ctx.request.query.typeNum;
         let resCode = 200,
-            message = 'ok';
+            message = 'ok',
+            noMore = false;
         try {
             var article = [], comment = [];
+            // 按照当前文章id获取上一篇或下一篇
             if(typeNum !== 'undefined') {
                 article = await AritcleModel.getLastOrNextArticle(articleId, typeNum);
-                comment = await AritcleCommentModel.getComments(article[0]._id);
-                // console.log('=====', article);
+                if(article.length === 0) {
+                    noMore = true;
+                } else {
+                    noMore = false;
+                    comment = await AritcleCommentModel.getComments(article[0]._id);
+                }
             } else {
+                // 按照id获取文章
                 result = await Promise.all([
                     AritcleModel.getArticleById(articleId),
                     AritcleCommentModel.getComments(articleId), // 获取该文章所有留言
                 ]);
                 article = result[0];
                 comment = result[1];
+                if(result[0].length === 0) {
+                    noMore = true;
+                } else {
+                    noMore = false;
+                }
             }
         } catch (e) {
             resCode = 500;
@@ -48,7 +60,8 @@ module.exports = {
             resCode,
             message,
             article,
-            comment
+            comment,
+            noMore
         };
     },
 
@@ -105,6 +118,29 @@ module.exports = {
                 throw new Error("文章不存在");
             }
             await AritcleModel.updateArticleById(articleId, article);
+        } catch (e) {
+            console.log(e);
+            message = "更新失败";
+            resCode = 500;
+        }
+        ctx.response.body = {
+            resCode,
+            message,
+        };
+    },
+
+    // 更新文章浏览量
+    "POST /api/articles/:articleId/addBrowseNum": async ctx => {
+        let { articleId } = ctx.params,
+            num = ctx.request.body.num;
+            // author = ctx.session.user._id,
+            resCode = 200,
+            message = "更新成功";
+        try {
+            if (!articleId) {
+                throw new Error("文章不存在");
+            }
+            await AritcleModel.addArticleBrowserNum(articleId, num);
         } catch (e) {
             console.log(e);
             message = "更新失败";

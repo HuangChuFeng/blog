@@ -64,6 +64,13 @@ export const updateArticleById = (id, article) => {
   });
 };
 
+// 更新文章浏览量
+export const addBrowseNum = (id, num) => {
+  return post(`${DEV_URL}/api/articles/${id}/addBrowseNum`, {
+    num: num,
+  });
+};
+
 // 发表评论
 export const commentArticle = (id, comment) => {
   return post(`${DEV_URL}/api/articles/${id}/comment`, comment);
