@@ -76,6 +76,28 @@ export const commentArticle = (id, comment) => {
   return post(`${DEV_URL}/api/articles/${id}/comment`, comment);
 };
 
+// 增加新标签
+export const createTag = (tag) => {
+  return post(`${DEV_URL}/api/articleTags/create`, tag);
+};
+
+// 删除标签
+export const removeTag = params => {
+  return get(`${DEV_URL}/api/articleTags/${params.tagId}/remove`);
+};
+
+// 获取所有标签
+export const getTags = params => {
+  return get(`${DEV_URL}/api/articleTags`);
+};
+
+// 获取某篇文章的所有标签
+export const getTagsByArticleId = params => {
+  return get(`${DEV_URL}/api/articleTags/${params.articleId}`);
+};
+
+
+
 // 获取当前城市
 export const getLocation = params => {
   return get(`http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js`);

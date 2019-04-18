@@ -5,12 +5,17 @@ const DELETE_ARTICLE = 'DELETE_ARTICLE';
 const GET_ARTICLE_BY_ID = 'GET_ARTICLE_BY_ID';
 const UPDATE_ARTICLE = 'UPDATE_ARTICLE';
 
+const INIT_TAGS = 'INIT_TAGS';
+const ADD_TAG = 'ADD_TAG';
+const DELETE_TAG = 'DELETE_TAG';
+
 export default function(state, action) {
     if(!state) {
         // 初始化
         state = { 
             articles: [],
             curArticle: null,       // 当前查看或编辑的文章
+            tags: [],
         }; 
     }
 
@@ -60,6 +65,27 @@ export default function(state, action) {
                 ...state
             }
 
+        case INIT_TAGS:
+            return { 
+                tags: action.tags,
+            };
+
+        case ADD_TAG:
+            return { 
+                ...state,
+                tags: [action.tag, ...state.tags],
+            };
+        
+        case DELETE_TAG:
+            return {
+                ...state,
+                tags: [
+                    ...state.tags.slice(0, action.tagIndex),
+                    ...state.tags.slice(action.tagIndex + 1)
+                ]
+            };
+        
+
         default: 
             return state;
     }
@@ -84,5 +110,18 @@ export const getArticleById = (articleId) => {
 export const updateArticle = (article) => {
     return { type: UPDATE_ARTICLE, article }
 }
+
+export const initTags = (tags) => {
+    return { type: INIT_TAGS, tags }
+}
+
+export const addTag = (tag) => {
+    return { type: ADD_TAG, tag }
+}
+
+export const deleteTag = (tagIndex) => {
+    return { type: DELETE_TAG, tagIndex }
+}
+
 
 

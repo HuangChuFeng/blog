@@ -9,6 +9,10 @@ module.exports = {
             message;
         try {
             var articles = await AritcleModel.getArticles();
+            for(let i = 0; i < articles.length; i++) {
+                articles[i].comments = await AritcleCommentModel.getCommentsCount(articles[i]._id);
+            }
+            
         } catch (e) {
             resCode = 500;
             message = "服务器出错了";

@@ -37,7 +37,8 @@ export default class Article extends Component {
                     </span>
                 </h3>
                 <p className="time">{ article.created_at }
-                    <span className="browse-num"><Icon type="fire" className="fire-icon" />{ article.browse_num || 0 }</span>
+                    <span><Icon type="message" className="icon"/>{ article.comments || 0 }</span>
+                    <span><Icon type="fire" className="icon"/>{ article.browse_num || 0 }</span>
                 </p>
                 <div className="description">{ article.description }</div>
             </div>

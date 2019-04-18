@@ -2,7 +2,6 @@ const moment = require('moment');
 const Article = require('../lib/mongo').Article;
 const AritcleCommentModel = require("./articleComment");
 module.exports = {
-
     // 获取所有文章
     getArticles: function getArticles(author) {
         var query = {};
@@ -12,7 +11,6 @@ module.exports = {
         return Article
         .find(query)
         // .populate({ path: 'author', model: 'User' })
-        // .addCreatedAt()
         .sort({ _id: -1 })
         .exec();
     },

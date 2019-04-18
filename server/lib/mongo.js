@@ -29,7 +29,6 @@ exports.User = mongolass.model('User', {
     source: { type: 'string' },
     avatar: { type: 'string' },
 });
-
 exports.User.index({ email: 1, _id: -1 }).exec();// 根据用户名找到用户，用户名全局唯一
 
 // 文章模型
@@ -48,6 +47,13 @@ exports.Article = mongolass.model('Article', {
 });
 exports.Article.index({ author: 1, _id: -1 }).exec();   // 按创建时间降序查看用户的文章列表
 
+// 文章标签模型
+exports.ArticleTag = mongolass.model('ArticleTag', {
+    name: { type: 'string' },
+    article_id: { type: Mongolass.Types.ObjectId },
+});
+exports.ArticleTag.index({ name: 1 }).exec();
+
 // 文章评论模型
 exports.ArticleComment = mongolass.model('ArticleComment', {
     user: { type: Mongolass.Types.ObjectId },
@@ -55,8 +61,7 @@ exports.ArticleComment = mongolass.model('ArticleComment', {
     content: { type: 'string' },
     created_at: { type: 'string' },
 });
-
-exports.ArticleComment.index({ reader: 1, _id: -1 }).exec();
+exports.ArticleComment.index({ user: 1, _id: -1 }).exec();
 
 // 照片模型
 exports.Img = mongolass.model('Img', {
@@ -66,7 +71,6 @@ exports.Img = mongolass.model('Img', {
     h: { type: 'number' },
     w: { type: 'number' },
 });
-
 exports.Img.index({ _id: 1 }).exec(); // 按创建时间降序查看用户的照片列表
 
 // 照片组模型
@@ -77,5 +81,4 @@ exports.ImgsGroup = mongolass.model('ImgsGroup', {
     created_at: { type: 'string' },
     category: { type: 'string' },
 });
-
 exports.ImgsGroup.index({ _id: 1}).exec();    // 按创建时间降序查看用户的照片列表

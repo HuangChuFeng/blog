@@ -12,6 +12,7 @@ import ImgDetail from './containers/photograph/ImgDetail'
 import ArticleList from './containers/article/ArticleList'
 import ArticleDetail from './containers/article/ArticleDetail'
 import EditArticle from './containers/article/EditArticle'
+import ArticlesTags from './containers/article/Tags'
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
@@ -31,6 +32,7 @@ ReactDOM.render(
         <Route exact path="/articles/detail/:id" component={ArticleDetail} />
         <Route exact path="/articles/new" component={EditArticle} />
         <Route exact path="/articles/edit/:id" component={EditArticle} />
+        <Route exact path="/articles/tags" component={ArticlesTags} />
         <ToastContainer />
       </div>
     </Router>

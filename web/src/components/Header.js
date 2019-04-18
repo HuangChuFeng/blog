@@ -6,14 +6,14 @@ import { Affix, Menu, Dropdown, Icon } from 'antd';
 
 
 const articleNavArr = [
-    { text: '所有文章' },
+    { text: '所有文章', url: '/articles' },
     {
         text: '前端笔记',
         child: ['原创', '分享']
     },
-    { text: '生活' },
-    { text: '作品' },
-    { text: 'Tag' },
+    { text: '生活', url: '' },
+    { text: '作品', url: '' },
+    { text: 'Tag', url: '/articles/tags' },
 ]
 
 const imgNavArr = [
@@ -21,11 +21,11 @@ const imgNavArr = [
         text: '所有照片',
         child: ['所有排序', '时间排序']
     },
-    { text: '建筑' },
-    { text: '人像' },
-    { text: '街拍' },
-    { text: '风景' },
-    { text: '其他' },
+    { text: '建筑', url: '' },
+    { text: '人像', url: '' },
+    { text: '街拍', url: '' },
+    { text: '风景', url: '' },
+    { text: '其他', url: '' },
 ]
 
 export default class Header extends Component {
@@ -66,7 +66,7 @@ export default class Header extends Component {
                                             <span>{ item.text }<Icon type="down" /></span>
                                           </Dropdown>;
                             } else {
-                                content = item.text;
+                                content = <Link to={ item.url }>{ item.text }</Link>;
                             }
                             return <li key={i} onClick={this.navClickHandler.bind(this, i)} className={ i == this.state.activeIndex ? 'active' : '' }>{ content }</li>
                         }
