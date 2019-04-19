@@ -72,18 +72,34 @@ class ArticleForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tagList: this.props.article && this.props.article.tags != '' ? this.props.article.tags.split(',') : [],
-            inputTag: '',
+            selectedTags: [],
         }
     }
     static propTypes = {
         article: PropTypes.object,
-        onRef: PropTypes.func,
+        // onRef: PropTypes.func,
+    }
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.article && !this.props.article) {
+            nextProps.article ? this.initForm(nextProps.article) : this.props.form.setFieldsValue({ type: '0' });
+            this.setState({
+                // allTags: nextProps.tags
+            })
+        }
     }
 
-    componentDidMount() {
-        this.props.onRef(this);
-        this.props.article ? this.initForm() : this.props.form.setFieldsValue({ type: '0' });
+    initForm(article) {
+        let { type, title, description } = article;
+        
+        let option = {
+            type,
+            title,
+            description,
+        }
+        this.props.form.setFieldsValue(option);
+        this.setState({
+            selectedTags: article.tags.split(',')
+        })
     }
 
     handleSubmit = (e) => {
@@ -94,34 +110,9 @@ class ArticleForm extends React.Component {
             }
         });
     }
-    
-    initForm() {
-        let { type, title, description } = this.props.article;
-        
-        let option = {
-            type,
-            title,
-            description,
-        }
-        this.props.form.setFieldsValue(option);
-    }
 
-    delTagHandler(index) {
-        this.state.tagList.splice(index, 1);
-    }
-
-    tagInputChange = (e) => {
-        this.setState({ inputTag: e.target.value });
-    }
-
-    addTagHandler = (e) => {
-        if (e.keyCode === 13) {
-            console.log('增加标签', this.state.inputTag)
-            this.state.tagList.push(this.state.inputTag);
-            this.setState({
-                inputTag: '' 
-            });
-        }
+    handleTagChange(value) {
+        this.setState({ selectedTags: value })
     }
 
     handleTypeChange(value) {
@@ -129,12 +120,18 @@ class ArticleForm extends React.Component {
     }
 
     getFormData = () => {
-        return Object.assign({tags: this.state.tagList.join(',')}, this.props.form.getFieldsValue());
+        return Object.assign({tags: this.state.selectedTags.join(',')}, this.props.form.getFieldsValue());
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form;
         const Option = Select.Option;
+        const { getFieldDecorator } = this.props.form;
+        const selects = [];
+        if(this.props.tags) {
+            for (let i = 0; i < this.props.tags.length; i++) {
+                selects.push(<Option key={ this.props.tags[i]._id }>{ this.props.tags[i].name }</Option>);
+            }
+        }
         return (
             <Form onSubmit={this.handleSubmit} className="artile-form">
                 <Row>
@@ -166,12 +163,18 @@ class ArticleForm extends React.Component {
                 </Form.Item>
                 <Form.Item>
                     <Row>
-                        <Col span={3} ><Input placeholder="输入标签回车" value={this.state.inputTag} onChange={this.tagInputChange.bind(this)} onKeyDown={this.addTagHandler.bind(this)} /></Col>
-                        <Col span={18} className="tag-wrap" >
-                            {this.state.tagList.map((item, i) => {
-                                return (<Tag key={i} closable onClose={this.delTagHandler.bind(this, i)} color="blue">{ item }</Tag>)
-                            })}
+                        <Col span={18} >
+                            <Select
+                                mode="tags"
+                                placeholder="选择标签"
+                                defaultValue={this.state.selectedTags}
+                                onChange={this.handleTagChange.bind(this)}
+                                style={{ width: '100%' }}
+                                >
+                                {selects}
+                            </Select>
                         </Col>
+                        <Col span={2} ></Col>
                         <Col span={2} ><Cover /></Col>
                     </Row>
                 </Form.Item>

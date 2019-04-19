@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import ArticleList from '../../components/article/ArticleList'
 import Header from '../../components/Header'
 import { Affix, Menu, Dropdown, Icon } from 'antd';
-import { initArticles, deleteArticle, getArticleById } from '../../reducers/articles'
+import { initArticles, deleteArticle } from '../../reducers/articles'
 import { Button } from 'antd';
 import '../../css/article.less'
 
@@ -34,7 +34,6 @@ class ArticleListContainer extends Component {
     }    
 
     onEditArticle = (articleId) => {
-        this.props.getArticleById(articleId);
         this.context.router.history.push(`/articles/edit/${articleId}`);
     }
 
@@ -65,19 +64,6 @@ class ArticleListContainer extends Component {
 const mapStateToProps = (state) => {
     return {
         articles: state.articlesReducer.articles
-
-        // articles: [{
-        //     id: 1,
-        //     type: 0, // 0 原创, 1 分享
-        //     cover_url: '',
-        //     title: 'Koa 框架教程',
-        //     tags: 'koa, node',
-        //     category_id: '',
-        //     publish_time: '2019-01-20 12:00:00',
-        //     description: 'Koa 就是一种简单好用的 Web 框架。它的特点是优雅、简洁、表达力强、自由度高。本身代码只有1000多行，所有功能都通过插件实现，很符合 Unix 哲学',
-        //     content: '<p>Koa 就是一种简单好用的 Web 框架。它的特点是优雅、简洁、表达力强、自由度高。本身代码只有1000多行，所有功能都通过插件实现，很符合 Unix 哲学。本文从零开始，循序渐进，教会你如何使用 Koa 写出自己的 Web 应用。每一步都有简洁易懂的示例，希望让大家一看就懂。</p>',
-        //     browse_num: 10,
-        // }]
     }
 }
   
@@ -96,9 +82,6 @@ const mapDispatchToProps = (dispatch) => {
         deleteArticle: (articleId) => {
             dispatch(deleteArticle(articleId));
         },
-        getArticleById: (articleId) => {
-            dispatch(getArticleById(articleId));
-        }
     }
 }
   

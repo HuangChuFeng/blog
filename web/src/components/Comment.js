@@ -63,7 +63,7 @@ export default class MyComment extends Component {
       this.props.onSubmit({
         content: this.state.value
       }, (result) => {
-        if(result.data && result.data.comment) {
+        if (result.data && result.data.comment) {
           let resComment = result.data.comment;
           this.setState({
             submitting: false,
@@ -95,14 +95,14 @@ export default class MyComment extends Component {
     const { submitting, value } = this.state;
     const comments = this.state.comments.map(item => {
       let avatar = '';
-      if(item.user && item.user.avatar) {
+      if (item.user && item.user.avatar) {
         avatar = item.user.avatar;
       }
       item.avatar && (avatar = item.avatar);
       return {
         author: item.author || `来自${item.user.source}的${item.user.name}`,
         avatar: avatar,
-        content: <p>{ item.content }</p>,
+        content: <p>{item.content}</p>,
         datetime: item.created_at,
       }
     });

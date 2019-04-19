@@ -84,7 +84,9 @@ export default class EditTag extends Component {
 
     render() {
         const { inputVisible, inputValue } = this.state;
-        const tagChild = this.props.tags.map(this.forMap);
+        let tags = this.props.tags || [];
+        
+        const tagChild = tags.map(this.forMap);
         return (
             <div>
                 <div style={{ marginBottom: 16 }}>

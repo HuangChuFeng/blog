@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import WrappedArticleForm from './EditForm';
+// import WrappedArticleForm from './EditForm';
 
 import E from 'wangeditor';
-export default class EditArticle extends Component {
+export default class EditContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +17,7 @@ export default class EditArticle extends Component {
     }
 
     componentDidMount() {
-        this.props.onRef(this);
+        // this.props.onRef(this);
         const elem = this.refs.editorElem;
         const editor = new E(elem);
         
@@ -32,9 +32,9 @@ export default class EditArticle extends Component {
         editor.txt.html(this.state.editorContent);
     }
 
-    onRef = (ref) => {
-        this.child = ref;
-    }
+    // onRef = (ref) => {
+    //     this.child = ref;
+    // }
     
     getFormData() {
         let formData = Object.assign(
@@ -46,11 +46,11 @@ export default class EditArticle extends Component {
     
     render() {
         return (
-            <div>
-                <WrappedArticleForm onRef={this.onRef} article={this.props.article} />
+            // <div>
+            //     <WrappedArticleForm onRef={this.onRef} article={this.props.article} />
                 <div ref="editorElem" className="edit-wrapper">
                 </div>
-            </div>
+            // </div>
         )
     }
 }

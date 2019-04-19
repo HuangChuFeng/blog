@@ -2,7 +2,7 @@
 const INIT_ARTICLES = 'INIT_ARTICLES';
 const ADD_ARTICLE = 'ADD_ARTICLE';
 const DELETE_ARTICLE = 'DELETE_ARTICLE';
-const GET_ARTICLE_BY_ID = 'GET_ARTICLE_BY_ID';
+const SET_CUR_ARTICLE = 'SET_CUR_ARTICLE';
 const UPDATE_ARTICLE = 'UPDATE_ARTICLE';
 
 const INIT_TAGS = 'INIT_TAGS';
@@ -40,15 +40,8 @@ export default function(state, action) {
                 ]
             };
         
-        case GET_ARTICLE_BY_ID:
-            let cur = null;
-            state.articles.forEach((item, i) => {
-                if(item._id === action.articleId) {
-                    cur = item;
-                    cur.index = i;
-                    return false;
-                }
-            });
+        case SET_CUR_ARTICLE:
+            let cur = action.article;
             return { 
                 ...state,
                 curArticle: cur 
@@ -84,8 +77,7 @@ export default function(state, action) {
                     ...state.tags.slice(action.tagIndex + 1)
                 ]
             };
-        
-
+            
         default: 
             return state;
     }
@@ -103,8 +95,8 @@ export const deleteArticle = (articleIndex) => {
     return { type: DELETE_ARTICLE, articleIndex }
 }
 
-export const getArticleById = (articleId) => {
-    return { type: GET_ARTICLE_BY_ID, articleId }
+export const setCurArticle = (article) => {
+    return { type: SET_CUR_ARTICLE, article }
 }
 
 export const updateArticle = (article) => {

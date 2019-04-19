@@ -42,14 +42,7 @@ class ArticleDetail extends Component {
     }
 
     componentWillMount() {
-        // if (this.props.curArticle) {
-        //     this.setState({
-        //         article: this.props.curArticle,
-        //         curPage: this.props.curArticle.index,
-        //     });
-        // } else {
-            this.articleDetail(this.state.id);
-        // }
+        this.articleDetail(this.state.id);
     }
 
     // 获取某一篇文章及评论
@@ -76,27 +69,7 @@ class ArticleDetail extends Component {
 
     // 上一篇or上一篇
     lastOrNextArticle = (typeNum) => {
-        // if (this.state.clickTypeNum === typeNum) return;
-        // if (this.props.curArticle) {
-        //     let flag = this.state.clickTypeNum, index = 0;
-        //     if (typeNum === -1) {                   // 上一篇
-        //         index = this.state.curPage > 0 ? this.state.curPage - 1 : 0;
-        //     } else if (typeNum === 1) {             // 下一篇
-        //         index = this.state.curPage < this.props.articles.length - 1 ? this.state.curPage + 1 : this.state.curPage;
-        //     }
-
-        //     if (index === 0 || index === this.props.articles.length - 1) {
-        //         flag = 0;
-        //     }
-        //     this.setState({
-        //         article: this.props.articles[index],
-        //         curPage: index,
-        //         clickTypeNum: flag
-        //     })
-        //     this.context.router.history.push(`/articles/detail/${this.props.articles[index]._id}`);
-        // } else {
-            this.articleDetail(this.state.id, typeNum);
-        // }
+        this.articleDetail(this.state.id, typeNum);
     }
 
     // 发表评论
