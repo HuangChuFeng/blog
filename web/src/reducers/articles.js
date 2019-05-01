@@ -22,6 +22,7 @@ export default function(state, action) {
     switch (action.type) {
         case INIT_ARTICLES:
             return { 
+                ...state,
                 articles: action.articles,
             };
 
@@ -60,6 +61,7 @@ export default function(state, action) {
 
         case INIT_TAGS:
             return { 
+                ...state,
                 tags: action.tags,
             };
 
@@ -77,7 +79,6 @@ export default function(state, action) {
                     ...state.tags.slice(action.tagIndex + 1)
                 ]
             };
-            
         default: 
             return state;
     }
@@ -114,6 +115,3 @@ export const addTag = (tag) => {
 export const deleteTag = (tagIndex) => {
     return { type: DELETE_TAG, tagIndex }
 }
-
-
-

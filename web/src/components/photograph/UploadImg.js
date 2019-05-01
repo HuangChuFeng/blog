@@ -113,6 +113,10 @@ class UploadImg extends Component {
                     const {data} = result;
                     if (data.resCode === 200) {
                         this.props.visibleHandler(false);
+                        this.setState({
+                            imgList: []
+                        })
+                        this.props.form.resetFields();
                     } 
                 });
             }
@@ -124,12 +128,6 @@ class UploadImg extends Component {
     }
 
     getUploadList = (list) => {
-        // list = [{
-        //     h: 1861,
-        //     hash: "FhiRzB1SS2by7pu1TgthCaDftNPl",
-        //     key: "FhiRzB1SS2by7pu1TgthCaDftNPl",
-        //     w: 2792
-        // }]
         this.setState({ imgList: list });
     }
 

@@ -6,6 +6,7 @@ import { Icon, } from 'antd';
 import EditTag from '../../components/article/editTag'
 import { createTag, removeTag, getTags } from '../../service/fetch'
 import { addTag, deleteTag, initTags } from '../../reducers/articles'
+import { changeCurNav } from '../../reducers/common'
 
 import '../../css/article.less'
 
@@ -21,14 +22,17 @@ class Tags extends Component {
     }
     
     componentDidMount() {
-        this.props.initTags();        
+        this.props.initTags();      
+        setTimeout(() => {
+            this.props.changeCurNav('Tags')
+        }, 0)  
     }
     
     render() {
         
         return (
             <div>
-                <Header type="1" />
+                <Header type="1" formParentNav="Tags"/>
                 <div className="container article-container">
                     <EditTag
                         tags={this.props.tags}
@@ -44,7 +48,8 @@ class Tags extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        tags: state.articlesReducer.tags
+        tags: state.articlesReducer.tags,
+        curNav: state.commonReducer.curNav
     }
 }
   
@@ -73,7 +78,10 @@ const mapDispatchToProps = (dispatch) => {
                     dispatch(addTag(data.res));
                 } 
             });
-        }
+        },
+        changeCurNav: (nav) => {
+            dispatch(changeCurNav(nav));
+        },
     }
 }
   

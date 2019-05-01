@@ -148,3 +148,30 @@
         }
     }
 }
+
+@media screen and (max-width: 960px){
+    .img-container {
+        &>div {
+            width: 98%;
+        }
+        .img-wraper {
+            width: calc(100%/2);
+        }
+    }
+    .img-detail-page {
+        .img-switch-wraper {
+            background: none;
+            height: auto;
+            .center-box {
+                padding: 0;
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+        }
+        .detail-box {
+            padding: 3%;
+        }
+    }
+}

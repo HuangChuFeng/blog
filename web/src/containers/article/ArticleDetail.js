@@ -6,6 +6,7 @@ import { Divider, Icon, message } from 'antd';
 import Header from '../../components/Header'
 import MyComment from '../../components/Comment'
 import { getArticleDetail, commentArticle, addBrowseNum } from "../../service/fetch";
+import { changeCurNav } from '../../reducers/common'
 
 class ArticleDetail extends Component {
     constructor(props) {
@@ -41,8 +42,9 @@ class ArticleDetail extends Component {
         }, 2000);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.articleDetail(this.state.id);
+        this.props.changeCurNav('文章详情');
     }
 
     // 获取某一篇文章及评论
@@ -80,6 +82,10 @@ class ArticleDetail extends Component {
             }
         });
     }
+    // 返回列表页
+    backListPage = () => {
+        this.props.changeCurNav('')
+    }
 
 
     render() {
@@ -92,7 +98,7 @@ class ArticleDetail extends Component {
                 <Header type="1" />
                 <div className="container article-detail-container">
                     <div className="left">
-                        <Link to="/articles"><Icon type="left" className="back-btn" /></Link>
+                        <Link to="/articles" onClick={this.backListPage.bind(this)}><Icon type="left" className="back-btn" /></Link>
                         <div className="top-info-box">
                             <h2>{this.state.article.title}</h2>
                             <div className="top-bottom">
@@ -133,7 +139,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        
+        changeCurNav: (nav) => {
+            dispatch(changeCurNav(nav));
+        },
     }
 }
 

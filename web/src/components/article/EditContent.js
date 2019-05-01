@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import WrappedArticleForm from './EditForm';
-
 import E from 'wangeditor';
+import ReactMarkdown from 'react-markdown'
+import Divider from 'antd';
+
 export default class EditContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editorContent: this.props.article ? this.props.article.content : '',
+            // editorContent: this.props.article ? this.props.article.content : '',
+            editorContent: `
+            This block of Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require the <code>html-parser</code> AST plugin to be loaded, in addition to setting the <code class="prop">escapeHtml</code> property to false.
+            `
         };
     }
 
     static propTypes = {
         article: PropTypes.object,
+        onRef: PropTypes.func
     }
 
     componentDidMount() {
-        // this.props.onRef(this);
+        this.props.onRef(this)
         const elem = this.refs.editorElem;
         const editor = new E(elem);
         
@@ -36,21 +41,22 @@ export default class EditContent extends Component {
     //     this.child = ref;
     // }
     
-    getFormData() {
-        let formData = Object.assign(
-            { content: this.state.editorContent }, 
-            this.child.getFormData()
-        );
-        return formData;
+    // getFormData() {
+    //     let formData = Object.assign(
+    //         { content: this.state.editorContent }, 
+    //         this.child.getFormData()
+    //     );
+    //     return formData;
+    // }
+    getContent() {
+        return { content: this.state.editorContent };
     }
     
     render() {
         return (
-            // <div>
-            //     <WrappedArticleForm onRef={this.onRef} article={this.props.article} />
-                <div ref="editorElem" className="edit-wrapper">
-                </div>
-            // </div>
+            // <ReactMarkdown className="edit-wrapper" source={this.state.editorContent} />
+            <div ref="editorElem" className="edit-wrapper">
+            </div>
         )
     }
 }

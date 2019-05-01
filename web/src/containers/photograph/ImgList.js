@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { initImgs, deleteImg, addImg } from '../../reducers/imgs'
+import { changeCurNav } from '../../reducers/common'
 import { Affix, Icon, Button } from 'antd';
 import ImgList from '../../components/photograph/ImgList'
 import UploadImg from '../../components/photograph/UploadImg'
@@ -17,8 +18,11 @@ class ImgListContainer extends Component {
             dialogVisible: false,
         }
     }
-    componentWillMount() {
+    componentDidMount() {
         this._loadimgs();
+        if(!this.props.curNav) {
+            this.props.changeCurNav('所有照片')
+        }
     }
 
     _loadimgs() {
@@ -48,7 +52,7 @@ class ImgListContainer extends Component {
     render () {
         return (
             <div>
-                <Header type="0" />
+                <Header type={0} />
                 <div className="container img-container">
                     <Button type="primary" className="common-btn" onClick={this.visibleHandler.bind(this, true)}>
                         上传照片
@@ -66,7 +70,8 @@ class ImgListContainer extends Component {
 // 当前组件需要的state数据
 const mapStateToProps = (state) => {
     return {
-        imgs: state.imgsReducer.imgs
+        imgs: state.imgsReducer.imgs,
+        curNav: state.commonReducer.curNav
     }
 }
   
@@ -93,6 +98,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         addImg: (img) => {
             dispatch(addImg(img))
+        },
+        changeCurNav: (nav) => {
+            dispatch(changeCurNav(nav));
         }
     }
 }

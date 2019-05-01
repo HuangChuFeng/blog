@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, Button, Icon, Upload, Tag, Select, Col, Row } from 'antd';
+import { Form, Input, Icon, Upload, Select, Col, Row } from 'antd';
 import PropTypes from 'prop-types'
 
 
@@ -12,11 +12,11 @@ function getBase64(img, callback) {
 function beforeUpload(file) {
     const isJPG = file.type === 'image/jpeg';
     if (!isJPG) {
-        message.error('You can only upload JPG file!');
+        // message.error('You can only upload JPG file!');
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+        // message.error('Image must smaller than 2MB!');
     }
     return isJPG && isLt2M;
 }
@@ -77,8 +77,12 @@ class ArticleForm extends React.Component {
     }
     static propTypes = {
         article: PropTypes.object,
-        // onRef: PropTypes.func,
+        onRef: PropTypes.func,
     }
+    componentDidMount() {
+        this.props.onRef(this)
+    }
+
     componentWillReceiveProps(nextProps) {
         if(nextProps.article && !this.props.article) {
             nextProps.article ? this.initForm(nextProps.article) : this.props.form.setFieldsValue({ type: '0' });

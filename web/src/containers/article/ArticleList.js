@@ -7,6 +7,7 @@ import ArticleList from '../../components/article/ArticleList'
 import Header from '../../components/Header'
 import { Affix, Menu, Dropdown, Icon } from 'antd';
 import { initArticles, deleteArticle } from '../../reducers/articles'
+import { changeCurNav } from '../../reducers/common'
 import { Button } from 'antd';
 import '../../css/article.less'
 
@@ -17,6 +18,9 @@ class ArticleListContainer extends Component {
 
     componentWillMount() {
         this.props.initArticles();
+        if(!this.props.curNav) {
+            this.props.changeCurNav('所有文章')
+        }
     }
     static contextTypes = {
         router: PropTypes.object.isRequired,
@@ -38,14 +42,14 @@ class ArticleListContainer extends Component {
     }
 
     onViewDetail = (articleId) => {
-        this.props.getArticleById(articleId);
+        // this.props.getArticleById(articleId);
         this.context.router.history.push(`/articles/detail/${articleId}`);
     }
 
     render () {
         return (
             <div>
-                <Header type="1" />
+                <Header type={1} formParentNav="所有文章"/>
                 <div className="container article-container">
                     <Link to='/articles/new'>写文章</Link>
                     <ArticleList 
@@ -63,7 +67,8 @@ class ArticleListContainer extends Component {
 // 当前组件需要的state数据
 const mapStateToProps = (state) => {
     return {
-        articles: state.articlesReducer.articles
+        articles: state.articlesReducer.articles,
+        curNav: state.commonReducer.curNav
     }
 }
   
@@ -82,6 +87,9 @@ const mapDispatchToProps = (dispatch) => {
         deleteArticle: (articleId) => {
             dispatch(deleteArticle(articleId));
         },
+        changeCurNav: (nav) => {
+            dispatch(changeCurNav(nav));
+        }
     }
 }
   

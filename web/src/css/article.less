@@ -116,12 +116,14 @@
                 margin-top: 10px;
                 font-size: 12px;
                 overflow: hidden;
+                color: #c0c5cf;
                 .browse-num {
                     float: right;
                     margin-left: 15px;
                     vertical-align: middle;
                     .fire-icon {
                         margin-right: 3px;
+                        color: @common-blue;
                     }
                 }
             }
@@ -213,5 +215,40 @@
     .operate-btn {
         margin: 20px 0 0 20px;
         float: right;
+    }
+}
+
+@media screen and (max-width: 960px){
+    .container {
+        min-width: 100%;
+    }
+    .article-container {
+        padding: 32px;
+        &>div {
+            overflow: none;
+            .right {
+                display: none;
+            }
+            .left {
+                float: none;
+                width: 100%;
+            }
+        }
+    }
+    .article-detail-container {
+        padding: 32px;
+        .left, .right {
+            position: relative;
+            float: none;
+            width: 100%;
+        }
+        .left {
+            height: auto;
+            .control-box {
+                position: absolute;
+                bottom: 15px;
+                right: 0;
+            }
+        }
     }
 }

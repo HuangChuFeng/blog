@@ -31,6 +31,8 @@ class EditArticleContainer extends Component {
     
     // 保存文章 id存在时为编辑状态
     saveArticleHandler() {
+        console.log(this.child.getContent());
+        
         let formData = this.child.getFormData();
         
         if(this.state.articleId) {
@@ -47,7 +49,7 @@ class EditArticleContainer extends Component {
             createArticle(formData).then(result => {
                 const {data} = result;
                 if (data) {
-                    this.props.addArticle(data.res);
+                    // this.props.addArticle(data.res);
                     this.context.router.history.push(`/articles`);     
                 } 
             });
@@ -62,11 +64,13 @@ class EditArticleContainer extends Component {
         return (
             <div>
                 <Header type="1" />
-                <div className="container edit-container">     
+                <div className="container edit-container">   
                     <WrappedArticleForm 
                         article={this.props.curArticle}
-                        tags={this.props.tags} />
-                    <EditContent article={this.props.curArticle} />
+                        tags={this.props.tags}
+                        onRef={this.onRef} />
+
+                    <EditContent onRef={this.onRef} article={this.props.curArticle} />
                     {/* <EditArticle
                         onRef={this.onRef}
                         article={this.state.article}/> */}
