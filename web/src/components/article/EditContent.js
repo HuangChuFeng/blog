@@ -9,10 +9,10 @@ export default class EditContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // editorContent: this.props.article ? this.props.article.content : '',
-            editorContent: `
-            This block of Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require the <code>html-parser</code> AST plugin to be loaded, in addition to setting the <code class="prop">escapeHtml</code> property to false.
-            `
+            editorContent: this.props.article ? this.props.article.content : '',
+            // editorContent: `
+            // This block of Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require the <code>html-parser</code> AST plugin to be loaded, in addition to setting the <code class="prop">escapeHtml</code> property to false.
+            // `
         };
     }
 

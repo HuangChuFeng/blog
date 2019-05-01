@@ -14,11 +14,25 @@ module.exports = {
         .exec();
     },
 
+    // 关联标签和文章
+    connectAritcle(article_id, name) {
+        return ArticleTag.create({
+            article_id,
+            name
+        }).exec();
+    },
+    
     // 根据文章id获取所有标签
     getTagByArticleId: function getTagByArticleId(articleId) {
         return ArticleTag
         .find({ article_id: articleId })
         .exec();
+    },
+
+    // 根据文章id删除所有标签
+    delTagsByArticleId: function delTagsByArticleId(articleId) {
+        return ArticleTag.remove({ article_id: articleId })
+        .exec()
     },
 
     // 删除标签

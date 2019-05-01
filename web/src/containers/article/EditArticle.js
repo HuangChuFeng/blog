@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Header from '../../components/Header'
-import { setCurArticle, addArticle, updateArticle, initTags } from '../../reducers/articles'
-// import EditArticle from '../../components/article/EditArticle'
+import { setCurArticle, initTags } from '../../reducers/articles'
 import '../../css/article.less'
-import { Button, Icon } from 'antd';
+import { Button } from 'antd';
 import { getArticleDetail, createArticle, updateArticleById, getTags } from "../../service/fetch";
 
-import WrappedArticleForm from '../../components/article/EditForm'
+import EditForm from '../../components/article/EditForm'
 import EditContent from '../../components/article/EditContent'
 
 class EditArticleContainer extends Component {
@@ -28,19 +27,20 @@ class EditArticleContainer extends Component {
         await this.props.articleDetail(this.state.articleId);
         this.props.initTags();       
     }
+
+    componentWillUnmount() {
+        this.props.resetCurArticle();
+    }
     
     // 保存文章 id存在时为编辑状态
     saveArticleHandler() {
-        console.log(this.child.getContent());
-        
-        let formData = this.child.getFormData();
+        let formData = Object.assign(this.child.getContent(), this.form.getFormData());
         
         if(this.state.articleId) {
             console.log('编辑====: ', formData);
             updateArticleById(this.state.articleId, formData).then(result => {
                 const {data} = result;
                 if (data) {
-                    this.props.updateArticle(Object.assign(formData, { _id: this.state.articleId }));
                     this.context.router.history.push(`/articles`);     
                 }
             });
@@ -49,7 +49,6 @@ class EditArticleContainer extends Component {
             createArticle(formData).then(result => {
                 const {data} = result;
                 if (data) {
-                    // this.props.addArticle(data.res);
                     this.context.router.history.push(`/articles`);     
                 } 
             });
@@ -63,17 +62,18 @@ class EditArticleContainer extends Component {
     render () {
         return (
             <div>
-                <Header type="1" />
+                <Header type={1} />
                 <div className="container edit-container">   
-                    <WrappedArticleForm 
+                    <EditForm 
+                        wrappedComponentRef={(form) => this.form = form} 
                         article={this.props.curArticle}
                         tags={this.props.tags}
-                        onRef={this.onRef} />
-
-                    <EditContent onRef={this.onRef} article={this.props.curArticle} />
-                    {/* <EditArticle
                         onRef={this.onRef}
-                        article={this.state.article}/> */}
+                    />
+                    <EditContent 
+                        onRef={this.onRef} 
+                        article={this.props.curArticle} 
+                    />
                     <Button type="primary" className="common-btn operate-btn" onClick={this.saveArticleHandler.bind(this)}>
                         发布
                     </Button>
@@ -93,12 +93,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addArticle: (article) => {
-            dispatch(addArticle(article));
-        },
-        updateArticle: (article) => {
-            dispatch(updateArticle(article))
-        },
         initTags: () => {
             getTags().then(result => {
                 const { data } = result;
@@ -111,9 +105,13 @@ const mapDispatchToProps = (dispatch) => {
             return getArticleDetail(id).then(result => {
                 const { data } = result;
                 if (data) {
-                    dispatch(setCurArticle(data.article[0]));
+                    let obj = Object.assign({tags: data.tags}, data.article[0])
+                    dispatch(setCurArticle(obj));
                 }
             });
+        },
+        resetCurArticle() {
+            dispatch(setCurArticle(null));
         }
     }
 }

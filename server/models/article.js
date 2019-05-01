@@ -1,5 +1,6 @@
 const moment = require('moment');
 const Article = require('../lib/mongo').Article;
+const ArticleTagModel = require("./ArticleTag");
 const AritcleCommentModel = require("./articleComment");
 module.exports = {
     // 获取所有文章
@@ -52,7 +53,18 @@ module.exports = {
     // 创建文章
     create: function create(article) {
         article.created_at = moment().format('YYYY-MM-DD HH:mm');
-        return Article.create(article).exec();
+        let tags = article.tags;
+        return Article.create(article)
+            .exec()
+            .then(function(res) {
+                // 关联文章标签
+                if (res.result.ok && res.result.n > 0) {
+                    let articleId = res.ops[0]._id;
+                    return Promise.all(tags.map(tag => {
+                        return ArticleTagModel.connectAritcle(articleId, tag);
+                    }))
+                  }
+            })
     },
 
     // 删除文章
@@ -60,9 +72,12 @@ module.exports = {
         return Article.remove({ _id: id })
           .exec()
           .then(function (res) {
-            // 文章删除后，再删除该文章下的所有留言
+            // 文章删除后，再删除该文章下的所有留言和标签
             if (res.result.ok && res.result.n > 0) {
-              return AritcleCommentModel.delCommentsByArticleId(id);
+              return Promise.all([
+                AritcleCommentModel.delCommentsByArticleId(id),
+                ArticleTagModel.delTagsByArticleId(id)
+              ])
             }
         });
     },

@@ -32,7 +32,7 @@ class Tags extends Component {
         
         return (
             <div>
-                <Header type="1" formParentNav="Tags"/>
+                <Header type={1} formParentNav="Tags"/>
                 <div className="container article-container">
                     <EditTag
                         tags={this.props.tags}

@@ -16,7 +16,8 @@ class ArticleDetail extends Component {
             comments: [],
             article: {},
             curPage: 0,
-            clickTypeNum: 0             // 是否可翻页, 0表示可翻页, -1或1表示已经到最底部和最顶部了
+            clickTypeNum: 0,             // 是否可翻页, 0表示可翻页, -1或1表示已经到最底部和最顶部了
+            tags: [],
         }
     }
     static propTypes = {
@@ -61,6 +62,7 @@ class ArticleDetail extends Component {
                         id: data.article[0]._id,
                         clickTypeNum: 0,
                         comments: data.comment,
+                        tags: data.tags
                     })
                     this.context.router.history.push(`/articles/detail/${data.article[0]._id}`);
                     this.handleBrowser();
@@ -95,7 +97,7 @@ class ArticleDetail extends Component {
         }
         return (
             <div>
-                <Header type="1" />
+                <Header type={1} />
                 <div className="container article-detail-container">
                     <div className="left">
                         <Link to="/articles" onClick={this.backListPage.bind(this)}><Icon type="left" className="back-btn" /></Link>
@@ -109,8 +111,8 @@ class ArticleDetail extends Component {
                         </div>
                         <div className="left-bottom-box">
                             <ul className="tag-list">
-                                {this.state.article.tags && this.state.article.tags.split(',').map((item, i) => {
-                                    return (<li key={i}>{item}</li>)
+                                {this.state.tags && this.state.tags.map(item => {
+                                    return (<li key={item._id}>{item.name}</li>)
                                 })}
                             </ul>
                             {this.state.article.description}

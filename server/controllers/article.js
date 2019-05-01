@@ -1,4 +1,5 @@
 const AritcleModel = require("../models/article");
+const ArticleTagModel = require("../models/ArticleTag");
 const AritcleCommentModel = require("../models/articleComment");
 const authCheck = require("../middlewares/check").auth;
 
@@ -31,7 +32,7 @@ module.exports = {
             message = 'ok',
             noMore = false;
         try {
-            var article = [], comment = [];
+            var article = [], comment = [], tags = [];
             // 按照当前文章id获取上一篇或下一篇
             if(typeNum !== 'undefined') {
                 article = await AritcleModel.getLastOrNextArticle(articleId, typeNum);
@@ -40,15 +41,18 @@ module.exports = {
                 } else {
                     noMore = false;
                     comment = await AritcleCommentModel.getComments(article[0]._id);
+                    tags = await ArticleTagModel.getTagByArticleId(articles[i]._id);  // 获取该文章所有标签
                 }
             } else {
                 // 按照id获取文章
                 result = await Promise.all([
                     AritcleModel.getArticleById(articleId),
                     AritcleCommentModel.getComments(articleId), // 获取该文章所有留言
+                    ArticleTagModel.getTagByArticleId(articleId)  // 获取该文章所有标签
                 ]);
                 article = result[0];
                 comment = result[1];
+                tags = result[2]
                 if(result[0].length === 0) {
                     noMore = true;
                 } else {
@@ -65,6 +69,7 @@ module.exports = {
             message,
             article,
             comment,
+            tags,
             noMore
         };
     },
@@ -75,16 +80,16 @@ module.exports = {
         let resCode = 200,
             message = "发表成功";
         try {
-            var result = await AritcleModel.create(article),
-                res = result.ops[0];
+            await AritcleModel.create(article);
         } catch (e) {
             resCode = 500;
             message = "发表失败";
+            console.log(e);
+            
         }
         ctx.response.body = {
             resCode,
             message,
-            res
         };
     },
 

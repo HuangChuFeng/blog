@@ -80,12 +80,13 @@ class ArticleForm extends React.Component {
         onRef: PropTypes.func,
     }
     componentDidMount() {
-        this.props.onRef(this)
+        this.props.onRef(this);
+        this.props.form.setFieldsValue({ type: 0 })
     }
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.article && !this.props.article) {
-            nextProps.article ? this.initForm(nextProps.article) : this.props.form.setFieldsValue({ type: '0' });
+            nextProps.article ? this.initForm(nextProps.article) : this.props.form.setFieldsValue({ type: 0 });
             this.setState({
                 // allTags: nextProps.tags
             })
@@ -102,7 +103,9 @@ class ArticleForm extends React.Component {
         }
         this.props.form.setFieldsValue(option);
         this.setState({
-            selectedTags: article.tags.split(',')
+            selectedTags: article.tags.map(item => {
+                return item.name
+            })
         })
     }
 
@@ -124,7 +127,12 @@ class ArticleForm extends React.Component {
     }
 
     getFormData = () => {
-        return Object.assign({tags: this.state.selectedTags.join(',')}, this.props.form.getFieldsValue());
+        // this.props.form.validateFields((err, values) => {
+        //     if (!err) {
+        //         console.log('Received values of form: ', values);
+        //     }
+        // });
+        return Object.assign({tags: this.state.selectedTags}, this.props.form.getFieldsValue());
     }
 
     render() {
@@ -133,9 +141,10 @@ class ArticleForm extends React.Component {
         const selects = [];
         if(this.props.tags) {
             for (let i = 0; i < this.props.tags.length; i++) {
-                selects.push(<Option key={ this.props.tags[i]._id }>{ this.props.tags[i].name }</Option>);
+                selects.push(<Option key={ this.props.tags[i].name }>{ this.props.tags[i].name }</Option>);
             }
         }
+        
         return (
             <Form onSubmit={this.handleSubmit} className="artile-form">
                 <Row>
@@ -143,8 +152,8 @@ class ArticleForm extends React.Component {
                         <Form.Item>
                             {getFieldDecorator('type')(
                             <Select style={{ width: 100 }} onChange={this.handleTypeChange}>
-                                <Option value="0">原创</Option>
-                                <Option value="1">分享</Option>
+                                <Option value={0}>原创</Option>
+                                <Option value={1}>分享</Option>
                             </Select>)}
                         </Form.Item>
                     </Col>

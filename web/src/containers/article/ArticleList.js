@@ -5,10 +5,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import ArticleList from '../../components/article/ArticleList'
 import Header from '../../components/Header'
-import { Affix, Menu, Dropdown, Icon } from 'antd';
 import { initArticles, deleteArticle } from '../../reducers/articles'
 import { changeCurNav } from '../../reducers/common'
-import { Button } from 'antd';
 import '../../css/article.less'
 
 import { fetchArticles, deleteArticleById } from "../../service/fetch";
@@ -42,7 +40,6 @@ class ArticleListContainer extends Component {
     }
 
     onViewDetail = (articleId) => {
-        // this.props.getArticleById(articleId);
         this.context.router.history.push(`/articles/detail/${articleId}`);
     }
 

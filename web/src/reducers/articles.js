@@ -1,9 +1,7 @@
 // action types
 const INIT_ARTICLES = 'INIT_ARTICLES';
-const ADD_ARTICLE = 'ADD_ARTICLE';
 const DELETE_ARTICLE = 'DELETE_ARTICLE';
 const SET_CUR_ARTICLE = 'SET_CUR_ARTICLE';
-const UPDATE_ARTICLE = 'UPDATE_ARTICLE';
 
 const INIT_TAGS = 'INIT_TAGS';
 const ADD_TAG = 'ADD_TAG';
@@ -25,13 +23,6 @@ export default function(state, action) {
                 ...state,
                 articles: action.articles,
             };
-
-        case ADD_ARTICLE:
-            return { 
-                ...state,
-                articles: [action.article, ...state.articles],
-            };
-        
         case DELETE_ARTICLE:
             return {
                 ...state,
@@ -47,17 +38,6 @@ export default function(state, action) {
                 ...state,
                 curArticle: cur 
             };
-        
-        case UPDATE_ARTICLE:
-            state.articles.forEach(item => {
-                if(item._id === action.article._id) {
-                    item = Object.assign(item, action.article);
-                    return false;
-                }
-            });
-            return {
-                ...state
-            }
 
         case INIT_TAGS:
             return { 
@@ -88,20 +68,12 @@ export const initArticles = (articles) => {
     return { type: INIT_ARTICLES, articles }
 }
 
-export const addArticle = (article) => {
-    return { type: ADD_ARTICLE, article }
-}
-
 export const deleteArticle = (articleIndex) => {
     return { type: DELETE_ARTICLE, articleIndex }
 }
 
 export const setCurArticle = (article) => {
     return { type: SET_CUR_ARTICLE, article }
-}
-
-export const updateArticle = (article) => {
-    return { type: UPDATE_ARTICLE, article }
 }
 
 export const initTags = (tags) => {
