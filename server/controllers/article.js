@@ -61,7 +61,6 @@ module.exports = {
             }
         } catch (e) {
             resCode = 500;
-            console.log(e);
             message = "服务器出错了";
         }
         ctx.response.body = {

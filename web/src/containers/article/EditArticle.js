@@ -24,7 +24,9 @@ class EditArticleContainer extends Component {
     }
 
     async componentDidMount() {
-        await this.props.articleDetail(this.state.articleId);
+        if(this.state.articleId) {
+            await this.props.articleDetail(this.state.articleId);
+        }
         this.props.initTags();       
     }
 
@@ -67,7 +69,7 @@ class EditArticleContainer extends Component {
                     <EditForm 
                         wrappedComponentRef={(form) => this.form = form} 
                         article={this.props.curArticle}
-                        tags={this.props.tags}
+                        allTags={this.props.tags}
                         onRef={this.onRef}
                     />
                     <EditContent 

@@ -26,11 +26,17 @@ module.exports = {
         let resCode = 200,
             message;
         try {
+            let obj = {};
             var tags = await ArticleTag.getTags();
-            
+            tags = tags.reduce((cur,next) => {
+                obj[next.name] ? "" : obj[next.name] = true && cur.push(next);
+                return cur;
+            },[])
         } catch (e) {
             resCode = 500;
             message = "服务器出错了";
+            console.log(e);
+            
         }
         ctx.response.body = {
             resCode,

@@ -84,6 +84,19 @@ module.exports = {
 
     // 编辑文章
     updateArticleById: function updateArticleById(id, data) {
-        return Article.update({ _id: id }, { $set: data }).exec();
+        let tags = data.tags;
+        return Article.update({ _id: id }, { $set: data })
+        .exec()
+        .then(function (res) {
+            // 文章更新后，再更新该文章下的所有标签
+            if (res.result.ok && res.result.n > 0) {
+              return Promise.all([
+                ArticleTagModel.delTagsByArticleId(id),
+                ...tags.map(tag => {
+                    return ArticleTagModel.connectAritcle(id, tag);
+                })
+              ])
+            }
+        });
     }
 }

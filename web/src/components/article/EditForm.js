@@ -86,10 +86,7 @@ class ArticleForm extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.article && !this.props.article) {
-            nextProps.article ? this.initForm(nextProps.article) : this.props.form.setFieldsValue({ type: 0 });
-            this.setState({
-                // allTags: nextProps.tags
-            })
+            this.initForm(nextProps.article)
         }
     }
 
@@ -139,9 +136,9 @@ class ArticleForm extends React.Component {
         const Option = Select.Option;
         const { getFieldDecorator } = this.props.form;
         const selects = [];
-        if(this.props.tags) {
-            for (let i = 0; i < this.props.tags.length; i++) {
-                selects.push(<Option key={ this.props.tags[i].name }>{ this.props.tags[i].name }</Option>);
+        if(this.props.allTags) {
+            for (let i = 0; i < this.props.allTags.length; i++) {
+                selects.push(<Option key={ this.props.allTags[i].name }>{ this.props.allTags[i].name }</Option>);
             }
         }
         
@@ -177,15 +174,17 @@ class ArticleForm extends React.Component {
                 <Form.Item>
                     <Row>
                         <Col span={18} >
+                        {this.state.selectedTags.length > 0 && 
                             <Select
                                 mode="tags"
-                                placeholder="选择标签"
+                                placeholder='选择标签'
                                 defaultValue={this.state.selectedTags}
                                 onChange={this.handleTagChange.bind(this)}
                                 style={{ width: '100%' }}
                                 >
                                 {selects}
                             </Select>
+                        }
                         </Col>
                         <Col span={2} ></Col>
                         <Col span={2} ><Cover /></Col>
