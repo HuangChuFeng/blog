@@ -10,9 +10,13 @@ import { changeCurNav } from '../../reducers/common'
 import '../../css/article.less'
 
 import { fetchArticles, deleteArticleById } from "../../service/fetch";
+import { CLIENT_RENEG_LIMIT } from 'tls';
 
 
 class ArticleListContainer extends Component {
+    static contextTypes = {
+        router: PropTypes.object.isRequired,
+    }
 
     componentWillMount() {
         this.props.initArticles();
@@ -20,13 +24,9 @@ class ArticleListContainer extends Component {
             this.props.changeCurNav('所有文章')
         }
     }
-    static contextTypes = {
-        router: PropTypes.object.isRequired,
-    }
 
     onDeleteArticle(articleId, index) {
         deleteArticleById({articleId: articleId}).then(result => {
-            console.log(this.props)
             const { data } = result;
             if (data) {
                 this.props.deleteArticle(index);
@@ -48,12 +48,15 @@ class ArticleListContainer extends Component {
             <div>
                 <Header type={1} formParentNav="所有文章"/>
                 <div className="container article-container">
+                    { this.props.isAdmin && 
                     <Link to='/articles/new'>写文章</Link>
+                    }
                     <ArticleList 
                         articles= {this.props.articles} 
                         deleteArticle={this.onDeleteArticle.bind(this)}
                         editArticle={this.onEditArticle.bind(this)}
                         viewDetail={this.onViewDetail.bind(this)}
+                        isAdmin={this.props.isAdmin}
                     />
                 </div>
             </div>
@@ -65,7 +68,8 @@ class ArticleListContainer extends Component {
 const mapStateToProps = (state) => {
     return {
         articles: state.articlesReducer.articles,
-        curNav: state.commonReducer.curNav
+        curNav: state.commonReducer.curNav,
+        isAdmin: state.commonReducer.isAdmin
     }
 }
   
@@ -79,7 +83,6 @@ const mapDispatchToProps = (dispatch) => {
                     dispatch(initArticles(data.articles));
                 } 
             });
-            
         },
         deleteArticle: (articleId) => {
             dispatch(deleteArticle(articleId));

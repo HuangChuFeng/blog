@@ -13,6 +13,7 @@ export default class ArticleList extends Component {
         deleteArticle: PropTypes.func,
         editArticle: PropTypes.func,
         viewDetail: PropTypes.func,
+        isAdmin: PropTypes.bool
     }
 
     // 声明变量, 初始化默认值
@@ -32,6 +33,7 @@ export default class ArticleList extends Component {
                         deleteArticle={this.props.deleteArticle.bind(this)}
                         editArticle={this.props.editArticle.bind(this)}
                         viewDetail={this.props.viewDetail.bind(this)}
+                        isAdmin={this.props.isAdmin}
                         />
                     )}
                 </div>

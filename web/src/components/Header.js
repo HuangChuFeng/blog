@@ -6,7 +6,7 @@ import { Menu, Dropdown, Icon } from 'antd';
 import { toast } from "react-toastify";
 import LoginForm from '../containers/loginToast';
 import { connect } from 'react-redux'
-import { changeCurNav, changeLoginStatus } from '../reducers/common'
+import { changeCurNav, changeLoginStatus, changeUserType } from '../reducers/common'
 import { quit } from "../service/fetch";
 
 
@@ -50,6 +50,10 @@ class Header extends Component {
         formParentNav: PropTypes.string,
     }
 
+    static contextTypes = {
+        router: PropTypes.object.isRequired,
+    }
+
     componentDidMount() {
         if(document.documentElement.clientWidth <= 960) {
             this.setState({ isLargeScreen: false })
@@ -82,7 +86,10 @@ class Header extends Component {
             if (result) {
                 this.setState({ isLogined: false })
                 window.localStorage.removeItem('user');
+                window.localStorage.removeItem('type');
                 this.props.changeLoginStatus(false);
+                this.props.changeUserType(false);
+                this.context.router.history.push(`/`);     
             }
         });
     }
@@ -164,7 +171,8 @@ class Header extends Component {
 const mapStateToProps = (state) => {
     return {
         curNav: state.commonReducer.curNav,
-        isLogined: state.commonReducer.isLogined
+        isLogined: state.commonReducer.isLogined,
+        isAdmin: state.commonReducer.isAdmin
     }
 }
   
@@ -177,6 +185,9 @@ const mapDispatchToProps = (dispatch) => {
         changeLoginStatus: (isLogin) => {
             dispatch(changeLoginStatus(isLogin));
         },
+        changeUserType: (isAdmin) => {
+            dispatch(changeUserType(isAdmin));
+        }
     }
 }
   

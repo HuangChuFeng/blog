@@ -10,14 +10,13 @@ module.exports = {
 			user;
 		try {
 			user = await UserModel.getUserByEmail(email);
-			console.log('user====', user);
 			let md5 = crypto.createHash("md5");
 			let newPas = md5.update(password).digest("hex");
-			console.log(newPas,  user.password)
 			if (user && newPas == user.password) {
 				delete user.password;
 				ctx.session.user = user;
-				console.log('登录, session*******', ctx.session);
+				console.log('user', user);
+				
 			} else {
 				resCode = 500;
 				message = '用户名或密码错误';

@@ -19,7 +19,8 @@ export default class Article extends Component {
         index: PropTypes.number,
         deleteArticle: PropTypes.func,
         editArticle: PropTypes.func,
-        viewDetail: PropTypes.func
+        viewDetail: PropTypes.func,
+        isAdmin: PropTypes.bool
     }
 
     render() {
@@ -31,10 +32,12 @@ export default class Article extends Component {
                 </div>
                 <h3 className="title">
                     <a herf="#" onClick={this.props.viewDetail.bind(this, article._id)}>{ article.title }</a>
-                    <span className="operate-btn">
-                        <Icon type="delete" onClick={this.props.deleteArticle.bind(this, article._id, this.props.index)}/>
-                        <Icon type="edit" onClick={this.props.editArticle.bind(this, article._id)}/>
-                    </span>
+                    { this.props.isAdmin &&
+                        <span className="operate-btn">
+                            <Icon type="delete" onClick={this.props.deleteArticle.bind(this, article._id, this.props.index)}/>
+                            <Icon type="edit" onClick={this.props.editArticle.bind(this, article._id)}/>
+                        </span>
+                     }
                 </h3>
                 <p className="time">{ article.created_at }
                     <span><Icon type="message" className="icon"/>{ article.comments || 0 }</span>

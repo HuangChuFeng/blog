@@ -76,6 +76,7 @@ module.exports = {
     // 创建新文章
     "POST /api/articles/create": async ctx => {
         const { article } = ctx.request.body;
+        article.author = ctx.session.user._id;
         let resCode = 200,
             message = "发表成功";
         try {
@@ -84,7 +85,6 @@ module.exports = {
             resCode = 500;
             message = "发表失败";
             console.log(e);
-            
         }
         ctx.response.body = {
             resCode,

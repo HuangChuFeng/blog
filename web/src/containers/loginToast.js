@@ -4,7 +4,7 @@ import { Form, Input, Button } from 'antd';
 import { toast } from "react-toastify";
 import { login, register } from "../service/fetch";
 import { connect } from 'react-redux'
-import { changeLoginStatus } from '../reducers/common'
+import { changeLoginStatus, changeUserType } from '../reducers/common'
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -29,10 +29,12 @@ class LoginForm extends React.Component {
                     register(values).then(result => {
                         const { data } = result;
                         if (data) {
+                            
                             window.localStorage.setItem('type', data.res.type);
                             window.localStorage.setItem('user', `来自${data.res.source}的${data.res.name}`);
                             toast.dismiss();
-                            this.props.changeLoginStatus(true);
+                            this.props.changeLoginStatus(true); 
+                            this.props.changeUserType(data.res.type === 1);
                         }
                     });
                 } else {
@@ -43,6 +45,7 @@ class LoginForm extends React.Component {
                             window.localStorage.setItem('user', `来自${data.user.source}的${data.user.name}`);
                             toast.dismiss();
                             this.props.changeLoginStatus(true);
+                            this.props.changeUserType(data.user.type === 1);
                         }
                     });
                 }
@@ -107,6 +110,9 @@ const mapDispatchToProps = (dispatch) => {
         changeLoginStatus: (isLogin) => {
             dispatch(changeLoginStatus(isLogin));
         },
+        changeUserType: (isAdmin) => {
+            dispatch(changeUserType(isAdmin));
+        }
     }
 }
 
