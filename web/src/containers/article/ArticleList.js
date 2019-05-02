@@ -9,9 +9,7 @@ import { initArticles, deleteArticle } from '../../reducers/articles'
 import { changeCurNav } from '../../reducers/common'
 import '../../css/article.less'
 
-import { fetchArticles, deleteArticleById } from "../../service/fetch";
-import { CLIENT_RENEG_LIMIT } from 'tls';
-
+import { fetchArticles, deleteArticleById, getArticlesByTagName } from "../../service/fetch";
 
 class ArticleListContainer extends Component {
     static contextTypes = {
@@ -19,10 +17,28 @@ class ArticleListContainer extends Component {
     }
 
     componentWillMount() {
-        this.props.initArticles();
-        if(!this.props.curNav) {
-            this.props.changeCurNav('所有文章')
+        let search = this.context.router.route.location.search;
+        let type = search.substring(search.length-1);
+        let tag = this.props.match.params.tag;
+        if(type) {
+            this.props.initArticles(type);
+            let curNav = (type === '0' ? '笔记' : '生活');
+            this.props.changeCurNav(curNav)
+        } else {
+            // 按标签获取
+            if(tag) {
+                this.props.getArticlesByTagName(tag);
+            } else {
+                this.props.initArticles();
+            }
+            if(!this.props.curNav) {
+                this.props.changeCurNav('所有文章')
+            }
         }
+    }
+
+    handleNavChange(type) {
+        this.props.initArticles(type);
     }
 
     onDeleteArticle(articleId, index) {
@@ -46,7 +62,10 @@ class ArticleListContainer extends Component {
     render () {
         return (
             <div>
-                <Header type={1} formParentNav="所有文章"/>
+                <Header 
+                    type={1} 
+                    formParentNav="所有文章"
+                    handleNavChange={this.handleNavChange.bind(this)}/>
                 <div className="container article-container">
                     { this.props.isAdmin && 
                     <Link to='/articles/new'>写文章</Link>
@@ -76,14 +95,23 @@ const mapStateToProps = (state) => {
 // 当前组件需要发起的事件
 const mapDispatchToProps = (dispatch) => {
     return {
-        initArticles: () => {
-            fetchArticles().then(result => {
+        initArticles: (type) => {
+            fetchArticles(type).then(result => {
                 const { data } = result;
                 if (data) {
                     dispatch(initArticles(data.articles));
                 } 
             });
         },
+        getArticlesByTagName: (tag) => {
+            getArticlesByTagName(tag).then(result => {
+                const { data } = result;
+                if (data) {
+                    dispatch(initArticles(data.articles));
+                } 
+            });
+        },
+
         deleteArticle: (articleId) => {
             dispatch(deleteArticle(articleId));
         },

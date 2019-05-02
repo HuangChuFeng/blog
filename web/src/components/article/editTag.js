@@ -18,7 +18,9 @@ export default class EditTag extends Component {
         tags: PropTypes.array,
         initTags: PropTypes.func,
         addTag: PropTypes.func,
-        deleteTag: PropTypes.func
+        deleteTag: PropTypes.func,
+        isAdmin: PropTypes.bool,
+        clickTagHandler: PropTypes.func
     };
 
     handleClose = (removedTag) => {
@@ -46,16 +48,14 @@ export default class EditTag extends Component {
         this.setState({ inputValue: e.target.value });
     }
 
+    clickTagHandler(tag) {
+        this.props.clickTagHandler(tag);
+    }
+
     handleInputConfirm = () => {
         const { inputValue } = this.state;
-        // let { tags } = this.state;
-        // if (inputValue && tags.indexOf(inputValue) === -1) {
-        //     tags = [...tags, inputValue];
-        // }
         this.props.addTag(inputValue);
-        // console.log(tags);
         this.setState({
-            // tags,
             inputVisible: false,
             inputValue: '',
         });
@@ -66,13 +66,13 @@ export default class EditTag extends Component {
     forMap = (tag) => {
         const tagElem = (
             <Tag
-                closable
+                closable={this.props.isAdmin ? true : false}
                 onClose={(e) => {
                     e.preventDefault();
                     this.handleClose(tag);
                 }}
             >
-                {tag.name}
+                <span onClick={this.clickTagHandler.bind(this, tag.name)}>{tag.name}</span>
             </Tag>
         );
         return (
@@ -115,7 +115,7 @@ export default class EditTag extends Component {
                         onPressEnter={this.handleInputConfirm}
                     />
                 )}
-                {!inputVisible && (
+                {!inputVisible && this.props.isAdmin && (
                     <Tag
                         onClick={this.showInput}
                         style={{ background: '#fff', borderStyle: 'dashed' }}>

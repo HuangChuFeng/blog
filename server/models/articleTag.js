@@ -14,6 +14,14 @@ module.exports = {
         .exec();
     },
 
+    // 根据标签name 获取文章
+    getArticleByTagName: function getArticleByTagName(name) {
+        return ArticleTag
+        .find({name: name})
+        .sort({ _id: -1 })
+        .exec();
+    },
+
     // 关联标签和文章
     connectAritcle(article_id, name) {
         return ArticleTag.create({

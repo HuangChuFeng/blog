@@ -1,4 +1,6 @@
 const ArticleTag = require("../models/ArticleTag");
+const AritcleModel = require("../models/article");
+const CommentModel = require("../models/Comment");
 
 module.exports = {
     // 增加新标签
@@ -81,6 +83,34 @@ module.exports = {
         ctx.response.body = {
             resCode,
             message
+        };
+    },
+
+    // 根据标签获取对应文章
+    "GET /api/tag/articles": async ctx => {
+        const { tag } = ctx.request.query;
+        console.log('tag', tag);
+        
+        let resCode = 200,
+            message = "ok";
+        try {
+            var articles = [];
+            var articlesIds = await ArticleTag.getArticleByTagName(tag);
+            for(let i = 0; i < articlesIds.length; i++) {
+                let item = await AritcleModel.getArticleById(articlesIds[i].article_id);
+                articles.push(item[0])
+            }
+            for(let j = 0; j < articles.length; j++) {
+                articles[j].comments = await CommentModel.getCommentsCount(articles[j]._id);
+            }
+        } catch (e) {
+            resCode = 500;
+            message = "添加失败";
+        }
+        ctx.response.body = {
+            resCode,
+            message,
+            articles
         };
     },
 }

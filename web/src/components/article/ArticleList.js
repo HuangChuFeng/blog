@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Article from '../article/Article'
 import PropTypes from 'prop-types'
+import { Icon } from 'antd';
 export default class ArticleList extends Component {
     constructor(props) {
         super(props);
@@ -39,6 +40,10 @@ export default class ArticleList extends Component {
                 </div>
                 <div className="right">
                     <img className="avator" src={require('../../static/img/avator.jpeg')} />
+                    <div>
+                        <p>好好学习, 天天向上</p>
+                        <a target="blank" href="https://github.com/HuangChuFeng"><Icon type="github" /> github</a>
+                    </div>
                 </div>
             </div>
         )

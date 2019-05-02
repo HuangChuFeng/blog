@@ -6,10 +6,11 @@ const authCheck = require("../middlewares/check").auth;
 module.exports = {
     // 获取所有文章
     "GET /api/articles": async ctx => {
+        const type =  ctx.request.query.type;
         let resCode = 200,
             message;
         try {
-            var articles = await AritcleModel.getArticles();
+            var articles = await AritcleModel.getArticles(type);
             for(let i = 0; i < articles.length; i++) {
                 articles[i].comments = await CommentModel.getCommentsCount(articles[i]._id);
             }
@@ -41,13 +42,13 @@ module.exports = {
                 } else {
                     noMore = false;
                     comment = await CommentModel.getComments(article[0]._id);
-                    tags = await ArticleTagModel.getTagByArticleId(articles[i]._id);  // 获取该文章所有标签
+                    tags = await ArticleTagModel.getTagByArticleId(article[0]._id);  // 获取该文章所有标签
                 }
             } else {
                 // 按照id获取文章
                 result = await Promise.all([
                     AritcleModel.getArticleById(articleId),
-                    CommentModel.getComments(articleId), // 获取该文章所有留言
+                    CommentModel.getComments(articleId), // 获取该文章所有评论
                     ArticleTagModel.getTagByArticleId(articleId)  // 获取该文章所有标签
                 ]);
                 article = result[0];
@@ -61,6 +62,8 @@ module.exports = {
             }
         } catch (e) {
             resCode = 500;
+            console.log(e);
+            
             message = "服务器出错了";
         }
         ctx.response.body = {

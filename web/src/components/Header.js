@@ -11,20 +11,22 @@ import { quit } from "../service/fetch";
 
 
 const articleNavArr = [
-    { text: '所有文章', url: '/articles' },
+    { text: '所有文章' },
     {
-        text: '前端笔记',
-        child: ['原创', '分享']
+        text: '笔记',
+        type: 0
+        // child: ['原创', '分享']
     },
-    { text: '生活', url: '/articles' },
-    { text: '项目', url: '/articles' },
+    { text: '生活', type: 1 },
+    // { text: '项目', url: '/articles' },
     { text: 'Tags', url: '/articles/tags' },
 ]
 
 const imgNavArr = [
     {
         text: '所有照片',
-        child: ['所有排序', '时间排序']
+        url: '/photograph'
+        // child: ['所有排序', '时间排序']
     },
     { text: '建筑', url: '/photograph' },
     { text: '人像', url: '/photograph' },
@@ -48,6 +50,7 @@ class Header extends Component {
     static propTypes = {
         type: PropTypes.number,
         formParentNav: PropTypes.string,
+        handleNavChange: PropTypes.func
     }
 
     static contextTypes = {
@@ -67,12 +70,20 @@ class Header extends Component {
         })
     }
     
-    navClickHandler = (index) => {
-        this.setState({
-             activeIndex: index,
-             showMenu: false,
-        });
-        this.props.changeCurNav(this.state.navArr[index].text)
+    navClickHandler = (item, index) => {
+        if(!item.child && !item.url) {
+            let url = '/articles';
+            this.setState({
+                activeIndex: index,
+                showMenu: false,
+            });
+            if(item.type !== undefined) {
+                url += `?type=${item.type}`
+            }
+            this.context.router.history.push(url);
+            this.props.changeCurNav && this.props.changeCurNav(this.state.navArr[index].text)
+            this.props.handleNavChange && this.props.handleNavChange(item.type);
+        }
     }
 
     toggleMenu() {
@@ -125,12 +136,14 @@ class Header extends Component {
                                         </Menu>
                                     );
                                     content = <Dropdown overlay={menu} trigger={['click']}>
-                                                <span>{ item.text }<Icon type="down" /></span>
+                                                <span onClick={this.navClickHandler.bind(this, item.child, i)}>{ item.text }<Icon type="down" /></span>
                                             </Dropdown>;
-                                } else {
+                                } else if(item.url) {
                                     content = <Link to={ item.url }>{ item.text }</Link>;
+                                } else {
+                                    content = <span>{ item.text }</span>
                                 }
-                                return <li key={i} onClick={this.navClickHandler.bind(this, i)} className={ i == this.state.activeIndex ? 'active' : '' }>{ content }</li>
+                                return <li key={i} onClick={this.navClickHandler.bind(this, item, i)} className={ i == this.state.activeIndex ? 'active' : '' }>{ content }</li>
                             }
                         )}
                         <li className="to-index-link">
@@ -147,7 +160,7 @@ class Header extends Component {
                         </li>
                     </ul>
                     }
-                    { this.state.showMenu && 
+                    { !this.state.showMenu && 
                         <span className="current-nav">{ this.props.curNav }</span>
                     }
                     <div className="menu-icon" onClick={this.toggleMenu.bind(this)}>

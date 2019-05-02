@@ -13,7 +13,6 @@ module.exports = {
     getComments: function getComments(target) {
         return Comment
         .find({ target: target })
-        .populate({ path: 'user', model: 'User' })
         .sort({ _id: 1 })
         .exec();
     },

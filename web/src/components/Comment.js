@@ -10,7 +10,7 @@ const TextArea = Input.TextArea;
 const CommentList = ({ comments }) => (
   <List
     dataSource={comments}
-    header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
+    header={`${comments.length} 条评论`}
     itemLayout="horizontal"
     renderItem={props => <Comment {...props} />}
   />
@@ -67,12 +67,18 @@ export default class MyComment extends Component {
       }, (result) => {
         if (result.data && result.data.comment) {
           let resComment = result.data.comment;
+          let author = '';
+          if(resComment.sender === this.props.receiver) {
+            author = '作者'
+          } else{
+            author = window.localStorage.getItem('user');
+          }
           this.setState({
             submitting: false,
             value: '',
             comments: [
               {
-                author: window.localStorage.getItem('user'),
+                author,
                 avatar: resComment.avatar || '',
                 content: this.state.value,
                 created_at: resComment.created_at,
@@ -80,6 +86,7 @@ export default class MyComment extends Component {
               ...this.state.comments,
             ],
           });
+          
         } else {
           this.setState({ submitting: false })
         }
@@ -96,18 +103,24 @@ export default class MyComment extends Component {
   render() {
     const { submitting, value } = this.state;
     const comments = this.state.comments.map(item => {
-      let avatar = '';
+      let avatar = '', res;
       if (item.user && item.user.avatar) {
         avatar = item.user.avatar;
       }
       item.avatar && (avatar = item.avatar);
-      return {
-        author: item.author || `来自${item.user.source}的${item.user.name}`,
+      res = {
         avatar: avatar,
         content: <p>{item.content}</p>,
         datetime: item.created_at,
       }
-    });
+      if(item.sender === this.props.receiver) {
+        res.author = '作者'
+      } else {
+        res.author = item.author || item.senderInfo
+      }
+      return res;
+    }); 
+    
     return (
       <div>
         {comments.length > 0 && <CommentList comments={comments} />}

@@ -142,8 +142,6 @@ class ArticleForm extends React.Component {
         const Option = Select.Option;
         const { getFieldDecorator } = this.props.form;
         const selects = [];
-        console.log(this.state.selectedTags);
-        
         if(this.props.allTags) {
             for (let i = 0; i < this.props.allTags.length; i++) {
                 selects.push(<Option key={ this.props.allTags[i].name }>{ this.props.allTags[i].name }</Option>);
@@ -157,8 +155,8 @@ class ArticleForm extends React.Component {
                         <Form.Item>
                             {getFieldDecorator('type')(
                             <Select style={{ width: 100 }} onChange={this.handleTypeChange}>
-                                <Option value={0}>原创</Option>
-                                <Option value={1}>分享</Option>
+                                <Option value={0}>笔记</Option>
+                                <Option value={1}>生活</Option>
                             </Select>)}
                         </Form.Item>
                     </Col>

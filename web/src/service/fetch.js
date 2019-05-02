@@ -39,8 +39,8 @@ export const uploadImgs = group => {
 };
 
 // 获取文章列表
-export const fetchArticles = id => {
-  return get(`${DEV_URL}/api/articles`);
+export const fetchArticles = type => {
+  return get(`${DEV_URL}/api/articles?type=${type}`);
 };
 
 // 获取文章详情
@@ -97,6 +97,11 @@ export const getTags = params => {
 // 获取某篇文章的所有标签
 export const getTagsByArticleId = params => {
   return get(`${DEV_URL}/api/articleTags/${params.articleId}`);
+};
+
+// 根据标签name获取对应文章
+export const getArticlesByTagName = tag => {
+  return get(`${DEV_URL}/api/tag/articles?tag=${tag}`);
 };
 
 

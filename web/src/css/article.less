@@ -79,8 +79,24 @@
         padding: 30px 0 0 0;
         text-align: center;
         .avator {
-            width: 50%;
+            width: 150px;
         }
+        &>div {
+            margin: 0 auto;
+            width: 150px;
+            padding: 20px 0;
+            text-align: left;
+            a {
+                color: @common-blue;
+            }
+        }
+    }
+    .ant-tag {
+        margin: 0 10px;
+        border: 1px solid #8fe9e0;
+        background: #e6fffb;
+        border-radius: 30px;
+        color: #35cbcb;
     }
 }
 
@@ -174,6 +190,21 @@
     }
     code {
         padding: 15px;
+    }
+    .ant-spin-container {
+        .ant-comment-avatar {
+            img {
+                display: none;
+            }
+            &:after {
+                content: '';
+                display: block;
+                height: 45px;
+                width: 45px;
+                background: #ccc;
+                border-radius: 50%;
+            }
+        }
     }
 }
 

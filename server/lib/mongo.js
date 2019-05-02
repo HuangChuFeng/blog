@@ -58,6 +58,7 @@ exports.ArticleTag.index({ name: 1 }).exec();
 exports.Comment = mongolass.model('Comment', {
     sender: { type: Mongolass.Types.ObjectId },
     receiver: { type: Mongolass.Types.ObjectId },
+    senderInfo: { type: 'string' },
     target: { type: Mongolass.Types.ObjectId },
     content: { type: 'string' },
     created_at: { type: 'string' },

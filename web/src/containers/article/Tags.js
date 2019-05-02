@@ -7,7 +7,6 @@ import EditTag from '../../components/article/editTag'
 import { createTag, removeTag, getTags } from '../../service/fetch'
 import { addTag, deleteTag, initTags } from '../../reducers/articles'
 import { changeCurNav } from '../../reducers/common'
-
 import '../../css/article.less'
 
 class Tags extends Component {
@@ -27,6 +26,10 @@ class Tags extends Component {
             this.props.changeCurNav('Tags')
         }, 0)  
     }
+
+    clickTagHandler(tag) {
+        this.context.router.history.push(`/articles/tags/${tag}`);
+    }
     
     render() {
         
@@ -35,10 +38,12 @@ class Tags extends Component {
                 <Header type={1} formParentNav="Tags"/>
                 <div className="container article-container">
                     <EditTag
+                        isAdmin={this.props.isAdmin}
                         tags={this.props.tags}
                         initTags={this.props.initTags}
                         addTag={this.props.addTag}
                         deleteTag={this.props.deleteTag}
+                        clickTagHandler={this.clickTagHandler.bind(this)}
                     />
                 </div>
             </div>
@@ -49,7 +54,8 @@ class Tags extends Component {
 const mapStateToProps = (state) => {
     return {
         tags: state.articlesReducer.tags,
-        curNav: state.commonReducer.curNav
+        curNav: state.commonReducer.curNav,
+        isAdmin: state.commonReducer.isAdmin
     }
 }
   

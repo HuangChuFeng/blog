@@ -15,11 +15,11 @@ import EditArticle from './containers/article/EditArticle'
 import ArticlesTags from './containers/article/Tags'
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 // createStore 函数专门生产state和dispatch的集合， 调用后返回state和dispatch
 const store = createStore(reducer);
-import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -33,6 +33,7 @@ ReactDOM.render(
         <Route exact path="/articles/new" component={EditArticle} />
         <Route exact path="/articles/edit/:id" component={EditArticle} />
         <Route exact path="/articles/tags" component={ArticlesTags} />
+        <Route exact path="/articles/tags/:tag" component={ArticleList} />
         <ToastContainer />
       </div>
     </Router>

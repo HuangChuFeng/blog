@@ -4,10 +4,13 @@ const ArticleTagModel = require("./ArticleTag");
 const CommentModel = require("./Comment");
 module.exports = {
     // 获取所有文章
-    getArticles: function getArticles(author) {
+    getArticles: function getArticles(type, author) {
         var query = {};
         if (author) {
             query.author = author;
+        }
+        if(type !== 'undefined') {
+            query.type = Number(type)
         }
         return Article
         .find(query)
