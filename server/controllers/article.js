@@ -1,6 +1,6 @@
 const AritcleModel = require("../models/article");
 const ArticleTagModel = require("../models/ArticleTag");
-const AritcleCommentModel = require("../models/articleComment");
+const CommentModel = require("../models/Comment");
 const authCheck = require("../middlewares/check").auth;
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
         try {
             var articles = await AritcleModel.getArticles();
             for(let i = 0; i < articles.length; i++) {
-                articles[i].comments = await AritcleCommentModel.getCommentsCount(articles[i]._id);
+                articles[i].comments = await CommentModel.getCommentsCount(articles[i]._id);
             }
             
         } catch (e) {
@@ -40,14 +40,14 @@ module.exports = {
                     noMore = true;
                 } else {
                     noMore = false;
-                    comment = await AritcleCommentModel.getComments(article[0]._id);
+                    comment = await CommentModel.getComments(article[0]._id);
                     tags = await ArticleTagModel.getTagByArticleId(articles[i]._id);  // 获取该文章所有标签
                 }
             } else {
                 // 按照id获取文章
                 result = await Promise.all([
                     AritcleModel.getArticleById(articleId),
-                    AritcleCommentModel.getComments(articleId), // 获取该文章所有留言
+                    CommentModel.getComments(articleId), // 获取该文章所有留言
                     ArticleTagModel.getTagByArticleId(articleId)  // 获取该文章所有标签
                 ]);
                 article = result[0];
@@ -157,37 +157,6 @@ module.exports = {
         ctx.response.body = {
             resCode,
             message,
-        };
-    },
-
-    // 创建评论
-    "POST /api/articles/:articleId/comment": async ctx => {
-        console.log('评论时获取session==========', ctx.session);
-        const isLogined = await authCheck(ctx);
-        if(!isLogined) {
-            return;
-        }
-        let { articleId } = ctx.params,
-            user = ctx.session.user._id,
-            content = ctx.request.body.content,
-            resCode = 200,
-            message = "评论成功";
-        let comment = {
-            user,
-            articleId,
-            content
-        };
-        try {
-            await AritcleCommentModel.create(comment);
-        } catch (e) {
-            console.log(e);
-            message = "评论失败";
-            resCode = 500;
-        }
-        ctx.response.body = {
-            resCode,
-            message,
-            comment
         };
     },
 }

@@ -7,6 +7,12 @@ import Header from '../../components/Header'
 import MyComment from '../../components/Comment'
 import { getArticleDetail, commentArticle, addBrowseNum } from "../../service/fetch";
 import { changeCurNav } from '../../reducers/common'
+import Highlight from 'react-highlight'
+import 'highlight.js/styles/hopscotch.css'
+
+// atom-one-dark-reasonable
+// gruvbox-dark
+// hopscotch
 
 class ArticleDetail extends Component {
     constructor(props) {
@@ -123,8 +129,15 @@ class ArticleDetail extends Component {
                         </div>
                     </div>
                     <div className="right">
-                        <div dangerouslySetInnerHTML={{ __html: this.state.article.content }}></div>
-                        <MyComment comments={this.state.comments} onSubmit={this.handleSubmit.bind(this)} />
+                        <Highlight className='language-name-of-snippet' innerHTML={true}>
+                            {this.state.article.content}
+                        </Highlight>
+                        {/* <div dangerouslySetInnerHTML={{ __html: this.state.article.content }}></div> */}
+                        <MyComment 
+                            receiver={this.state.article.author}
+                            comments={this.state.comments} 
+                            onSubmit={this.handleSubmit.bind(this)} 
+                        />
                     </div>
                 </div>
             </div>

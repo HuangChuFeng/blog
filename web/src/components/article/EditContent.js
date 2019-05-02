@@ -9,7 +9,7 @@ export default class EditContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editorContent: this.props.article ? this.props.article.content : '',
+            editorContent: '',
             // editorContent: `
             // This block of Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require the <code>html-parser</code> AST plugin to be loaded, in addition to setting the <code class="prop">escapeHtml</code> property to false.
             // `
@@ -24,30 +24,26 @@ export default class EditContent extends Component {
     componentDidMount() {
         this.props.onRef(this)
         const elem = this.refs.editorElem;
-        const editor = new E(elem);
-        
-        editor.customConfig.uploadImgShowBase64 = true
+        this.editor = new E(elem);
+        this.editor.customConfig.uploadImgShowBase64 = true
         // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
-        editor.customConfig.onchange = html => {
-          this.setState({
-            editorContent: html
-          })
+        this.editor.customConfig.onchange = html => {
+            this.setState({
+                editorContent: html
+            })
         }
-        editor.create();
-        editor.txt.html(this.state.editorContent);
+        this.editor.create();
+    }
+    
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.article && !this.props.article) {
+            this.setState({
+                editorContent: nextProps.article.content
+            })
+            this.editor.txt.html(nextProps.article.content);
+        }
     }
 
-    // onRef = (ref) => {
-    //     this.child = ref;
-    // }
-    
-    // getFormData() {
-    //     let formData = Object.assign(
-    //         { content: this.state.editorContent }, 
-    //         this.child.getFormData()
-    //     );
-    //     return formData;
-    // }
     getContent() {
         return { content: this.state.editorContent };
     }

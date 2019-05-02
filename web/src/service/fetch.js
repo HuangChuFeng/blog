@@ -16,13 +16,16 @@ export const fetchImgs = id => {
 };
 
 export const login = (user) => {
-  return post(`${DEV_URL}/api/user/login`, {
-    name: user.name,
-    password: user.password
-  });
+  return post(`${DEV_URL}/api/user/login`, user);
 };
+
 export const register = (user) => {
   return post(`${DEV_URL}/api/user/register`, user);
+};
+
+// 退出
+export const quit = () => {
+  return get(`${DEV_URL}/api/user/quit`);
 };
 
 // 获取上传图片token
@@ -73,7 +76,7 @@ export const addBrowseNum = (id, num) => {
 
 // 发表评论
 export const commentArticle = (id, comment) => {
-  return post(`${DEV_URL}/api/articles/${id}/comment`, comment);
+  return post(`${DEV_URL}/api/${id}/comment`, comment);
 };
 
 // 增加新标签

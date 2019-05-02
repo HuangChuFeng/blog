@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { initImgs, getImgById } from '../../reducers/imgs'
 import { fetchImgs } from "../../service/fetch";
 import { Icon } from 'antd';
+import MyComment from '../../components/Comment'
 
 class ImgDetail extends Component {
     constructor(props) {
@@ -33,6 +34,16 @@ class ImgDetail extends Component {
             imgEnlargeble : !this.state.imgEnlargeble, 
         });
     }
+
+    // 发表评论
+    handleSubmit = (comment, cb) => {
+        // commentArticle(this.state.id, comment).then(result => {
+        //     if (result) {
+        //         cb && cb(result);
+        //     }
+        // });
+    }
+
     render() {
         return (
             <div className="img-detail-page">
@@ -59,6 +70,7 @@ class ImgDetail extends Component {
                             <Icon type="switcher" className="icon collection-icon" />
                         </div>
                     </div>
+                    <MyComment comments={[]} onSubmit={this.handleSubmit.bind(this)} />
                 </div>
             </div>
         )

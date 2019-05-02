@@ -28,8 +28,9 @@ exports.User = mongolass.model('User', {
     password: { type: 'string' },
     source: { type: 'string' },
     avatar: { type: 'string' },
+    type: {type: 'number'} // 1 管理员, 0 普通用户
 });
-exports.User.index({ email: 1, _id: -1 }).exec();// 根据用户名找到用户，用户名全局唯一
+exports.User.index({ email: 1, _id: -1 }).exec(); // 根据用户名找到用户，用户名全局唯一
 
 // 文章模型
 exports.Article = mongolass.model('Article', {
@@ -53,14 +54,15 @@ exports.ArticleTag = mongolass.model('ArticleTag', {
 });
 exports.ArticleTag.index({ name: 1 }).exec();
 
-// 文章评论模型
-exports.ArticleComment = mongolass.model('ArticleComment', {
-    user: { type: Mongolass.Types.ObjectId },
-    articleId: { type: Mongolass.Types.ObjectId },
+// 评论模型
+exports.Comment = mongolass.model('Comment', {
+    sender: { type: Mongolass.Types.ObjectId },
+    receiver: { type: Mongolass.Types.ObjectId },
+    target: { type: Mongolass.Types.ObjectId },
     content: { type: 'string' },
     created_at: { type: 'string' },
 });
-exports.ArticleComment.index({ user: 1, _id: -1 }).exec();
+exports.Comment.index({ user: 1, _id: -1 }).exec();
 
 // 照片模型
 exports.Img = mongolass.model('Img', {

@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const UserModel = require("../models/user");
 const authCheck = require("../middlewares/check").auth;
 
@@ -5,12 +6,15 @@ module.exports = {
     "POST /api/user/login": async ctx => {
 		let resCode = 200,
 			message = '登录成功',
-			{ name, password } = ctx.request.body,
+			{ email, password } = ctx.request.body,
 			user;
 		try {
-			user = await UserModel.getUserByName(name);
+			user = await UserModel.getUserByEmail(email);
 			console.log('user====', user);
-			if (user && password == user.password) {
+			let md5 = crypto.createHash("md5");
+			let newPas = md5.update(password).digest("hex");
+			console.log(newPas,  user.password)
+			if (user && newPas == user.password) {
 				delete user.password;
 				ctx.session.user = user;
 				console.log('登录, session*******', ctx.session);
@@ -20,6 +24,7 @@ module.exports = {
 			}
 		} catch (e) {
 			resCode = 500;
+			console.log(e)
 			message = "服务器出错了";
 		}
 		ctx.response.body = {
@@ -27,16 +32,20 @@ module.exports = {
 			message,
 			user
 		};
-    },
+	},
+	// 注册用户
     "POST /api/user/register": async ctx => {
 		let resCode = 200,
 			message = '注册成功',
             user = ctx.request.body;
-            delete user.password;
-            ctx.session.user = user;
+		ctx.session.user = user; 
+		let md5 = crypto.createHash("md5");
+		user.password = md5.update(user.password).digest("hex");
+		console.log('====', user.password);
         try {
             var result = await UserModel.create(user),
                 res = result.ops[0];
+			delete ctx.session.user.password;	
         } catch (e) {
             resCode = 500;
             message = "注册失败";
@@ -45,6 +54,17 @@ module.exports = {
             resCode,
             message,
             res
+        };
+	},
+	// 退出
+	// 注册用户
+    "GET /api/user/quit": async ctx => {
+		let resCode = 200,
+			message = '退出成功';
+		delete ctx.session.user;
+        ctx.response.body = {
+            resCode,
+            message,
         };
 	},
 }

@@ -1,7 +1,7 @@
 const moment = require('moment');
 const Article = require('../lib/mongo').Article;
 const ArticleTagModel = require("./ArticleTag");
-const AritcleCommentModel = require("./articleComment");
+const CommentModel = require("./Comment");
 module.exports = {
     // 获取所有文章
     getArticles: function getArticles(author) {
@@ -75,7 +75,7 @@ module.exports = {
             // 文章删除后，再删除该文章下的所有留言和标签
             if (res.result.ok && res.result.n > 0) {
               return Promise.all([
-                AritcleCommentModel.delCommentsByArticleId(id),
+                CommentModel.delCommentsById(id),
                 ArticleTagModel.delTagsByArticleId(id)
               ])
             }

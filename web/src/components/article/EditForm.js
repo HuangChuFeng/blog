@@ -91,6 +91,8 @@ class ArticleForm extends React.Component {
     }
 
     initForm(article) {
+        console.log('init');
+        
         let { type, title, description } = article;
         
         let option = {
@@ -98,12 +100,16 @@ class ArticleForm extends React.Component {
             title,
             description,
         }
-        this.props.form.setFieldsValue(option);
+        // option.tags = article.tags.map(item => {
+        //     return item.name
+        // })
         this.setState({
             selectedTags: article.tags.map(item => {
                 return item.name
             })
         })
+        this.props.form.setFieldsValue(option);
+        
     }
 
     handleSubmit = (e) => {
@@ -136,6 +142,8 @@ class ArticleForm extends React.Component {
         const Option = Select.Option;
         const { getFieldDecorator } = this.props.form;
         const selects = [];
+        console.log(this.state.selectedTags);
+        
         if(this.props.allTags) {
             for (let i = 0; i < this.props.allTags.length; i++) {
                 selects.push(<Option key={ this.props.allTags[i].name }>{ this.props.allTags[i].name }</Option>);
@@ -174,17 +182,15 @@ class ArticleForm extends React.Component {
                 <Form.Item>
                     <Row>
                         <Col span={18} >
-                        {this.state.selectedTags.length > 0 && 
                             <Select
                                 mode="tags"
                                 placeholder='选择标签'
-                                defaultValue={this.state.selectedTags}
+                                value={this.state.selectedTags}
                                 onChange={this.handleTagChange.bind(this)}
                                 style={{ width: '100%' }}
                                 >
                                 {selects}
                             </Select>
-                        }
                         </Col>
                         <Col span={2} ></Col>
                         <Col span={2} ><Cover /></Col>

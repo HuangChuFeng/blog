@@ -45,6 +45,7 @@ export default class MyComment extends Component {
   static propTypes = {
     onSubmit: PropTypes.func,
     comments: PropTypes.array,
+    receiver: PropTypes.string
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,6 +62,7 @@ export default class MyComment extends Component {
         submitting: true,
       });
       this.props.onSubmit({
+        receiver: this.props.receiver,
         content: this.state.value
       }, (result) => {
         if (result.data && result.data.comment) {
