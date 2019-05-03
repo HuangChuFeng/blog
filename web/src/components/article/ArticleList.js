@@ -26,17 +26,24 @@ export default class ArticleList extends Component {
         return (
             <div>
                 <div className="left">
-                    {this.props.articles.map((article, i) =>
-                    <Article
-                        article={article}
-                        key={article._id}
-                        index={i} 
-                        deleteArticle={this.props.deleteArticle.bind(this)}
-                        editArticle={this.props.editArticle.bind(this)}
-                        viewDetail={this.props.viewDetail.bind(this)}
-                        isAdmin={this.props.isAdmin}
-                        />
-                    )}
+                    { this.props.articles.length > 0 &&
+                        <div>
+                            {this.props.articles.map((article, i) =>
+                            <Article
+                                article={article}
+                                key={article._id}
+                                index={i} 
+                                deleteArticle={this.props.deleteArticle.bind(this)}
+                                editArticle={this.props.editArticle.bind(this)}
+                                viewDetail={this.props.viewDetail.bind(this)}
+                                isAdmin={this.props.isAdmin}
+                                />
+                            )}
+                        </div>
+                    }
+                    { this.props.articles.length === 0 &&
+                        <div style={{textAlign: 'center'}}>暂无数据</div>
+                    }
                 </div>
                 <div className="right">
                     <img className="avator" src={require('../../static/img/avator.jpeg')} />

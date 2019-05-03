@@ -75,7 +75,7 @@ export default class Img extends Component {
             <div className="img-wraper" onClick={this.toImgDetailPage.bind(this, this.props.img._id)}>
                 <div className="img-box" ref="imgBox" style={this.state.imgBoxStyle}>   
                     <img src={this.props.img.src} alt="" onLoad={this.imgOnLoad.bind(this)} />
-                </div>  
+                </div>
 
                 <div className="img-cover">
                     <div className="operate-box">

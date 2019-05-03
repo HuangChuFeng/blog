@@ -89,7 +89,8 @@ class UploadImg extends Component {
     }
     static propTypes = {
         visible: PropTypes.bool,
-        visibleHandler: PropTypes.func
+        visibleHandler: PropTypes.func,
+        onAddImg: PropTypes.func
     }
 
     componentDidMount() {
@@ -109,14 +110,17 @@ class UploadImg extends Component {
                     info: this.props.form.getFieldsValue()
                 }
                 uploadImgs(group).then(result => {
-                    console.log(result)
-                    const {data} = result;
+                    const { data } = result;
                     if (data.resCode === 200) {
                         this.props.visibleHandler(false);
                         this.setState({
                             imgList: []
                         })
                         this.props.form.resetFields();
+                        data.imglist.forEach(img => {
+                            img.title = group.info.title;
+                            this.props.onAddImg(img)
+                        })
                     } 
                 });
             }

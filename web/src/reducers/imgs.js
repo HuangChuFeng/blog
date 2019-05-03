@@ -21,22 +21,23 @@ export default function(state, action) {
     switch (action.type) {
         case INIT_IMGS:
             // 初始化图片列表
-            console.log('init')
             return { 
+                ...state,
                 imgs: action.imgs,
             };
 
         case ADD_IMG:
             return { 
-                imgs: [action.imgs, ...state.imgs],
+                ...state,
+                imgs: [action.img, ...state.imgs],
             };
         case DELETE_IMG:
             return {
-                imgs: []
-                // imgs: [
-                //     ...state.imgs.slice(0, action.imgsIndex),
-                //     ...state.imgs.slice(action.imgsIndex + 1)
-                // ]
+                ...state,
+                imgs: [
+                    ...state.imgs.slice(0, action.imgsIndex),
+                    ...state.imgs.slice(action.imgsIndex + 1)
+                ]
             };
 
         default: 

@@ -73,12 +73,14 @@ module.exports = {
           console.log(e);
           message = "服务器出错了";
       }
-      img[0] = {
-        ...img[0],
-        groupId: img[0].group_id._id,
-        author: img[0].group_id.author,
+      if(img.length > 0) {
+        img[0] = {
+          ...img[0],
+          groupId: img[0].group_id._id,
+          author: img[0].group_id.author,
+        }
+        delete img[0].group_id
       }
-      delete img[0].group_id
       ctx.response.body = {
           resCode,
           message,
@@ -187,6 +189,9 @@ module.exports = {
         group.info.author = ctx.session.user._id;
     try {
       var imglist = await ImgModel.upLoadImgs(group);
+      imglist = imglist.map(item => {
+        return item.ops[0]
+      })
     } catch (e) {
       resCode = 500;
       message = "服务器出错了";

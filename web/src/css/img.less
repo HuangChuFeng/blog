@@ -13,15 +13,15 @@
         }
         &:hover .img-cover {
             cursor: pointer;
-            transform: scale(1.05);
+            // transform: scale(1.05);
             -webkit-box-shadow: 0px 100px 100px -100px rgba(0, 0, 0, 1) inset, 0px -100px 100px -100px rgba(0, 0, 0, 1) inset;
                -moz-box-shadow: 0px 100px 100px -100px rgba(0, 0, 0, 1) inset, 0px -100px 100px -100px rgba(0, 0, 0, 1) inset;
                     box-shadow: 0px 100px 100px -100px rgba(0, 0, 0, 1) inset, 0px -100px 100px -100px rgba(0, 0, 0, 1) inset;
         }
         &:hover img {
-            transform: scale(1.05);
+            // transform: scale(1.05);
             -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-               -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+               -moz-box-shadow: 0 0 10px  rgba(0, 0, 0, 0.5);
                     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
         &:hover .operate-box, 
@@ -49,7 +49,7 @@
             transition: all .5s;
             .heart-icon {
                 color: #dc4040;
-                transform: scale(1.5);
+                // transform: scale(1.5);
             }
             .count-span {
                 color: @common-font-color;
@@ -57,7 +57,7 @@
             }
             .collection-icon {
                 margin: 0 0 0 20px;
-                transform: scale(1.3);
+                // transform: scale(1.3);
                 color: #dc4040;
             }
         }
@@ -95,18 +95,24 @@
                 height: 100%;
             }
             .icon {
+                font-size: 40px !important;
                 position: absolute;
                 color: @common-font-color;
-                transform: scale(2);
                 width: 20px;
                 height: 20px;
                 display: flex;
                 justify-content:center;
                 align-items: center;
-                border-radius: 50%;
-                transition: all .2s;
-                &:hover {
-                    cursor: pointer;
+                &:before {
+                    content: '';
+                    border-radius: 50%;
+                    display: block;
+                    position: absolute;
+                    width: 50px;
+                    height: 50px;
+                    transition: all .2s;
+                }
+                &:hover:before{
                     background: rgba(255, 255, 255, 0.15);
                 }
             }
@@ -122,7 +128,8 @@
             .left-icon, .right-icon {
                 top: 50%;
                 margin-top: -16px;
-                transform: translateY(-50%) scale(2);
+                transform: translateY(-50%);
+                // transform: translateY(-50%) scale(2);
             }
             .left-icon {
                 left: 64px;
@@ -137,7 +144,7 @@
         .operate-box {
             padding: 0 64px;
             .icon {
-                transform: scale(2);
+                // transform: scale(2);
                 &:hover {
                     cursor: pointer;
                 }

@@ -28,11 +28,11 @@ const imgNavArr = [
         url: '/photograph'
         // child: ['所有排序', '时间排序']
     },
-    { text: '建筑', url: '/photograph' },
-    { text: '人像', url: '/photograph' },
-    { text: '街拍', url: '/photograph' },
-    { text: '风景', url: '/photograph' },
-    { text: '其他', url: '/photograph' },
+    { text: '建筑' },
+    { text: '人像' },
+    { text: '街拍' },
+    { text: '风景' },
+    { text: '其他' },
 ]
 
 class Header extends Component {
@@ -72,17 +72,24 @@ class Header extends Component {
     
     navClickHandler = (item, index) => {
         if(!item.child && !item.url) {
-            let url = '/articles';
+            let url = '';
             this.setState({
                 activeIndex: index,
                 showMenu: false,
             });
-            if(item.type !== undefined) {
-                url += `?type=${item.type}`
+            if(this.props.type != 0) {
+                url = '/articles';
+                if(item.type !== undefined) {
+                    url += `?type=${item.type}`
+                }
+                this.props.handleNavChange && this.props.handleNavChange(item.type);
+            } else {
+                url = '/photograph';
+                url += `?type=${item.text}`
+                this.props.handleNavChange && this.props.handleNavChange(item.text);
             }
             this.context.router.history.push(url);
             this.props.changeCurNav && this.props.changeCurNav(this.state.navArr[index].text)
-            this.props.handleNavChange && this.props.handleNavChange(item.type);
         }
     }
 

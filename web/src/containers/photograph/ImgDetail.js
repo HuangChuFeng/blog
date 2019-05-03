@@ -36,7 +36,7 @@ class ImgDetail extends Component {
             const { data } = result;
             if (data) {
                 if (data.noMore) {
-                    message.warning('已经是最后一篇了', 1);
+                    message.warning('已经是最后一张了', 1);
                     this.setState({ clickTypeNum: typeNum })
                 } else {
                     this.setState({

@@ -50,7 +50,11 @@ class ImgListContainer extends Component {
                     <Button type="primary" className="common-btn" onClick={this.visibleHandler.bind(this, true)}>
                         上传照片
                     </Button>
-                    <UploadImg visible={this.state.dialogVisible} visibleHandler={this.visibleHandler}/>
+                    <UploadImg 
+                        visible={this.state.dialogVisible} 
+                        visibleHandler={this.visibleHandler}
+                        onAddImg={this.props.addImg}
+                    />
                     <ImgList
                         imgs= {this.props.imgs}
                         onDeleteImg= {this.handleDeleteImg.bind(this)} />
