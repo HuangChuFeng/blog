@@ -9,11 +9,12 @@ const bucket = 'huangchufeng';
 module.exports = {
   // GET /imgs 所有照片
   "GET /api/imgs": async ctx => {
+    const category =  ctx.request.query.category;
     let resCode = 200,
       message = "ok",
       imgs = [];
     try {
-      let groups = await ImgModel.getGroups();
+      let groups = await ImgModel.getGroups(category);
       for(let i = 0; i < groups.length; i++) {
         let subImgs = await ImgModel.getImgsByGroupId(groups[i]._id);
         subImgs = subImgs.map(item => {

@@ -151,11 +151,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // 告诉Connect组件我们要执行什么操作
-        getImgById: (id) => {
-
-            // dispatch(getImgById(id));
-        },
     }
 }
 

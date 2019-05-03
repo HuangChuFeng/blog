@@ -24,7 +24,9 @@ export default class Img extends Component {
     static propTypes = {
         img: PropTypes.object,
         index: PropTypes.number,
-        onDeleteImg: PropTypes.func
+        onDeleteImg: PropTypes.func,
+        addImgFavor: PropTypes.func,
+        isAdmin: PropTypes.bool
     }
 
     componentDidMount() {
@@ -80,10 +82,12 @@ export default class Img extends Component {
                 <div className="img-cover">
                     <div className="operate-box">
                        <div>
-                            <Icon className="heart-icon" type="heart" /> 
-                            <span className="count-span">{this.props.img.favor_count}</span>
+                            <Icon className="heart-icon" type="heart" onClick={(e) => this.props.addImgFavor(e, this.props.img._id, this.props.index)} /> 
+                            <span className="count-span">{this.props.img.favor_count || 0}</span>
                             <Icon type="switcher" className="collection-icon" />
-                            <Icon type="delete" className="collection-icon" onClick={this.props.onDeleteImg.bind(this, this.props.img._id, this.props.index)}/>
+                            { this.props.isAdmin &&
+                            <Icon type="delete" className="collection-icon" onClick={(e) => { this.props.onDeleteImg(e, this.props.img._id, this.props.index)}}/>
+                            }
                        </div>
                     </div>
                     <div className="info-box">

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { initImgs, deleteImg, addImg } from '../../reducers/imgs'
+import { initImgs, deleteImg, addImg, addImgFavorCount } from '../../reducers/imgs'
 import { changeCurNav } from '../../reducers/common'
 import { Affix, Icon, Button } from 'antd';
 import ImgList from '../../components/photograph/ImgList'
@@ -9,7 +9,7 @@ import UploadImg from '../../components/photograph/UploadImg'
 import Header from '../../components/Header'
 import '../../css/img.less'
 
-import { fetchImgs, deleteImgById } from "../../service/fetch";
+import { fetchImgs, deleteImgById, addImgFavor } from "../../service/fetch";
 
 class ImgListContainer extends Component {
     constructor(props) {
@@ -33,7 +33,8 @@ class ImgListContainer extends Component {
         this.setState({ dialogVisible: flag });
     }
 
-    handleDeleteImg(imgId, index) {
+    handleDeleteImg(e, imgId, index) {
+        e.stopPropagation();
         deleteImgById({imgId: imgId}).then(result => {
             const { data } = result;
             if (data) {
@@ -41,15 +42,34 @@ class ImgListContainer extends Component {
             } 
         })
     }
+    handleAddImgFavor(e, imgId, index) {
+        e.stopPropagation();
+        addImgFavor(imgId).then(result => {
+            const { data } = result;
+            if (data) {
+                this.props.addImgFavorCount(index);
+            }
+        });
+    }
+
+    handleNavChange(category) {
+        category = (category === '所有照片' ? '' : category);
+        this.props.initImgs(category);
+    }
 
     render () {
         return (
             <div>
-                <Header type={0} />
+                <Header 
+                    type={0} 
+                    handleNavChange={this.handleNavChange.bind(this)}
+                />
                 <div className="container img-container">
+                    { this.props.isAdmin && 
                     <Button type="primary" className="common-btn" onClick={this.visibleHandler.bind(this, true)}>
                         上传照片
                     </Button>
+                    }
                     <UploadImg 
                         visible={this.state.dialogVisible} 
                         visibleHandler={this.visibleHandler}
@@ -57,7 +77,10 @@ class ImgListContainer extends Component {
                     />
                     <ImgList
                         imgs= {this.props.imgs}
-                        onDeleteImg= {this.handleDeleteImg.bind(this)} />
+                        addImgFavor={this.handleAddImgFavor.bind(this)}
+                        onDeleteImg= {this.handleDeleteImg.bind(this)}
+                        isAdmin={this.props.isAdmin} 
+                    />
                 </div>
             </div>
         )
@@ -68,15 +91,16 @@ class ImgListContainer extends Component {
 const mapStateToProps = (state) => {
     return {
         imgs: state.imgsReducer.imgs,
-        curNav: state.commonReducer.curNav
+        curNav: state.commonReducer.curNav,
+        isAdmin: state.commonReducer.isAdmin
     }
 }
   
 // 当前组件需要发起的事件
 const mapDispatchToProps = (dispatch) => {
     return {
-        initImgs: () => {
-            return fetchImgs().then(result => {
+        initImgs: (category) => {
+            return fetchImgs(category).then(result => {
                 const {data} = result;
                 if (data) {
                     dispatch(initImgs(data.imgs));
@@ -91,6 +115,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeCurNav: (nav) => {
             dispatch(changeCurNav(nav));
+        },
+        addImgFavorCount: (index) => {
+            dispatch(addImgFavorCount(index));
         }
     }
 }

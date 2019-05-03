@@ -8,17 +8,21 @@ module.exports = {
   // 获取所有照片
   getImgsByGroupId: function getImgsByGroupId(groupId) {
       var query = {};
-        if (groupId) {
-            query.group_id = groupId;
-        }
-        return Img
-        .find(query)
-        .exec();
+      if (groupId) {
+          query.group_id = groupId;
+      }
+      return Img
+      .find(query)
+      .exec();
   },
 
   // 根据group_id获取一组照片
-  getGroups: function getGroups() {
-      return ImgsGroup.find({}).sort({ _id: -1 }).exec();
+  getGroups: function getGroups(category) {
+    var query = {};
+    if (category) {
+        query.category = category;
+    }
+    return ImgsGroup.find(query).sort({ _id: -1 }).exec();
   },
 
   // 按照id根据某张照片详情

@@ -21,8 +21,8 @@ export const uploadImgs = group => {
     请求所有的照片
     /api/imgs
  */
-export const fetchImgs = id => {
-  return get(`${DEV_URL}/api/imgs`);
+export const fetchImgs = (category = '') => {
+  return get(`${DEV_URL}/api/imgs?category=${category}`);
 };
 
 // 获取照片详情
@@ -62,7 +62,7 @@ export const quit = () => {
 };
 
 // 获取文章列表
-export const fetchArticles = type => {
+export const fetchArticles = (type = '') => {
   return get(`${DEV_URL}/api/articles?type=${type}`);
 };
 

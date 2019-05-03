@@ -35,7 +35,7 @@ module.exports = {
         try {
             var article = [], comment = [], tags = [];
             // 按照当前文章id获取上一篇或下一篇
-            if(typeNum !== 'undefined') {
+            if(typeNum) {
                 article = await AritcleModel.getLastOrNextArticle(articleId, typeNum);
                 if(article.length === 0) {
                     noMore = true;

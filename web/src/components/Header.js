@@ -25,7 +25,6 @@ const articleNavArr = [
 const imgNavArr = [
     {
         text: '所有照片',
-        url: '/photograph'
         // child: ['所有排序', '时间排序']
     },
     { text: '建筑' },

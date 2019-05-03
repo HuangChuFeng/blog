@@ -8,6 +8,7 @@
 const INIT_IMGS = 'INIT_IMGS';
 const ADD_IMG = 'ADD_IMG';
 const DELETE_IMG = 'DELETE_IMG';
+const ADD_IMG_FAVOR_COUNT = 'ADD_IMG_FAVOR';
 
 export default function(state, action) {
     if(!state) {
@@ -35,10 +36,22 @@ export default function(state, action) {
             return {
                 ...state,
                 imgs: [
-                    ...state.imgs.slice(0, action.imgsIndex),
-                    ...state.imgs.slice(action.imgsIndex + 1)
+                    ...state.imgs.slice(0, action.imgIndex),
+                    ...state.imgs.slice(action.imgIndex + 1)
                 ]
             };
+        case ADD_IMG_FAVOR_COUNT:
+            let imgs = [];
+            state.imgs.forEach((item, index) => {
+                imgs.push(item)
+                if(index === action.index) {
+                    imgs[index].favor_count = (item.favor_count || 0) + 1;
+                }
+            })
+            return {
+                ...state,
+                imgs
+            }
 
         default: 
             return state;
@@ -55,6 +68,10 @@ export const addImg = (img) => {
 
 export const deleteImg = (imgIndex) => {
     return { type: DELETE_IMG, imgIndex }
+}
+
+export const addImgFavorCount = (index) => {
+    return { type: ADD_IMG_FAVOR_COUNT, index }
 }
 
 
