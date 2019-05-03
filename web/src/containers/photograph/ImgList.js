@@ -9,7 +9,7 @@ import UploadImg from '../../components/photograph/UploadImg'
 import Header from '../../components/Header'
 import '../../css/img.less'
 
-import { fetchImgs } from "../../service/fetch";
+import { fetchImgs, deleteImgById } from "../../service/fetch";
 
 class ImgListContainer extends Component {
     constructor(props) {
@@ -26,27 +26,20 @@ class ImgListContainer extends Component {
     }
 
     _loadimgs() {
-        this.props.initImgs(this.props.imgs);
+        this.props.initImgs();
     }
 
     visibleHandler = (flag) => {
         this.setState({ dialogVisible: flag });
     }
 
-    handleDeleteComment(index) {
-        const { imgs } = this.props;
-        const newimgs = [
-            ...imgs.slice(0, index),
-            ...imgs.slice(index + 1)    
-        ];
-
-        // 处理数据源
-        localStorage.setItem('imgs', JSON.stringify(newimgs));
-
-        // 从页面上删除
-        if(this.props.onDeleteComment) {
-            this.props.onDeleteComment(index);
-        }
+    handleDeleteImg(imgId, index) {
+        deleteImgById({imgId: imgId}).then(result => {
+            const { data } = result;
+            if (data) {
+                this.props.deleteImg(index);
+            } 
+        })
     }
 
     render () {
@@ -60,7 +53,7 @@ class ImgListContainer extends Component {
                     <UploadImg visible={this.state.dialogVisible} visibleHandler={this.visibleHandler}/>
                     <ImgList
                         imgs= {this.props.imgs}
-                        onDeleteComment= {this.handleDeleteComment.bind(this)} />
+                        onDeleteImg= {this.handleDeleteImg.bind(this)} />
                 </div>
             </div>
         )
@@ -78,20 +71,13 @@ const mapStateToProps = (state) => {
 // 当前组件需要发起的事件
 const mapDispatchToProps = (dispatch) => {
     return {
-        initImgs: (imgs) => {
-            if(imgs && imgs.length === 0) {
-                return fetchImgs(imgs).then(result => {
-                    const {data} = result;
-                    if (data) {
-                        dispatch(initImgs(data.imgs));
-                    } 
-                });
-            } else {
-                dispatch(initImgs([]));
-            }
-        },
-        onDeleteComment: (commentIndex) => {
-            // dispatch(deleteComment(commentIndex))
+        initImgs: () => {
+            return fetchImgs().then(result => {
+                const {data} = result;
+                if (data) {
+                    dispatch(initImgs(data.imgs));
+                } 
+            });
         },
         deleteImg: (imgIndex) => {
             dispatch(deleteImg(imgIndex))

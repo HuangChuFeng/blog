@@ -22,13 +22,9 @@ export default class Img extends Component {
     }
 
     static propTypes = {
-        img: PropTypes.shape({
-            src: PropTypes.string,
-        }),
-    }
-
-    static defaultProps = {
-        img: null
+        img: PropTypes.object,
+        index: PropTypes.number,
+        onDeleteImg: PropTypes.func
     }
 
     componentDidMount() {
@@ -64,12 +60,6 @@ export default class Img extends Component {
         }
     }
 
-    handleDeleteComment(index) {
-        if(this.props.onDeleteComment) {
-            this.props.onDeleteComment(index)
-        }
-    }
-
     imgOnLoad = () => {
         console.log('img onload');
         
@@ -77,12 +67,12 @@ export default class Img extends Component {
 
     // 查看图片详情
     toImgDetailPage = id =>  {
-        this.context.router.history.push(`/photograph/${id}`);       
+        this.context.router.history.push(`/photograph/detail/${id}`);       
     }
 
     render() {
         return (
-            <div className="img-wraper" onClick={this.toImgDetailPage.bind(this, this.props.img.id)}>
+            <div className="img-wraper" onClick={this.toImgDetailPage.bind(this, this.props.img._id)}>
                 <div className="img-box" ref="imgBox" style={this.state.imgBoxStyle}>   
                     <img src={this.props.img.src} alt="" onLoad={this.imgOnLoad.bind(this)} />
                 </div>  
@@ -91,8 +81,9 @@ export default class Img extends Component {
                     <div className="operate-box">
                        <div>
                             <Icon className="heart-icon" type="heart" /> 
-                            <span className="count-span">50</span>
+                            <span className="count-span">{this.props.img.favor_count}</span>
                             <Icon type="switcher" className="collection-icon" />
+                            <Icon type="delete" className="collection-icon" onClick={this.props.onDeleteImg.bind(this, this.props.img._id, this.props.index)}/>
                        </div>
                     </div>
                     <div className="info-box">

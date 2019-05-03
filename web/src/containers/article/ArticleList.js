@@ -46,7 +46,6 @@ class ArticleListContainer extends Component {
             const { data } = result;
             if (data) {
                 this.props.deleteArticle(index);
-                console.log(data.message, this.props.articles);
             } 
         })
     }    

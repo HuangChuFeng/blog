@@ -74,7 +74,6 @@ app.use(cors({
   allowMethods: ['GET', 'POST', 'DELETE'],
   allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
   store: new MongoStore(),
-  // credentials : true,
 }))
 
 

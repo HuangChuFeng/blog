@@ -46,7 +46,7 @@ module.exports = {
                 }
             } else {
                 // 按照id获取文章
-                result = await Promise.all([
+                let result = await Promise.all([
                     AritcleModel.getArticleById(articleId),
                     CommentModel.getComments(articleId), // 获取该文章所有评论
                     ArticleTagModel.getTagByArticleId(articleId)  // 获取该文章所有标签
@@ -63,7 +63,6 @@ module.exports = {
         } catch (e) {
             resCode = 500;
             console.log(e);
-            
             message = "服务器出错了";
         }
         ctx.response.body = {
@@ -141,9 +140,8 @@ module.exports = {
     },
 
     // 更新文章浏览量
-    "POST /api/articles/:articleId/addBrowseNum": async ctx => {
+    "GET /api/articles/:articleId/addArticlePv": async ctx => {
         let { articleId } = ctx.params,
-            num = ctx.request.body.num;
             // author = ctx.session.user._id,
             resCode = 200,
             message = "更新成功";
@@ -151,7 +149,7 @@ module.exports = {
             if (!articleId) {
                 throw new Error("文章不存在");
             }
-            await AritcleModel.addArticleBrowserNum(articleId, num);
+            await AritcleModel.addArticlePv(articleId);
         } catch (e) {
             console.log(e);
             message = "更新失败";

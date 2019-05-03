@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Divider, Icon, message } from 'antd';
 import Header from '../../components/Header'
 import MyComment from '../../components/Comment'
-import { getArticleDetail, commentArticle, addBrowseNum } from "../../service/fetch";
+import { getArticleDetail, comment as commentArticle, addArticlePv } from "../../service/fetch";
 import { changeCurNav } from '../../reducers/common'
 import Highlight from 'react-highlight'
 import 'highlight.js/styles/hopscotch.css'
@@ -36,11 +36,10 @@ class ArticleDetail extends Component {
 
     handleBrowser() {
         setTimeout(() => {
-            let num = this.state.article.browse_num || 0;
-            addBrowseNum(this.state.id, num).then(result => {
+            addArticlePv(this.state.id).then(result => {
                 const { data } = result;
                 if (data) {
-                    let article = Object.assign(this.state.article, { browse_num: this.state.article.browse_num + 1 })
+                    let article = Object.assign(this.state.article, { pv: (this.state.article.pv || 0) + 1 })
                     this.setState({
                         article: article
                     });
@@ -111,7 +110,7 @@ class ArticleDetail extends Component {
                             <h2>{this.state.article.title}</h2>
                             <div className="top-bottom">
                                 <span>{date} Beijing</span>
-                                <span className="browse-num"><Icon type="fire" className="fire-icon" />{this.state.article.browse_num || 0}</span>
+                                <span className="browse-num"><Icon type="fire" className="fire-icon" />{this.state.article.pv || 0}</span>
                                 
                             </div>
                         </div>

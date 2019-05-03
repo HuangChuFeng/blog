@@ -7,6 +7,16 @@ const DEV_URL = 'http://localhost:3000';
     使用同步数据流达成类似效果的后遗症应该就是组件耦合性巨高。。
  */
 
+// 获取上传图片token
+export const getUploadToken = params => {
+  return post(`${DEV_URL}/api/token`);
+};
+
+// 上传照片
+export const uploadImgs = group => {
+  return post(`${DEV_URL}/api/imgs/upload`, group);
+};
+
 /*
     请求所有的照片
     /api/imgs
@@ -14,6 +24,29 @@ const DEV_URL = 'http://localhost:3000';
 export const fetchImgs = id => {
   return get(`${DEV_URL}/api/imgs`);
 };
+
+// 获取照片详情
+export const getImgDetail = (id, typeNum) => {
+  return get(`${DEV_URL}/api/imgs/${id}?typeNum=${typeNum}`);
+};
+
+// 删除照片
+export const deleteImgById = params => {
+  return get(`${DEV_URL}/api/imgs/${params.imgId}/remove`);
+};
+
+// 更新文章浏览量
+export const addImgPv = (id, num) => {
+  return get(`${DEV_URL}/api/imgs/${id}/addImgPv`, {
+    num: num,
+  });
+};
+
+// 更新文章喜欢数量
+export const addImgFavor = (id) => {
+  return get(`${DEV_URL}/api/imgs/${id}/addImgFavor`);
+};
+
 
 export const login = (user) => {
   return post(`${DEV_URL}/api/user/login`, user);
@@ -26,16 +59,6 @@ export const register = (user) => {
 // 退出
 export const quit = () => {
   return get(`${DEV_URL}/api/user/quit`);
-};
-
-// 获取上传图片token
-export const getUploadToken = params => {
-  return post(`${DEV_URL}/api/token`);
-};
-
-// 上传照片
-export const uploadImgs = group => {
-  return post(`${DEV_URL}/api/imgs/upload`, group);
 };
 
 // 获取文章列表
@@ -68,14 +91,12 @@ export const updateArticleById = (id, article) => {
 };
 
 // 更新文章浏览量
-export const addBrowseNum = (id, num) => {
-  return post(`${DEV_URL}/api/articles/${id}/addBrowseNum`, {
-    num: num,
-  });
+export const addArticlePv = (id) => {
+  return get(`${DEV_URL}/api/articles/${id}/addArticlePv`);
 };
 
 // 发表评论
-export const commentArticle = (id, comment) => {
+export const comment = (id, comment) => {
   return post(`${DEV_URL}/api/${id}/comment`, comment);
 };
 

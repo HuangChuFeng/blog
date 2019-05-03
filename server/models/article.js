@@ -36,7 +36,7 @@ module.exports = {
      *  typeNum: -1表示上一篇, 1表示下一篇
      **/
     getLastOrNextArticle: function getLastOrNextArticle(curId, typeNum) {
-        var query = {};
+        var query = {}; 
         if (curId) {
             // console.log(typeNum === '1' ? '下一篇' : '上一篇')
             query = typeNum === '1' ? { '_id': { '$lt': curId }} : { '_id': { '$gt': curId }} ;
@@ -49,8 +49,8 @@ module.exports = {
     },
 
     // 更新文章浏览量
-    addArticleBrowserNum: function addArticleBrowserNum(articleId, num) {
-        return Article.update({ _id: articleId }, { $inc:{ browse_num: 1 }}).exec();
+    addArticlePv: function addArticlePv(articleId) {
+        return Article.update({ _id: articleId }, { $inc:{ pv: 1 }}).exec();
     },
 
     // 创建文章

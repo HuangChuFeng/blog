@@ -8,7 +8,6 @@
 const INIT_IMGS = 'INIT_IMGS';
 const ADD_IMG = 'ADD_IMG';
 const DELETE_IMG = 'DELETE_IMG';
-const GET_IMG_BY_ID = 'GET_IMG_BY_ID';
 
 export default function(state, action) {
     if(!state) {
@@ -31,17 +30,6 @@ export default function(state, action) {
             return { 
                 imgs: [action.imgs, ...state.imgs],
             };
-
-        case GET_IMG_BY_ID:
-            let img = state.imgs.filter((item) => {
-                return item.id == action.id
-            })[0];
-            console.log('get img by id', img);
-            return { 
-                ...state, 
-                curImg: img,
-            };
-        
         case DELETE_IMG:
             return {
                 imgs: []
@@ -58,10 +46,6 @@ export default function(state, action) {
 
 export const initImgs = (imgs) => {
     return { type: INIT_IMGS, imgs }
-}
-
-export const getImgById = (id) => {
-    return { type: GET_IMG_BY_ID, id }
 }
 
 export const addImg = (img) => {
