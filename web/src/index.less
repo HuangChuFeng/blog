@@ -62,7 +62,7 @@ a {
 .page-header {
   width: 100%;
   min-width: 450px;
-  height: 70px;
+  height: 85px;
   background: #fff;
   top: 0;
   z-index: 999;
@@ -81,7 +81,7 @@ a {
       li {
           float: left;
           padding: 0 20px;
-          line-height: 70px;
+          line-height: 85px;
           &.active {
               color: @dark-blue;
           }
@@ -89,7 +89,7 @@ a {
             position: relative;
             float: right;
             text-align: center;
-            line-height: 70px;
+            line-height: 85px;
             color: rgba(0, 0, 0, 0.65);
             &:after {
               content: '';
@@ -98,7 +98,7 @@ a {
               z-index: -1;
               position: absolute;
               display: inline-block;
-              height: 70px;
+              height: 85px;
               background: @common-blue;
               transition: all .3s;
             }
@@ -118,11 +118,22 @@ a {
 
 .container {
   position: absolute;
-  height: calc(100% - 70px);
+  height: calc(100% - 85px);
   width: 100%;
   min-width: 1100px;
-  top: 70px;
+  top: 85px;
   overflow-y: auto;
+  .loading-wrap {
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+    span {
+      margin-left: 15px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 .tag-list {

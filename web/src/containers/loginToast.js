@@ -29,7 +29,6 @@ class LoginForm extends React.Component {
                     register(values).then(result => {
                         const { data } = result;
                         if (data) {
-                            
                             window.localStorage.setItem('type', data.res.type);
                             window.localStorage.setItem('user', `来自${data.res.source}的${data.res.name}`);
                             toast.dismiss();

@@ -54,7 +54,7 @@ class ArticleDetail extends Component {
     }
 
     // 获取某一篇文章及评论
-    articleDetail(id, typeNum) {
+    articleDetail(id, typeNum = '') {
         getArticleDetail(id, typeNum).then(result => {
             const { data } = result;
             if (data) {

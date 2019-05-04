@@ -59,7 +59,7 @@ export default class Home extends Component {
             <span className="left-center-text"><a href="#">关于—</a></span>
               <ul className="nav-ul">
                 <li><RouteLink to="/photograph">摄影</RouteLink></li>
-                <li><RouteLink to="#">视频</RouteLink></li>
+                {/* <li><RouteLink to="#">视频</RouteLink></li> */}
                 <li><RouteLink to="/articles">文章</RouteLink></li>
               </ul>
             <div className="center-text">

@@ -21,8 +21,8 @@ export const uploadImgs = group => {
     请求所有的照片
     /api/imgs
  */
-export const fetchImgs = (category = '') => {
-  return get(`${DEV_URL}/api/imgs?category=${category}`);
+export const fetchImgs = (params) => {
+  return get(`${DEV_URL}/api/imgs?pageNum=${params.pageNum}&category=${params.category}`);
 };
 
 // 获取照片详情
@@ -62,8 +62,8 @@ export const quit = () => {
 };
 
 // 获取文章列表
-export const fetchArticles = (type = '') => {
-  return get(`${DEV_URL}/api/articles?type=${type}`);
+export const fetchArticles = (params) => {
+  return get(`${DEV_URL}/api/articles?pageNum=${params.pageNum}&type=${params.type}`);
 };
 
 // 获取文章详情

@@ -124,7 +124,7 @@ class ImgDetail extends Component {
                             <span className="count-span">{this.state.img.favor_count || 0}</span>
                             <Icon className="icon" type="eye" />
                             <span className="count-span">{this.state.img.pv || 0}</span>
-                            <Icon type="switcher" className="icon collection-icon" />
+                            {/* <Icon type="switcher" className="icon collection-icon" /> */}
                         </div>
                     </div>
                     <div className="comment-wrap">

@@ -6,19 +6,21 @@ const authCheck = require("../middlewares/check").auth;
 module.exports = {
     // 获取所有文章
     "GET /api/articles": async ctx => {
-        const type =  ctx.request.query.type;
+        const { type, pageNum } =  ctx.request.query;
+        const pageSize = 10;
         let resCode = 200,
             message;
         try {
-            var articles = await AritcleModel.getArticles(type);
+            var articles = await AritcleModel.getArticles(type, pageNum);
+            
             for(let i = 0; i < articles.length; i++) {
                 articles[i].comments = await CommentModel.getCommentsCount(articles[i]._id);
             }
-            
         } catch (e) {
             resCode = 500;
             message = "服务器出错了";
         }
+        
         ctx.response.body = {
             resCode,
             message,

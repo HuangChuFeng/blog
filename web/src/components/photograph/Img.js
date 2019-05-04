@@ -84,7 +84,7 @@ export default class Img extends Component {
                        <div>
                             <Icon className="heart-icon" type="heart" onClick={(e) => this.props.addImgFavor(e, this.props.img._id, this.props.index)} /> 
                             <span className="count-span">{this.props.img.favor_count || 0}</span>
-                            <Icon type="switcher" className="collection-icon" />
+                            {/* <Icon type="switcher" className="collection-icon" /> */}
                             { this.props.isAdmin &&
                             <Icon type="delete" className="collection-icon" onClick={(e) => { this.props.onDeleteImg(e, this.props.img._id, this.props.index)}}/>
                             }

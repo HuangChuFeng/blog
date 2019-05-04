@@ -7,12 +7,15 @@ const CommentModel = require("./Comment");
 module.exports = {
   // 获取所有照片
   getImgsByGroupId: function getImgsByGroupId(groupId) {
-      var query = {};
+      var query = {}; //, skip = 0, limit = 3;
       if (groupId) {
           query.group_id = groupId;
       }
+      // skip = (pageNum - 1) * limit
       return Img
       .find(query)
+      // .limit(limit)
+      // .skip(skip)
       .exec();
   },
 

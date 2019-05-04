@@ -4,18 +4,21 @@ const ArticleTagModel = require("./ArticleTag");
 const CommentModel = require("./Comment");
 module.exports = {
     // 获取所有文章
-    getArticles: function getArticles(type, author) {
-        var query = {};
+    getArticles: function getArticles(type, pageNum, author) {
+        var query = {}, skip = 0, limit = 3;
         if (author) {
             query.author = author;
         }
         if(type !== 'undefined') {
             query.type = Number(type)
         }
+        skip = (pageNum - 1) * limit
         return Article
         .find(query)
         // .populate({ path: 'author', model: 'User' })
         .sort({ _id: -1 })
+        .limit(limit)
+        .skip(skip)
         .exec();
     },
 

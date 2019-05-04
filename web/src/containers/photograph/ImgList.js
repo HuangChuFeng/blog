@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { initImgs, deleteImg, addImg, addImgFavorCount } from '../../reducers/imgs'
 import { changeCurNav } from '../../reducers/common'
-import { Affix, Icon, Button } from 'antd';
+import { Affix, Icon, Button, message } from 'antd';
 import ImgList from '../../components/photograph/ImgList'
 import UploadImg from '../../components/photograph/UploadImg'
 import Header from '../../components/Header'
+import Loading from '../../components/Loading'
 import '../../css/img.less'
 
 import { fetchImgs, deleteImgById, addImgFavor } from "../../service/fetch";
@@ -16,17 +17,41 @@ class ImgListContainer extends Component {
         super(props);
         this.state = {
             dialogVisible: false,
+            showLoading: false,
+            pageNum: 1,
+            noMore: false,  // 是否没有更多了
         }
     }
     componentDidMount() {
-        this._loadimgs();
+        this.loadImgs();
         if(!this.props.curNav) {
             this.props.changeCurNav('所有照片')
         }
     }
 
-    _loadimgs() {
-        this.props.initImgs();
+    loadImgs(category = '') {
+        let params = {
+            pageNum: this.state.pageNum,
+            category
+        }
+        this.setState({ showLoading: true });
+        return fetchImgs(params).then(result => {
+            const {data} = result;
+            if (data) {
+                this.props.initImgs(data.imgs);
+                this.setState({ noMore: data.noMore })
+                this.setState({ showLoading: false });
+            } else {
+                this.setState({ showLoading: false });
+                this.setState({ noMore: true })
+            }
+        })
+    }
+
+    loadMore() {
+        this.setState({ pageNum: this.state.pageNum + 1 }, function () {
+            this.loadImgs();
+        })
     }
 
     visibleHandler = (flag) => {
@@ -53,8 +78,9 @@ class ImgListContainer extends Component {
     }
 
     handleNavChange(category) {
+        this.setState({ pageNum: 1 })
         category = (category === '所有照片' ? '' : category);
-        this.props.initImgs(category);
+        this.initImgs(category);
     }
 
     render () {
@@ -81,6 +107,12 @@ class ImgListContainer extends Component {
                         onDeleteImg= {this.handleDeleteImg.bind(this)}
                         isAdmin={this.props.isAdmin} 
                     />
+                    { !this.state.noMore && 
+                    <Loading 
+                        show={this.state.showLoading}
+                        loadMore={this.loadMore.bind(this)}
+                    />
+                    }
                 </div>
             </div>
         )
@@ -99,13 +131,8 @@ const mapStateToProps = (state) => {
 // 当前组件需要发起的事件
 const mapDispatchToProps = (dispatch) => {
     return {
-        initImgs: (category) => {
-            return fetchImgs(category).then(result => {
-                const {data} = result;
-                if (data) {
-                    dispatch(initImgs(data.imgs));
-                } 
-            });
+        initImgs: (imgs) => {
+            dispatch(initImgs(imgs));
         },
         deleteImg: (imgIndex) => {
             dispatch(deleteImg(imgIndex))

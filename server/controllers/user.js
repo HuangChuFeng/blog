@@ -40,7 +40,6 @@ module.exports = {
 		ctx.session.user = user; 
 		let md5 = crypto.createHash("md5");
 		user.password = md5.update(user.password).digest("hex");
-		console.log('====', user.password);
         try {
             var result = await UserModel.create(user),
                 res = result.ops[0];

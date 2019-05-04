@@ -20,6 +20,7 @@ const articleNavArr = [
     { text: '生活', type: 1 },
     // { text: '项目', url: '/articles' },
     { text: 'Tags', url: '/articles/tags' },
+    { text: '摄影', url: '/photograph'}
 ]
 
 const imgNavArr = [
@@ -32,6 +33,7 @@ const imgNavArr = [
     { text: '街拍' },
     { text: '风景' },
     { text: '其他' },
+    { text: '文章', url: '/articles'}
 ]
 
 class Header extends Component {
@@ -153,7 +155,7 @@ class Header extends Component {
                             }
                         )}
                         <li className="to-index-link">
-                            <Link to='/'> <Icon type="home" /> 主页</Link>
+                            {/* <Link to='/'> <Icon type="home" /> 主页</Link> */}
                             { this.props.isLogined &&
                                 <span className="op-btn" onClick={this.quitHandle.bind(this)}>退出</span>
                             }

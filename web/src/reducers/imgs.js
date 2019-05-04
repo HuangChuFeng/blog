@@ -24,7 +24,7 @@ export default function(state, action) {
             // 初始化图片列表
             return { 
                 ...state,
-                imgs: action.imgs,
+                imgs: [ ...state.imgs, ...action.imgs],
             };
 
         case ADD_IMG:

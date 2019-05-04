@@ -21,7 +21,7 @@ export default function(state, action) {
         case INIT_ARTICLES:
             return { 
                 ...state,
-                articles: action.articles,
+                articles: [...state.articles, ...action.articles],
             };
         case DELETE_ARTICLE:
             return {

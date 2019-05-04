@@ -9,7 +9,9 @@ const bucket = 'huangchufeng';
 module.exports = {
   // GET /imgs 所有照片
   "GET /api/imgs": async ctx => {
-    const category =  ctx.request.query.category;
+    const { category, pageNum } =  ctx.request.query;
+    const pageSize = 10;
+    let noMore = false;
     let resCode = 200,
       message = "ok",
       imgs = [];
@@ -25,6 +27,10 @@ module.exports = {
         });
         imgs.push(...subImgs);
       }
+      if(imgs.length <= (pageNum - 1) * pageSize + pageSize) {
+        noMore = true;
+      }
+      imgs = imgs.splice((pageNum - 1) * pageSize, pageSize)
     } catch (e) {
       resCode = 500;
       console.log(e);
@@ -34,6 +40,7 @@ module.exports = {
       resCode,
       message,
       imgs,
+      noMore
     };
   },
 
