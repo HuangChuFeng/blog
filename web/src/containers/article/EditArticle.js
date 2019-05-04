@@ -7,7 +7,6 @@ import { setCurArticle, initTags } from '../../reducers/articles'
 import '../../css/article.less'
 import { Button } from 'antd';
 import { getArticleDetail, createArticle, updateArticleById, getTags } from "../../service/fetch";
-
 import EditForm from '../../components/article/EditForm'
 import EditContent from '../../components/article/EditContent'
 

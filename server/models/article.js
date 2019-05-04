@@ -5,7 +5,7 @@ const CommentModel = require("./Comment");
 module.exports = {
     // 获取所有文章
     getArticles: function getArticles(type, pageNum, author) {
-        var query = {}, skip = 0, limit = 3;
+        var query = {}, skip = 0, limit = 10;
         if (author) {
             query.author = author;
         }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { message } from 'antd';
+import { BackTop } from 'antd';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import ArticleList from '../../components/article/ArticleList'
@@ -21,7 +21,7 @@ class ArticleListContainer extends Component {
         this.state = {
             showLoading: false,
             pageNum: 1,
-            noMore: false,  // 是否没有更多了
+            noMore: true,  // 是否没有更多了
         }
     }
 
@@ -55,7 +55,7 @@ class ArticleListContainer extends Component {
         fetchArticles(params).then(result => {
             const { data } = result;
             if (data) {
-                this.props.initArticles(data.articles);
+                this.props.initArticles(data.articles, this.state.pageNum);
                 this.setState({ showLoading: false });
                 if(data.articles.length === 0) {
                     this.setState({ noMore: true })
@@ -76,7 +76,7 @@ class ArticleListContainer extends Component {
     }
 
     handleNavChange(type) {
-        this.props.initArticles(type);
+        this.loadArticles(type);
     }
 
     onDeleteArticle(articleId, index) {
@@ -120,6 +120,7 @@ class ArticleListContainer extends Component {
                         loadMore={this.loadMore.bind(this)}
                     />
                     }
+                    <BackTop target={() => document.getElementsByClassName('container')[0]}/>
                 </div>
             </div>
         )
@@ -138,8 +139,8 @@ const mapStateToProps = (state) => {
 // 当前组件需要发起的事件
 const mapDispatchToProps = (dispatch) => {
     return {
-        initArticles: (articles) => {
-            dispatch(initArticles(articles));
+        initArticles: (articles, pageNum) => {
+            dispatch(initArticles(articles, pageNum));
         },
         getArticlesByTagName: (tag) => {
             getArticlesByTagName(tag).then(result => {

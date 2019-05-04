@@ -22,10 +22,17 @@ export default function(state, action) {
     switch (action.type) {
         case INIT_IMGS:
             // 初始化图片列表
-            return { 
-                ...state,
-                imgs: [ ...state.imgs, ...action.imgs],
-            };
+            if(action.pageNum > 1) {
+                return { 
+                    ...state,
+                    imgs: [ ...state.imgs, ...action.imgs],
+                };
+            } else {
+                return { 
+                    ...state,
+                    imgs: action.imgs,
+                };
+            }
 
         case ADD_IMG:
             return { 
@@ -58,8 +65,8 @@ export default function(state, action) {
     }
 }
 
-export const initImgs = (imgs) => {
-    return { type: INIT_IMGS, imgs }
+export const initImgs = (imgs, pageNum) => {
+    return { type: INIT_IMGS, imgs, pageNum }
 }
 
 export const addImg = (img) => {

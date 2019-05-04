@@ -19,10 +19,18 @@ export default function(state, action) {
 
     switch (action.type) {
         case INIT_ARTICLES:
-            return { 
-                ...state,
-                articles: [...state.articles, ...action.articles],
-            };
+            if(action.pageNum > 1) {
+                return { 
+                    ...state,
+                    articles: [...state.articles, ...action.articles],
+                };
+            } else {
+                return {
+                    ...state,
+                    articles: action.articles
+                }
+            }
+            
         case DELETE_ARTICLE:
             return {
                 ...state,
@@ -64,8 +72,8 @@ export default function(state, action) {
     }
 }
 
-export const initArticles = (articles) => {
-    return { type: INIT_ARTICLES, articles }
+export const initArticles = (articles, pageNum) => {
+    return { type: INIT_ARTICLES, articles, pageNum }
 }
 
 export const deleteArticle = (articleIndex) => {

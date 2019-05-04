@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { Anchor, Button } from 'antd';
 import { Link as RouteLink } from 'react-router-dom';
 
-import { login, getLocation } from "../service/fetch";
+import { getLocation } from "../service/fetch";
 
 import '../css/home.less'
 const { Link } = Anchor;
@@ -22,20 +21,11 @@ export default class Home extends Component {
       // 高度设置
       this.screenChange();
       this.getLocationCity();
-      // login({name: 'admin', password: '123'}).then(result => {
-      //     const {data} = result;
-      //     if (data) {
-      //       console.log('======', data)
-      //     } 
-      // });
   }
 
   getLocationCity() {
     getLocation().then(result => {
-      // const {data} = result;
-      // if (data) {
-        console.log('获取当前城市', result)
-      // } 
+        // console.log('获取当前城市', result)
     });
   }
 
@@ -106,8 +96,7 @@ export default class Home extends Component {
             <li><Link href="#thirdPage" title="03"/></li>
             <li><Link href="#fourthPage" title="04"/></li>
           </ul>
-        </Anchor>,
-        mountNode
+        </Anchor>
       </div>
     )
   }

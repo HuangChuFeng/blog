@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { initImgs, deleteImg, addImg, addImgFavorCount } from '../../reducers/imgs'
 import { changeCurNav } from '../../reducers/common'
-import { Affix, Icon, Button, message } from 'antd';
+import { Button, message, BackTop  } from 'antd';
 import ImgList from '../../components/photograph/ImgList'
 import UploadImg from '../../components/photograph/UploadImg'
 import Header from '../../components/Header'
@@ -38,7 +37,7 @@ class ImgListContainer extends Component {
         return fetchImgs(params).then(result => {
             const {data} = result;
             if (data) {
-                this.props.initImgs(data.imgs);
+                this.props.initImgs(data.imgs, this.state.pageNum);
                 this.setState({ noMore: data.noMore })
                 this.setState({ showLoading: false });
             } else {
@@ -114,6 +113,7 @@ class ImgListContainer extends Component {
                     />
                     }
                 </div>
+                <BackTop target={() => document.getElementsByClassName('container')[0]}/>
             </div>
         )
     }
@@ -131,8 +131,8 @@ const mapStateToProps = (state) => {
 // 当前组件需要发起的事件
 const mapDispatchToProps = (dispatch) => {
     return {
-        initImgs: (imgs) => {
-            dispatch(initImgs(imgs));
+        initImgs: (imgs, pageNum) => {
+            dispatch(initImgs(imgs, pageNum));
         },
         deleteImg: (imgIndex) => {
             dispatch(deleteImg(imgIndex))
