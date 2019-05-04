@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Input, Button } from 'antd';
 import { toast } from "react-toastify";

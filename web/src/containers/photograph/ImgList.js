@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { initImgs, deleteImg, addImg, addImgFavorCount } from '../../reducers/imgs'
 import { changeCurNav } from '../../reducers/common'
-import { Button, message, BackTop  } from 'antd';
+import { Button, BackTop  } from 'antd';
 import ImgList from '../../components/photograph/ImgList'
 import UploadImg from '../../components/photograph/UploadImg'
 import Header from '../../components/Header'

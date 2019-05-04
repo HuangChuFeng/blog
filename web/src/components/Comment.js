@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 import {
   Comment, Avatar, Form, Button, List, Input,
 } from 'antd';
-import moment from 'moment';
+// import moment from 'moment';
 
 const TextArea = Input.TextArea;
-
 const CommentList = ({ comments }) => (
   <List
     dataSource={comments}

@@ -102,8 +102,8 @@ const mapDispatchToProps = (dispatch) => {
                 } 
             });
         },
-        articleDetail(id) {
-            return getArticleDetail(id).then(result => {
+        articleDetail(id, typeNum = '') {
+            return getArticleDetail(id, typeNum).then(result => {
                 const { data } = result;
                 if (data) {
                     let obj = Object.assign({tags: data.tags}, data.article[0])

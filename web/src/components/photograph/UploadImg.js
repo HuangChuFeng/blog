@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import * as qiniu from 'qiniu-js'
 import PropTypes from 'prop-types'
-import { Upload, Form, Input, Select, Modal, Button, Icon } from 'antd';
+import { Upload, Form, Input, Select, Modal, Icon } from 'antd';
 import { getUploadToken, uploadImgs } from "../../service/fetch";
 
 let uploadToken = '';

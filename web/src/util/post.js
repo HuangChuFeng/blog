@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import React, { Component } from 'react'
+import React from 'react'
 import LoginForm from '../containers/loginToast';
 
 const CREDENTIALS = process.env.ORIGIN ? "include" : "same-origin";

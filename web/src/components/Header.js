@@ -41,7 +41,7 @@ class Header extends Component {
         super(props);
         this.state = {
             activeIndex: 0,
-            navArr: this.props.type == 0 ? imgNavArr : articleNavArr,
+            navArr: this.props.type === 0 ? imgNavArr : articleNavArr,
             showMenu: false,
             isLargeScreen: true,        // 大屏
             loginText: '退出',
@@ -78,7 +78,7 @@ class Header extends Component {
                 activeIndex: index,
                 showMenu: false,
             });
-            if(this.props.type != 0) {
+            if(this.props.type !== 0) {
                 url = '/articles';
                 if(item.type !== undefined) {
                     url += `?type=${item.type}`
@@ -137,7 +137,7 @@ class Header extends Component {
                                         <Menu>
                                             {item.child.map((item1, i) => 
                                                 <Menu.Item key={i}>
-                                                    <a href="#">{ item1 }</a>
+                                                    <span>{ item1 }</span>
                                                 </Menu.Item>
                                                 )
                                             }
@@ -151,7 +151,7 @@ class Header extends Component {
                                 } else {
                                     content = <span>{ item.text }</span>
                                 }
-                                return <li key={i} onClick={this.navClickHandler.bind(this, item, i)} className={ i == this.state.activeIndex ? 'active' : '' }>{ content }</li>
+                                return <li key={i} onClick={this.navClickHandler.bind(this, item, i)} className={ i === this.state.activeIndex ? 'active' : '' }>{ content }</li>
                             }
                         )}
                         <li className="to-index-link">

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import E from 'wangeditor';
-import ReactMarkdown from 'react-markdown'
-import Divider from 'antd';
+// import ReactMarkdown from 'react-markdown'
+// import Divider from 'antd';
 
 export default class EditContent extends Component {
     constructor(props) {

@@ -100,7 +100,7 @@ class ArticleListContainer extends Component {
         return (
             <div>
                 <Header 
-                    type={1} 
+                    type={1}
                     formParentNav="所有文章"
                     handleNavChange={this.handleNavChange.bind(this)}/>
                 <div className="container article-container">

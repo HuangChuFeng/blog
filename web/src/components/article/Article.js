@@ -31,7 +31,7 @@ export default class Article extends Component {
                     <img src={require('../../static/img/img15.jpg')} alt=""/>
                 </div>
                 <h3 className="title">
-                    <a herf="#" onClick={this.props.viewDetail.bind(this, article._id)}>{ article.title }</a>
+                    <p onClick={this.props.viewDetail.bind(this, article._id)}>{ article.title }</p>
                     { this.props.isAdmin &&
                         <span className="operate-btn">
                             <Icon type="delete" onClick={this.props.deleteArticle.bind(this, article._id, this.props.index)}/>

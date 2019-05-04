@@ -46,7 +46,7 @@ export default class ArticleList extends Component {
                     }
                 </div>
                 <div className="right">
-                    <img className="avator" src={require('../../static/img/avator.jpeg')} />
+                    <img className="avator" alt="" src={require('../../static/img/avator.jpeg')} />
                     <div>
                         <p>好好学习, 天天向上</p>
                         <a target="blank" href="https://github.com/HuangChuFeng"><Icon type="github" /> github</a>

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Header from '../../components/Header'
-import { Icon, } from 'antd';
 import EditTag from '../../components/article/editTag'
 import { createTag, removeTag, getTags } from '../../service/fetch'
 import { addTag, deleteTag, initTags } from '../../reducers/articles'

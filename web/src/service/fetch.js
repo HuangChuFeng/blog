@@ -1,4 +1,4 @@
-import { get, post, formPost } from "../util/post";
+import { get, post } from "../util/post"; // , formPost 
 
 const DEV_URL = 'http://localhost:3000';
 

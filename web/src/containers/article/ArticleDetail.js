@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Divider, Icon, message } from 'antd';
+import { Icon, message } from 'antd';
 import Header from '../../components/Header'
 import MyComment from '../../components/Comment'
 import { getArticleDetail, comment as commentArticle, addArticlePv } from "../../service/fetch";
@@ -93,7 +93,6 @@ class ArticleDetail extends Component {
     backListPage = () => {
         this.props.changeCurNav('')
     }
-
 
     render() {
         let date;

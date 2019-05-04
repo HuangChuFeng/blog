@@ -53,6 +53,7 @@ module.exports = {
                     CommentModel.getComments(articleId), // 获取该文章所有评论
                     ArticleTagModel.getTagByArticleId(articleId)  // 获取该文章所有标签
                 ]);
+                
                 article = result[0];
                 comment = result[1];
                 tags = result[2]

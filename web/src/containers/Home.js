@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { Anchor, Button } from 'antd';
 import { Link as RouteLink } from 'react-router-dom';
-
 import { getLocation } from "../service/fetch";
-
 import '../css/home.less'
 const { Link } = Anchor;
 
@@ -46,7 +44,7 @@ export default class Home extends Component {
           <div className="mask" style={ this.state.bgHeight }></div>
           <div className="content-box">
             <span className="top-left-text">____________</span>
-            <span className="left-center-text"><a href="#">关于—</a></span>
+            <span className="left-center-text"><span>关于—</span></span>
               <ul className="nav-ul">
                 <li><RouteLink to="/photograph">摄影</RouteLink></li>
                 {/* <li><RouteLink to="#">视频</RouteLink></li> */}

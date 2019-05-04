@@ -22,7 +22,6 @@ class ImgDetail extends Component {
     static propTypes = {
     }
 
-
     static contextTypes = {
         router: PropTypes.object.isRequired,
     }
@@ -111,7 +110,8 @@ class ImgDetail extends Component {
                         }
                         <Icon type="left" className="icon left-icon" onClick={this.lastOrNextImg.bind(this, -1)}/>
                         { this.props.curImg && this.props.curImg.src ? 
-                            <img src={require(`../../${this.props.curImg.src}`)} /> : <img src={require('../../static/img/img1.jpg')} />
+                            <img src={require(`../../${this.props.curImg.src}`)} alt="" /> : 
+                            <img src={require('../../static/img/img1.jpg')} alt="" />
                         }
                         <Icon type={ this.state.imgEnlargeble ? 'shrink' : 'arrows-alt'} className="icon size-icon" onClick={ this.resizeImgHandler.bind(this) } />
                         <Icon type="right" className="icon right-icon" onClick={this.lastOrNextImg.bind(this, 1)}/>
@@ -142,7 +142,6 @@ class ImgDetail extends Component {
 
 
 const mapStateToProps = (state) => {
-    // console.log('=======', state)
     return {
         imgs: state.imgs,  // 告诉Connect组件我们需要什么数据
         curImg: state.curImg

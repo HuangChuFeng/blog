@@ -1,4 +1,4 @@
-import { combineReducers, Reducer } from 'redux'
+import { combineReducers } from 'redux'
 import imgsReducer from './imgs'
 import articlesReducer from './articles'
 import commonReducer from './common'
