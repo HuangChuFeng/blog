@@ -79,7 +79,7 @@ class ImgListContainer extends Component {
     handleNavChange(category) {
         this.setState({ pageNum: 1 })
         category = (category === '所有照片' ? '' : category);
-        this.initImgs(category);
+        this.loadImgs(category);
     }
 
     render () {

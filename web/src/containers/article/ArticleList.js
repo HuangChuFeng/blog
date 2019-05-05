@@ -99,7 +99,7 @@ class ArticleListContainer extends Component {
     render () {
         return (
             <div>
-                <Header 
+                <Header
                     type={1}
                     formParentNav="所有文章"
                     handleNavChange={this.handleNavChange.bind(this)}/>

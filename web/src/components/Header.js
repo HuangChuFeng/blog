@@ -161,7 +161,7 @@ class Header extends Component {
                             }
                             { !this.props.isLogined && 
                                 <span>
-                                    <span className="op-btn" onClick={this.loginHandle.bind(this, 1)}>登录</span>
+                                    <span className="op-btn" onClick={this.loginHandle.bind(this, 1)}>登录 </span>
                                     <span className="op-btn" onClick={this.loginHandle.bind(this, 0)}>注册</span>
                                 </span>
                             }

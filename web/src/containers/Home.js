@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Anchor, Button } from 'antd';
+import { Anchor } from 'antd';
 import { Link as RouteLink } from 'react-router-dom';
 import { getLocation } from "../service/fetch";
 import '../css/home.less'
@@ -18,7 +18,7 @@ export default class Home extends Component {
   componentDidMount() {
       // 高度设置
       this.screenChange();
-      this.getLocationCity();
+      // this.getLocationCity();
   }
 
   getLocationCity() {
@@ -41,52 +41,25 @@ export default class Home extends Component {
       <div className="home-page">
         <div id="firstPage" className="index-bg first" style={ this.state.bgHeight }>
           <div className="img" style={ this.state.bgHeight }></div>
-          <div className="mask" style={ this.state.bgHeight }></div>
-          <div className="content-box">
-            <span className="top-left-text">____________</span>
-            <span className="left-center-text"><span>关于—</span></span>
-              <ul className="nav-ul">
-                <li><RouteLink to="/photograph">摄影</RouteLink></li>
-                {/* <li><RouteLink to="#">视频</RouteLink></li> */}
-                <li><RouteLink to="/articles">文章</RouteLink></li>
-              </ul>
-            <div className="center-text">
-              <p>PHOTOGRAPH</p>
-              <p>BLOG</p>
-              <p>VIDEO</p>
-            </div>
-            <div className="bottom-center-text">
-              <div className="line"></div>
-              <div className="order-text">01</div>
-              <Anchor>
-                <Link href="#secondPage" className="to-bottom-link" title="向下滑动" />
-              </Anchor>
-            </div>
-          </div>
+          <div className="mask" style={ this.state.bgHeight }>IV</div>
+          <ul className="nav-ul">
+            <li><RouteLink to="/photograph">摄影</RouteLink></li>
+            <li><RouteLink to="/articles">博客</RouteLink></li>
+          </ul>
         </div>
         <div id="secondPage" className="index-bg second" style={ this.state.bgHeight }>
-          <div className="mask" style={ this.state.bgHeight }>
-            <div className="img-wrap">
-              <img src={require("../static/img/hand.jpeg")} alt=""/>
-              <div className="describe-text">
-                <p>hand-------------</p>
-                <p>2018.11.22</p>
-              </div>
-            </div>
-          </div>
-          <div className="content-box">
-            <span className="left-center-text">摄影—</span>
-            <div className="center-text">
-              <p>PHOTOGRAPH</p>
-              <p>BLOG</p>
-              <p>VIDEO</p>
-            </div>
-            <div className="left-content-wrap">
-              <Button className="photo-btn"><RouteLink to="/photograph">照片集</RouteLink></Button>
-              <div className="order-box">02</div>
-            </div>
-          </div>
+          <div className="img" style={ this.state.bgHeight }></div>
+          <div className="mask" style={ this.state.bgHeight }>HUSH</div>
         </div>
+        <div id="thirdPage" className="index-bg third" style={ this.state.bgHeight }>
+          <div className="img" style={ this.state.bgHeight }></div>
+          <div className="mask" style={ this.state.bgHeight }>OHIO</div>
+        </div>
+        <div id="fourthPage" className="index-bg forth" style={ this.state.bgHeight }>
+          <div className="img" style={ this.state.bgHeight }></div>
+          <div className="mask" style={ this.state.bgHeight }>MYTH</div>
+        </div>
+        
         <Anchor>
           <ul className="anchor-list">
             <li><Link href="#firstPage" title="01"/></li>
