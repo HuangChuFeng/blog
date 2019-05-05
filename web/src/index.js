@@ -13,7 +13,7 @@ import ArticleList from './containers/article/ArticleList'
 import ArticleDetail from './containers/article/ArticleDetail'
 import EditArticle from './containers/article/EditArticle'
 import ArticlesTags from './containers/article/Tags'
-
+import Music from './components/Music'
 import {BrowserRouter as Router, Route } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,6 +25,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <div>
+        <Music />
         <Route exact path="/" component={Home} />
         <Route exact path="/photograph" component={ImgList} />
         <Route exact path="/photograph/detail/:id" component={ImgDetail} />

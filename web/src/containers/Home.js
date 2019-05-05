@@ -74,7 +74,6 @@ export default class Home extends Component {
             )
           })
         }
-        
         <Anchor>
           <ul className="anchor-list">
             <li><Link href="#firstPage" title="01"/></li>
