@@ -4,7 +4,6 @@ import { Link as RouteLink } from 'react-router-dom';
 import { getLocation } from "../service/fetch";
 import '../css/home.less'
 const { Link } = Anchor;
-
 export default class Home extends Component {
   constructor(props) {
       super(props);
@@ -37,28 +36,44 @@ export default class Home extends Component {
     });
   }
   render() {
+    const arr = [
+      {
+        id: 'first',
+        text: 'IV'
+      }, {
+        id: 'second',
+        text: 'HUSH'
+      }, {
+        id: 'third',
+        text: 'OHIO'
+      }, {
+        id: 'forth',
+        text: 'MYTH'
+      }
+    ]
     return (
       <div className="home-page">
-        <div id="firstPage" className="index-bg first" style={ this.state.bgHeight }>
-          <div className="img" style={ this.state.bgHeight }></div>
-          <div className="mask" style={ this.state.bgHeight }>IV</div>
-          <ul className="nav-ul">
-            <li><RouteLink to="/photograph">摄影</RouteLink></li>
-            <li><RouteLink to="/articles">博客</RouteLink></li>
-          </ul>
-        </div>
-        <div id="secondPage" className="index-bg second" style={ this.state.bgHeight }>
-          <div className="img" style={ this.state.bgHeight }></div>
-          <div className="mask" style={ this.state.bgHeight }>HUSH</div>
-        </div>
-        <div id="thirdPage" className="index-bg third" style={ this.state.bgHeight }>
-          <div className="img" style={ this.state.bgHeight }></div>
-          <div className="mask" style={ this.state.bgHeight }>OHIO</div>
-        </div>
-        <div id="fourthPage" className="index-bg forth" style={ this.state.bgHeight }>
-          <div className="img" style={ this.state.bgHeight }></div>
-          <div className="mask" style={ this.state.bgHeight }>MYTH</div>
-        </div>
+        {
+          arr.map((item, i) => {
+            const imgStyle = {
+              height: document.documentElement.clientHeight + 'px',
+              backgroundImage: `url(${require("../static/img/img" +  Math.floor(Math.random()*17 + 1) + ".jpg")})`, 
+              backgroundSize: 'cover'
+            }
+            return (
+              <div key={i} id={item.id + 'Page'} className={'index-bg ' + item.id } style={ this.state.bgHeight }>
+                <div className="img" style={ imgStyle }></div>
+                <div className="mask" style={ this.state.bgHeight }>{ item.text }</div>
+                { i === 0 &&
+                <ul className="nav-ul">
+                  <li><RouteLink to="/photograph">摄影</RouteLink></li>
+                  <li><RouteLink to="/articles">博客</RouteLink></li>
+                </ul>
+                 }
+              </div>
+            )
+          })
+        }
         
         <Anchor>
           <ul className="anchor-list">
