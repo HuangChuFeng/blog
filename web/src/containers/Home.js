@@ -19,6 +19,9 @@ export default class Home extends Component {
       this.screenChange();
       // this.getLocationCity();
   }
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.someData !== this.state.someData
+  }
 
   getLocationCity() {
     getLocation().then(result => {
@@ -51,6 +54,8 @@ export default class Home extends Component {
         text: 'MYTH'
       }
     ]
+    console.log('render');
+    
     return (
       <div className="home-page">
         {

@@ -31,14 +31,6 @@ a {
     border-color: @light-blue;
   }
 }
-
-.music-wrap {
-  position: fixed;
-  z-index: 9999;
-  bottom: 40%;
-  right: 5%
-}
-
 #root {
   i {
     font-size: 22px;
@@ -77,6 +69,12 @@ a {
         background-size: 100% 100%;
       }
     }
+  }
+  iframe {
+    position: fixed;
+    z-index: 9999;
+    bottom: 40%;
+    right: 5%
   }
 }
 
@@ -221,9 +219,11 @@ a {
     background: rgba(0, 0, 0, 0.65);
   }
 
-  .music-wrap {
+  iframe {
+    position: fixed;
     top: 0;
     left: 0;
+    z-index: 9999;
   }
 
   @keyframes showNav {
