@@ -6,12 +6,11 @@ const session = require('koa-session');
 const MongoStore = require("koa2-session-mongolass");
 const convert = require("koa-convert");
 const path = require("path");
-
+const os = require('os');
+const koaBody = require('koa-body');
 // EJS是一个JavaScript模板库，用来从JSON数据中生成HTML字符串, Koa2框架中ejs可以把数据库查询的数据渲染到模板上面，实现一个动态网站。
 const render = require("koa-ejs");
-
-const server = require("koa-static");                         // koa-static主要是用于访问静态资源
-
+const server = require("koa-static");  
 const config = require("config-lite");                        // 读取配置文件的模块
 const historyFallback = require("koa2-history-api-fallback");
 const koaWinston = require("./middlewares/koa-winston");      // 基于winston的用于koa的日志中间件
@@ -19,7 +18,6 @@ const onerror = require("koa-onerror");
 
 // koa2后台允许跨域的方法主要有两种：1.jsonp 2、koa2-cors让后台允许跨域直接就可以在客户端使用ajax请求数据。
 const cors = require('koa2-cors');
-
 const app = new Koa();
 
 // error handler
@@ -36,7 +34,7 @@ const sessionConfig = {
 }
 
 app.use(historyFallback())
-
+app.use(koaBody({ multipart: true }));
 app.use(bodyParser());
 
 // app.keys = [config.session.secret];

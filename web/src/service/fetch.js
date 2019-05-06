@@ -1,4 +1,4 @@
-import { get, post } from "../util/post"; // , formPost 
+import { get, post, formPost } from "../util/post"; // 
 
 const DEV_URL = 'http://localhost:3000';
 
@@ -13,8 +13,12 @@ export const getUploadToken = params => {
 };
 
 // 上传照片
+// export const uploadImgs = group => {
+//   return post(`${DEV_URL}/api/imgs/upload`, group);
+// };
+
 export const uploadImgs = group => {
-  return post(`${DEV_URL}/api/imgs/upload`, group);
+  return formPost(`${DEV_URL}/api/imgs/upload`, group);
 };
 
 /*

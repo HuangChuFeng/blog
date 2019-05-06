@@ -25,7 +25,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <div>
-        <Music />
+        {/* <Music /> */}
         <Route exact path="/" component={Home} />
         <Route exact path="/photograph" component={ImgList} />
         <Route exact path="/photograph/detail/:id" component={ImgDetail} />

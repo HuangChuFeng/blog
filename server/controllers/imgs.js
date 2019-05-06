@@ -191,6 +191,8 @@ module.exports = {
 
   // 上传照片
   "POST /api/imgs/upload": async (ctx, next) => {
+      console.log('ctx.request.body.files', ctx.request.body.files);
+      
     let resCode = 200,
         message = "ok",
         group = ctx.request.body;
