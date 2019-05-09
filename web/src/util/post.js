@@ -77,9 +77,9 @@ export const formPost = async (url, formData) => {
   try {
     var result = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
+      // headers: {
+        // "Content-Type": "multipart/form-data"
+      // },
       body: formData
     });
     const data = await result.json();

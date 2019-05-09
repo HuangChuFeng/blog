@@ -5,83 +5,11 @@ import { Upload, Form, Input, Select, Modal, Icon } from 'antd';
 import { getUploadToken, uploadImgs } from "../../service/fetch";
 
 let uploadToken = '';
-
-const uploadProps = {
-    action: 'http://localhost:3000/api/imgs/upload',
-    multiple: false,
-    listType: "picture-card",
-    data: { a: 1, b: 2 },
-    headers: {
-      Authorization: '$prefix $token',
-    },
-    onStart(file) {
-      console.log('onStart', file, file.name);
-    },
-    onSuccess(ret, file) {
-      console.log('onSuccess', ret, file.name);
-    },
-    onError(err) {
-      console.log('onError', err);
-    },
-    onProgress({ percent }, file) {
-      console.log('onProgress', `${percent}%`, file.name);
-    },
-    customRequest({
-      action,
-      data,
-      file,
-      filename,
-      headers,
-      onError,
-      onProgress,
-      onSuccess,
-      withCredentials,
-    }) {
-      // EXAMPLE: post form-data with 'axios'
-      const formData = new FormData();
-      if (data) {
-        Object.keys(data).map(key => {
-          formData.append(key, data[key]);
-        });
-      }
-      formData.append(filename, file);
-      uploadImgs(formData).then(result => {
-        const { data } = result;
-        if (data.resCode === 200) {
-            
-        } 
-    });
-    //   axios
-    //     .post(action, formData, {
-    //       withCredentials,
-    //       headers,
-    //       onUploadProgress: ({ total, loaded }) => {
-    //         onProgress({ percent: Math.round(loaded / total * 100).toFixed(2) }, file);
-    //       },
-    //     })
-    //     .then(({ data: response }) => {
-    //       onSuccess(response, file);
-    //     })
-    //     .catch(onError);
-  
-      return {
-        abort() {
-          console.log('upload progress is aborted.');
-        },
-      };
-    },
-  };
 class PicturesWall extends React.Component {
     state = {
         previewVisible: false,
         previewImage: '',
         fileList: [],
-        // {
-        //     uid: '-1',
-        //     name: 'xxx.png',
-        //     status: 'done',
-        //     url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        // }
     };
 
     static propTypes = {
@@ -95,9 +23,28 @@ class PicturesWall extends React.Component {
             previewVisible: true,
         });
     }
-    upload(file) {
-        console.log('====', file);
-        
+    upload(data) {
+        const formData = new FormData();
+        formData.append(data.filename, data.file);
+        uploadImgs(formData).then(res => {
+            const { data } = res;
+            if (data.resCode === 200) {
+                this.state.fileList.push({
+                    name: data.filename,
+                    status: 'done',
+                    url: data.url,
+                })
+                this.state.fileList.map((v, i) => {
+                    v.uid = i
+                })
+                this.setState({
+                    fileList: this.state.fileList
+                })
+                this.props.getUploadList(this.state.fileList.map(item => {
+                    return item.response;
+                }))
+            } 
+        });
     }
 
     onUploadRemove = (info) => {
@@ -106,10 +53,6 @@ class PicturesWall extends React.Component {
     }
 
     handleChange = ({ fileList }) => {
-        this.setState({ fileList })
-        this.props.getUploadList(fileList.map(item => {
-            return item.response;
-        }))
     }
 
     render() {
@@ -123,15 +66,15 @@ class PicturesWall extends React.Component {
         return (
             <div className="clearfix">
                 <Upload
-                    {...uploadProps}
+                    // {...uploadProps}
                     // action="http://localhost:3000/api/imgs/upload"//"https://upload.qiniup.com"
-                    // listType="picture-card"
-                    // fileList={fileList}
-                    // customRequest={this.upload.bind(this)}
-                    // onPreview={this.handlePreview}
-                    // onRemove={this.onUploadRemove}
-                    // onChange={this.handleChange}
-                    // data={{token: uploadToken}}
+                    listType="picture-card"
+                    fileList={fileList}
+                    customRequest={this.upload.bind(this)}
+                    onPreview={this.handlePreview}
+                    onRemove={this.onUploadRemove}
+                    onChange={this.handleChange}
+                    data={{token: uploadToken}}
                 >
                     {fileList.length >= 3 ? null : uploadButton}
                 </Upload>

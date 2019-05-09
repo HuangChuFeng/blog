@@ -191,17 +191,18 @@ module.exports = {
 
   // 上传照片
   "POST /api/imgs/upload": async (ctx, next) => {
-      console.log('ctx.request.body.files', ctx.request.body.files);
+      console.log('ctx.request.body', ctx.request.body);
+      console.log('ctx.request.files', ctx.request.files);
       
     let resCode = 200,
-        message = "ok",
-        group = ctx.request.body;
-        group.info.author = ctx.session.user._id;
+        message = "ok";
+        // group = ctx.request.body;
+        // group.info.author = ctx.session.user._id;
     try {
-      var imglist = await ImgModel.upLoadImgs(group);
-      imglist = imglist.map(item => {
-        return item.ops[0]
-      })
+    //   var imglist = await ImgModel.upLoadImgs(group);
+    //   imglist = imglist.map(item => {
+    //     return item.ops[0]
+    //   })
     } catch (e) {
       resCode = 500;
       message = "服务器出错了";
@@ -209,7 +210,8 @@ module.exports = {
     ctx.response.body = {
       resCode,
       message,
-      imglist,
+    //   imglist,
+        url: 'http://localhost:3000/photograph/1.jpg'
     };
   }
 }

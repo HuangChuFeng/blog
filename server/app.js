@@ -1,5 +1,7 @@
 const Koa = require("koa");
-const bodyParser = require("koa-bodyparser");                 // 主要用于获取post请求的参数
+
+const fs = require('fs')
+// const bodyParser = require("koa-bodyparser");                 // 主要用于获取post请求的参数
 const controller = require("./middlewares/controller");
 // const session = require("koa2-session-store");
 const session = require('koa-session');
@@ -19,7 +21,6 @@ const onerror = require("koa-onerror");
 // koa2后台允许跨域的方法主要有两种：1.jsonp 2、koa2-cors让后台允许跨域直接就可以在客户端使用ajax请求数据。
 const cors = require('koa2-cors');
 const app = new Koa();
-
 // error handler
 onerror(app);
 
@@ -34,8 +35,30 @@ const sessionConfig = {
 }
 
 app.use(historyFallback())
-app.use(koaBody({ multipart: true }));
-app.use(bodyParser());
+app.use(koaBody({ 
+  multipart: true,
+  formLimit: "50mb",
+  jsonLimit: "50mb",
+  textLimit: "50mb",
+  enableTypes: ['json', 'form', 'text'],
+  formidable: {
+    uploadDir: path.join(__dirname, 'build/photograph/'), // 设置文件上传目录
+    keepExtensions: true, // 保持文件的后缀
+    maxFieldsSize: 20 * 1024 * 1024, // 文件上传大小，缺省2M
+    onFileBegin: (name, file) => { // 文件上传前的设置
+      const fp = path.join(__dirname, 'build/photograph/');
+      if (!fs.existsSync(fp)) { // 检查是否有“public/upload/”文件夹
+        fs.mkdirSync(fp); // 没有就创建
+      }
+    }
+  }
+}));
+// app.use(bodyParser({
+//   formLimit: "50mb",
+//   jsonLimit: "50mb",
+//   textLimit: "50mb",
+//   enableTypes: ['json', 'form', 'text']
+// }));
 
 // app.keys = [config.session.secret];
 app.keys = [sessionConfig.secret];
