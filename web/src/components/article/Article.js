@@ -27,8 +27,8 @@ export default class Article extends Component {
         let article = this.props.article;
         return (
             <div className="article-wraper">
-                <div className="cover-box">
-                    <img src={require('../../static/img/img15.jpg')} alt=""/>
+                <div className={["cover-box", (!article.cover_url ? 'no-cover' : '')].join(' ') }>
+                    <img v-if={article.cover_url} src={article.cover_url} alt=""/>
                 </div>
                 <h3 className="title">
                     <p onClick={this.props.viewDetail.bind(this, article._id)}>{ article.title }</p>

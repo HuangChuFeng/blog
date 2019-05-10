@@ -6,7 +6,7 @@ import Header from '../../components/Header'
 import { setCurArticle, initTags } from '../../reducers/articles'
 import '../../css/article.less'
 import { Button } from 'antd';
-import { getArticleDetail, createArticle, updateArticleById, getTags } from "../../service/fetch";
+import { getArticleDetail, createArticle, updateArticleById, getTags, uploadImg } from "../../service/fetch";
 import EditForm from '../../components/article/EditForm'
 import EditContent from '../../components/article/EditContent'
 
@@ -23,35 +23,46 @@ class EditArticleContainer extends Component {
     }
 
     async componentDidMount() {
-        if(this.state.articleId) {
+        if (this.state.articleId) {
             await this.props.articleDetail(this.state.articleId);
         }
-        this.props.initTags();       
+        this.props.initTags();
     }
 
     componentWillUnmount() {
         this.props.resetCurArticle();
     }
-    
+
+    uploadCover(data, cb) {
+        const formData = new FormData();
+        formData.append(data.filename, data.file);
+        uploadImg(formData).then(res => {
+            if (res.data.resCode === 200) {
+                cb && cb(res)
+                
+            }
+        })
+    }
+
     // 保存文章 id存在时为编辑状态
     saveArticleHandler() {
         let formData = Object.assign(this.child.getContent(), this.form.getFormData());
-        
-        if(this.state.articleId) {
+
+        if (this.state.articleId) {
             console.log('编辑====: ', formData);
             updateArticleById(this.state.articleId, formData).then(result => {
-                const {data} = result;
+                const { data } = result;
                 if (data) {
-                    this.context.router.history.push(`/articles`);     
+                    this.context.router.history.push(`/articles`);
                 }
             });
         } else {
             console.log('新建====: ', formData);
             createArticle(formData).then(result => {
-                const {data} = result;
+                const { data } = result;
                 if (data) {
-                    this.context.router.history.push(`/articles`);     
-                } 
+                    this.context.router.history.push(`/articles`);
+                }
             });
         }
     }
@@ -60,20 +71,21 @@ class EditArticleContainer extends Component {
         this.child = ref;
     }
 
-    render () {
+    render() {
         return (
             <div>
                 <Header type={1} />
-                <div className="container edit-container">   
-                    <EditForm 
-                        wrappedComponentRef={(form) => this.form = form} 
+                <div className="container edit-container">
+                    <EditForm
+                        wrappedComponentRef={(form) => this.form = form}
                         article={this.props.curArticle}
                         allTags={this.props.tags}
                         onRef={this.onRef}
+                        uploadCover={this.uploadCover}
                     />
-                    <EditContent 
-                        onRef={this.onRef} 
-                        article={this.props.curArticle} 
+                    <EditContent
+                        onRef={this.onRef}
+                        article={this.props.curArticle}
                     />
                     <Button type="primary" className="common-btn operate-btn" onClick={this.saveArticleHandler.bind(this)}>
                         发布
@@ -99,14 +111,14 @@ const mapDispatchToProps = (dispatch) => {
                 const { data } = result;
                 if (data) {
                     dispatch(initTags(data.tags));
-                } 
+                }
             });
         },
         articleDetail(id, typeNum = '') {
             return getArticleDetail(id, typeNum).then(result => {
                 const { data } = result;
                 if (data) {
-                    let obj = Object.assign({tags: data.tags}, data.article[0])
+                    let obj = Object.assign({ tags: data.tags }, data.article[0])
                     dispatch(setCurArticle(obj));
                 }
             });
@@ -116,7 +128,7 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-  
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps

@@ -2,82 +2,21 @@ import React from 'react'
 import { Form, Input, Icon, Upload, Select, Col, Row, message } from 'antd';
 import PropTypes from 'prop-types'
 
-
-function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-}
-
-function beforeUpload(file) {
-    const isJPG = file.type === 'image/jpeg';
-    if (!isJPG) {
-        message.error('You can only upload JPG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
-    }
-    return isJPG && isLt2M;
-}
-// 上传文章封面
-class Cover extends React.Component {
-    static propTypes = {
-        article: PropTypes.object,
-    }
-    state = {
-        loading: false,
-    };
-
-    handleChange = (info) => {
-        if (info.file.status === 'uploading') {
-            this.setState({ loading: true });
-            return;
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj, imageUrl => this.setState({
-                imageUrl,
-                loading: false,
-            }));
-        }
-    }
-
-    render() {
-        const uploadButton = (
-            <div>
-                <Icon type={this.state.loading ? 'loading' : 'plus'} />
-                <div className="ant-upload-text">文章封面</div>
-            </div>
-        );
-        const imageUrl = this.state.imageUrl;
-        return (
-            <Upload
-                name="cover"
-                listType="picture-card"
-                className="cover-uploader"
-                showUploadList={false}
-                action="//jsonplaceholder.typicode.com/posts/"
-                beforeUpload={beforeUpload}
-                onChange={this.handleChange}
-            >
-                {imageUrl ? <img src={imageUrl} alt="cover" /> : uploadButton}
-            </Upload>
-        );
-    }
-}
-
 // 输入表单组件
 class ArticleForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             selectedTags: [],
+            loading: false, // 上传封面loading
+            coverUrl: '',   // 封面url
+            coverName: '',  // 封面名称
         }
     }
     static propTypes = {
         article: PropTypes.object,
         onRef: PropTypes.func,
+        uploadCover: PropTypes.func
     }
     componentDidMount() {
         this.props.onRef(this);
@@ -85,31 +24,25 @@ class ArticleForm extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.article && !this.props.article) {
+        if (nextProps.article && !this.props.article) {
             this.initForm(nextProps.article)
         }
     }
 
     initForm(article) {
-        console.log('init');
-        
         let { type, title, description } = article;
-        
         let option = {
             type,
             title,
             description,
         }
-        // option.tags = article.tags.map(item => {
-        //     return item.name
-        // })
         this.setState({
             selectedTags: article.tags.map(item => {
                 return item.name
             })
         })
         this.props.form.setFieldsValue(option);
-        
+
     }
 
     handleSubmit = (e) => {
@@ -125,8 +58,17 @@ class ArticleForm extends React.Component {
         this.setState({ selectedTags: value })
     }
 
-    handleTypeChange(value) {
-
+    onUploadCover(data) {
+        this.setState({ loading: true });
+        this.props.uploadCover(data, (res) => {
+            if(res.data.resCode === 200) {
+                this.setState({
+                    coverUrl: res.data.url,
+                    loading: false,
+                    coverName: res.data.fileName
+                })
+            }
+        })
     }
 
     getFormData = () => {
@@ -135,29 +77,42 @@ class ArticleForm extends React.Component {
         //         console.log('Received values of form: ', values);
         //     }
         // });
-        return Object.assign({tags: this.state.selectedTags}, this.props.form.getFieldsValue());
+        return Object.assign(
+            { 
+                tags: this.state.selectedTags,
+                coverName: this.state.coverName,
+                coverUrl: this.state.coverUrl
+            }, 
+            this.props.form.getFieldsValue()
+        );
     }
 
     render() {
+        const uploadButton = (
+            <div>
+                <Icon type={this.state.loading ? 'loading' : 'plus'} />
+                <div className="ant-upload-text">文章封面</div>
+            </div>
+        );
         const Option = Select.Option;
         const { getFieldDecorator } = this.props.form;
         const selects = [];
-        if(this.props.allTags) {
+        if (this.props.allTags) {
             for (let i = 0; i < this.props.allTags.length; i++) {
-                selects.push(<Option key={ this.props.allTags[i].name }>{ this.props.allTags[i].name }</Option>);
+                selects.push(<Option key={this.props.allTags[i].name}>{this.props.allTags[i].name}</Option>);
             }
         }
-        
+
         return (
             <Form onSubmit={this.handleSubmit} className="artile-form">
                 <Row>
                     <Col span={4} >
                         <Form.Item>
                             {getFieldDecorator('type')(
-                            <Select style={{ width: 100 }} onChange={this.handleTypeChange}>
-                                <Option value={0}>笔记</Option>
-                                <Option value={1}>生活</Option>
-                            </Select>)}
+                                <Select style={{ width: 100 }}>
+                                    <Option value={0}>笔记</Option>
+                                    <Option value={1}>生活</Option>
+                                </Select>)}
                         </Form.Item>
                     </Col>
                     <Col span={20} >
@@ -165,7 +120,7 @@ class ArticleForm extends React.Component {
                             {getFieldDecorator('title', {
                                 rules: [{ required: true, message: '请输入文章标题' }],
                             })(
-                                <Input placeholder="文章标题"/>
+                                <Input placeholder="文章标题" />
                             )}
                         </Form.Item>
                     </Col>
@@ -186,12 +141,21 @@ class ArticleForm extends React.Component {
                                 value={this.state.selectedTags}
                                 onChange={this.handleTagChange.bind(this)}
                                 style={{ width: '100%' }}
-                                >
+                            >
                                 {selects}
                             </Select>
                         </Col>
                         <Col span={2} ></Col>
-                        <Col span={2} ><Cover /></Col>
+                        <Col span={2} >
+                        <Upload
+                            listType="picture-card"
+                            className="cover-uploader"
+                            customRequest={this.onUploadCover.bind(this)}
+                            showUploadList={false}
+                        >
+                            {this.state.coverUrl ? <img src={this.state.coverUrl} alt="cover" /> : uploadButton}
+                        </Upload>
+                        </Col>
                     </Row>
                 </Form.Item>
             </Form>

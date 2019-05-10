@@ -7,14 +7,14 @@ const CommentModel = require("./Comment");
 module.exports = {
   // 获取所有照片
   getImgsByGroupId: function getImgsByGroupId(groupId) {
-      var query = {}; //, skip = 0, limit = 3;
-      if (groupId) {
-          query.group_id = groupId;
-      }
-      // skip = (pageNum - 1) * limit
-      return Img
+    var query = {}; //, skip = 0, limit = 3;
+    if (groupId) {
+      query.group_id = groupId;
+    }
+    // skip = (pageNum - 1) * limit
+    return Img
       .find(query)
-      // .limit(limit)
+      // .limit(limit)åååßß
       // .skip(skip)
       .exec();
   },
@@ -23,7 +23,7 @@ module.exports = {
   getGroups: function getGroups(category) {
     var query = {};
     if (category) {
-        query.category = category;
+      query.category = category;
     }
     return ImgsGroup.find(query).sort({ _id: -1 }).exec();
   },
@@ -32,12 +32,12 @@ module.exports = {
   getImgById: function getImgById(id) {
     var query = {};
     if (id) {
-        query._id = id;
+      query._id = id;
     }
     return Img
-    .find(query)
-    .populate({ path: 'group_id', model: 'ImgsGroup' })
-    .exec()
+      .find(query)
+      .populate({ path: 'group_id', model: 'ImgsGroup' })
+      .exec()
   },
 
   /**
@@ -46,14 +46,14 @@ module.exports = {
    *  typeNum: -1表示上一篇, 1表示下一篇
    **/
   getLastOrNextImg: function getLastOrNextImg(curId, typeNum) {
-      var query = {};
-      if (curId) {
-          query = typeNum === '1' ? { '_id': { '$lt': curId }} : { '_id': { '$gt': curId }} ;
-      }
-      return Img
+    var query = {};
+    if (curId) {
+      query = typeNum === '1' ? { '_id': { '$lt': curId } } : { '_id': { '$gt': curId } };
+    }
+    return Img
       .find(query)
       .populate({ path: 'group_id', model: 'ImgsGroup' })
-      .sort({_id: -1})
+      .sort({ _id: -1 })
       .limit(1)
       .exec();
   },
@@ -67,59 +67,29 @@ module.exports = {
         if (res.result.ok && res.result.n > 0) {
           return CommentModel.delCommentsById(id);
         }
-    });
+      });
   },
 
 
   // 更新照片浏览量
   addImgPv: function addImgPv(imgId) {
-    return Img.update({ _id: imgId }, { $inc:{ pv: 1 }}).exec();
+    return Img.update({ _id: imgId }, { $inc: { pv: 1 } }).exec();
   },
 
 
   // 更新照片喜欢数量
   addImgFavor: function addImgFavor(imgId) {
-    return Img.update({ _id: imgId }, { $inc:{ favor_count: 1 }}).exec();
+    return Img.update({ _id: imgId }, { $inc: { favor_count: 1 } }).exec();
   },
 
   // 创建照片组
   createImgGroup: function createImgGroup(info) {
-    // let { imgs, info } = group;
     info.created_at = moment().format('YYYY-MM-DD HH:mm');
     return ImgsGroup.create(info).exec()
-    //   .then(function (res) {
-    //     if (res.result.ok && res.result.n > 0) {
-    //       let { _id, title } = res.ops[0];
-    //       return Promise.all(imgs.map(item => {
-    //         item.src = item.url; //`http://pnmpntc1j.bkt.clouddn.com/${item.key}`;
-    //         item.group_id = _id;
-    //         return Img.create(item).exec()
-    //           .then(function (imgsRes) {
-    //             return imgsRes;
-    //           });
-    //       }))
-    //     }
-    // });
   },
-  
+
   // 插入每张照片
   createImgs: function createImgs(img) {
-    // let res = []
-    // let list = Promise.all(imgs.map(item => {
-    //   // item.src = item.url; //`http://pnmpntc1j.bkt.clouddn.com/${item.key}`;
-    //   // item.group_id = _id;
-    //   return Img.create(item).exec()
-    //     .then(function (imgsRes) {
-    //       return imgsRes.ops;
-    //     });
-    // }))
-    // console.log('====',list[0])
-    
-    // return list
     return Img.create(img).exec()
-      // .then(function (imgsRes) {
-      //   console.log('imgres', imgsRes);
-      //   return imgsRes.ops;
-      // });
   },
 }

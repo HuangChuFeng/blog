@@ -12,7 +12,7 @@ const os = require('os');
 const koaBody = require('koa-body');
 // EJS是一个JavaScript模板库，用来从JSON数据中生成HTML字符串, Koa2框架中ejs可以把数据库查询的数据渲染到模板上面，实现一个动态网站。
 const render = require("koa-ejs");
-const server = require("koa-static");  
+const server = require("koa-static");
 const config = require("config-lite");                        // 读取配置文件的模块
 const historyFallback = require("koa2-history-api-fallback");
 const koaWinston = require("./middlewares/koa-winston");      // 基于winston的用于koa的日志中间件
@@ -35,7 +35,7 @@ const sessionConfig = {
 }
 
 app.use(historyFallback())
-app.use(koaBody({ 
+app.use(koaBody({
   multipart: true,
   formLimit: "50mb",
   jsonLimit: "50mb",
