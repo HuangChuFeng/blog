@@ -96,16 +96,19 @@ module.exports = {
         try {
             var articles = [];
             var articlesIds = await ArticleTag.getArticleByTagName(tag);
+            
             for(let i = 0; i < articlesIds.length; i++) {
                 let item = await AritcleModel.getArticleById(articlesIds[i].article_id);
-                articles.push(item[0])
+                item[0] && articles.push(item[0])
             }
             for(let j = 0; j < articles.length; j++) {
                 articles[j].comments = await CommentModel.getCommentsCount(articles[j]._id);
             }
         } catch (e) {
+            console.log(e);
+            
             resCode = 500;
-            message = "添加失败";
+            message = "获取失败";
         }
         ctx.response.body = {
             resCode,

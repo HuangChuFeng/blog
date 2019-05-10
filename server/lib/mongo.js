@@ -43,6 +43,7 @@ exports.Article = mongolass.model('Article', {
     description: { type: 'string' },
     content: { type: 'string' },
     favor_count: { type: 'number', default: 0 },
+    location: { type: 'string'},
     pv: { type: 'number', default: 0 },
     created_at: { type: 'string' },
 });
@@ -83,6 +84,7 @@ exports.ImgsGroup = mongolass.model('ImgsGroup', {
     location: { type: 'string' },
     title: { type: 'string' },
     created_at: { type: 'string' },
+    location: { type: 'string'},
     category: { type: 'string' },
 });
 exports.ImgsGroup.index({ _id: 1}).exec();    // 按创建时间降序查看用户的照片列表

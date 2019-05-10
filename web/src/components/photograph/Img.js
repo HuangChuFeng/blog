@@ -70,11 +70,6 @@ export default class Img extends Component {
         }
     }
 
-    imgOnLoad = () => {
-        console.log('img onload');
-        
-    }
-
     // 查看图片详情
     toImgDetailPage = id =>  {
         this.context.router.history.push(`/photograph/detail/${id}`);       
@@ -90,7 +85,7 @@ export default class Img extends Component {
         return (
             <div className="img-wraper" onClick={this.toImgDetailPage.bind(this, this.props.img._id)}>
                 <div className="img-box" ref="imgBox" style={this.state.imgBoxStyle}>   
-                    <img src={this.props.img.src} alt="" onLoad={this.imgOnLoad.bind(this)} />
+                    <img src={this.props.img.src} alt=""/>
                 </div>
 
                 <div className="img-cover">
