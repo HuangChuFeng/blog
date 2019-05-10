@@ -1,5 +1,5 @@
 const ImgModel = require("../models/imgs");
-const CommentModel = require("../models/Comment");
+const CommentModel = require("../models/comment");
 const authCheck = require("../middlewares/check").auth;
 const path = require("path");
 const fs = require('fs');

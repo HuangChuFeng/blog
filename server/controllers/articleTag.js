@@ -1,6 +1,6 @@
-const ArticleTag = require("../models/ArticleTag");
+const ArticleTag = require("../models/articleTag");
 const AritcleModel = require("../models/article");
-const CommentModel = require("../models/Comment");
+const CommentModel = require("../models/comment");
 
 module.exports = {
     // 增加新标签
