@@ -1,6 +1,6 @@
 const moment = require('moment');
 const Article = require('../lib/mongo').Article;
-const ArticleTagModel = require("./ArticleTag");
+const ArticleTagModel = require("./articleTag");
 const CommentModel = require("./Comment");
 module.exports = {
     // 获取所有文章
