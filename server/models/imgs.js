@@ -82,25 +82,44 @@ module.exports = {
     return Img.update({ _id: imgId }, { $inc:{ favor_count: 1 }}).exec();
   },
 
-  // 上传照片
-  upLoadImgs: function upLoadImgs(group) {
-    let { imgs, info } = group;
+  // 创建照片组
+  createImgGroup: function createImgGroup(info) {
+    // let { imgs, info } = group;
     info.created_at = moment().format('YYYY-MM-DD HH:mm');
-
-    return ImgsGroup.create(info)
-      .exec()
-      .then(function (res) {
-        if (res.result.ok && res.result.n > 0) {
-          let { _id, title } = res.ops[0];
-          return Promise.all(imgs.map(item => {
-            item.src = `http://pnmpntc1j.bkt.clouddn.com/${item.key}`;
-            item.group_id = _id;
-            return Img.create(item).exec()
-                  .then(function (imgsRes) {
-                    return imgsRes;
-                  });
-          }))
-        }
-    });
-  }
+    return ImgsGroup.create(info).exec()
+    //   .then(function (res) {
+    //     if (res.result.ok && res.result.n > 0) {
+    //       let { _id, title } = res.ops[0];
+    //       return Promise.all(imgs.map(item => {
+    //         item.src = item.url; //`http://pnmpntc1j.bkt.clouddn.com/${item.key}`;
+    //         item.group_id = _id;
+    //         return Img.create(item).exec()
+    //           .then(function (imgsRes) {
+    //             return imgsRes;
+    //           });
+    //       }))
+    //     }
+    // });
+  },
+  
+  // 插入每张照片
+  createImgs: function createImgs(img) {
+    // let res = []
+    // let list = Promise.all(imgs.map(item => {
+    //   // item.src = item.url; //`http://pnmpntc1j.bkt.clouddn.com/${item.key}`;
+    //   // item.group_id = _id;
+    //   return Img.create(item).exec()
+    //     .then(function (imgsRes) {
+    //       return imgsRes.ops;
+    //     });
+    // }))
+    // console.log('====',list[0])
+    
+    // return list
+    return Img.create(img).exec()
+      // .then(function (imgsRes) {
+      //   console.log('imgres', imgsRes);
+      //   return imgsRes.ops;
+      // });
+  },
 }

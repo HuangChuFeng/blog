@@ -2,23 +2,14 @@ import { get, post, formPost } from "../util/post"; //
 
 const DEV_URL = 'http://localhost:3000';
 
-/*
-    处理所有网络请求_目前没有和action集成异步数据流，
-    使用同步数据流达成类似效果的后遗症应该就是组件耦合性巨高。。
- */
-
-// 获取上传图片token
-export const getUploadToken = params => {
-  return post(`${DEV_URL}/api/token`);
+// 发布照片
+export const publishImgs = group => {
+  return post(`${DEV_URL}/api/imgs/publish`, group);
 };
 
-// 上传照片
-// export const uploadImgs = group => {
-//   return post(`${DEV_URL}/api/imgs/upload`, group);
-// };
-
-export const uploadImgs = group => {
-  return formPost(`${DEV_URL}/api/imgs/upload`, group);
+// 上传图片
+export const uploadImg = group => {
+  return formPost(`${DEV_URL}/api/uploadImg`, group);
 };
 
 /*

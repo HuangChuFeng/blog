@@ -1,10 +1,8 @@
 const ImgModel = require("../models/imgs");
 const CommentModel = require("../models/Comment");
-
-const qiniu = require('qiniu'); // 需要加载qiniu模块的
-const accessKey = 'vqKACy0T5ynoVPNoamgDmUMHxH8GRxsyQnswE9IF';
-const secretKey = 'x2UGD15Dqi7axFm5AZPkFRoU4sE9kk40xpi7F5S6';
-const bucket = 'huangchufeng';
+const path = require("path");
+const fs = require('fs');
+const domain = 'http://localhost:3000/'
 
 module.exports = {
   // GET /imgs 所有照片
@@ -161,57 +159,93 @@ module.exports = {
     };
   },
 
-  // 获取图片上传时需要的token
-  "POST /api/token": async (ctx, next) => {
-    let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-    // 指定上传策略
-    let options = {
-      scope: bucket,
-      expires: 3600 * 24,
-      returnBody: '{"key": $(key), "hash": $(etag), "w": $(imageInfo.width), "h": $(imageInfo.height)}'
-    };
-    let putPolicy = new qiniu.rs.PutPolicy(options);
-    let uploadToken = putPolicy.uploadToken(mac);
-    let resCode = 200, message = 'ok';
-    if (uploadToken) {
-      ctx.response.body = {
-        resCode,
-        message,
-        uploadToken
-      }
-    } else {
-      message = '获取token失败';
-      resCode = 500;
-      ctx.response.body = {
-        resCode,
-        message,
-      };
+  // 发布图片
+  "POST /api/imgs/publish": async (ctx, next) => {
+  let resCode = 200,
+      message = "ok";
+      group = ctx.request.body;
+      group.info.author = ctx.session.user._id
+      newImgs = [];
+  try {
+    // 处理照片路径, 从临时目录里移到对应的照片组目录下
+    let groupPath = ''
+    var groupRes = await ImgModel.createImgGroup(group.info);
+    if(groupRes.result.ok) {
+        let groupId = groupRes.ops[0]._id;
+        const groupPath = path.resolve(__dirname, '../build/upload/photograph/' + groupId);
+        if (!fs.existsSync(groupPath)) {
+            fs.mkdirSync(groupPath);
+        }
+        group.imgs.forEach(img => {
+            let oldPath = path.resolve(__dirname, '../build/tempFolder/' + img.name);
+            let newPath = path.resolve(__dirname, '../build/upload/photograph/' + groupId + '/' + img.name);
+            // let newPath = domain + '/upload/photograph/' + groupId + img.name;
+            fs.renameSync(oldPath, newPath); 
+            newImgs.push({
+                group_id: groupId,
+                src: domain + 'upload/photograph/' + groupId + '/' + img.name,
+                h: img.h,
+                w: img.w
+            })
+        })
     }
-  },
+    var imglist = await Promise.all(newImgs.map(item => {
+        return ImgModel.createImgs(item);
+      }))
+    imglist = imglist.map(item => {
+      return item.ops[0]
+    })
+    // 删除临时目录下的所有图片
+    let tempPath = path.resolve(__dirname, '../build/tempFolder');
+    deleteFolder(tempPath);
+  } catch (e) {
+      console.log(e);
+    resCode = 500;
+    message = "服务器出错了";
+  }
+  ctx.response.body = {
+    resCode,
+    message,
+    imglist,
+  };
+},
 
-  // 上传照片
-  "POST /api/imgs/upload": async (ctx, next) => {
-      console.log('ctx.request.body', ctx.request.body);
-      console.log('ctx.request.files', ctx.request.files);
-      
-    let resCode = 200,
-        message = "ok";
-        // group = ctx.request.body;
-        // group.info.author = ctx.session.user._id;
+  // 上传图片
+  "POST /api/uploadImg": async (ctx, next) => {
+  let resCode = 200,
+      message = "ok",
+      fileName = '';
     try {
-    //   var imglist = await ImgModel.upLoadImgs(group);
-    //   imglist = imglist.map(item => {
-    //     return item.ops[0]
-    //   })
+      let file = ctx.request.files.file;
+      let arr = file.path.split('/')
+      fileName = arr[arr.length - 1]
     } catch (e) {
+        console.log(e);
       resCode = 500;
       message = "服务器出错了";
     }
     ctx.response.body = {
       resCode,
       message,
-    //   imglist,
-        url: 'http://localhost:3000/photograph/1.jpg'
+      fileName,
+      url: domain + 'tempFolder/' + fileName
     };
   }
+}
+
+//删除临时图片目录下的所有图片
+function deleteFolder(path) {
+	var files = [];
+	if (fs.existsSync(path)) {
+		files = fs.readdirSync(path);
+		files.forEach(function(file, index){
+			var curPath = path + '/' + file;
+            if(fs.statSync(curPath).isDirectory()) { // recurse
+            	deleteFolder(curPath);
+            } else { // delete file
+            	fs.unlinkSync(curPath);
+            }
+        });
+		fs.rmdirSync(path);
+	}
 }

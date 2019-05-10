@@ -42,23 +42,17 @@ app.use(koaBody({
   textLimit: "50mb",
   enableTypes: ['json', 'form', 'text'],
   formidable: {
-    uploadDir: path.join(__dirname, 'build/photograph/'), // 设置文件上传目录
+    uploadDir: path.join(__dirname, 'build/tempFolder/'), // 设置文件上传目录
     keepExtensions: true, // 保持文件的后缀
     maxFieldsSize: 20 * 1024 * 1024, // 文件上传大小，缺省2M
     onFileBegin: (name, file) => { // 文件上传前的设置
-      const fp = path.join(__dirname, 'build/photograph/');
+      const fp = path.join(__dirname, 'build/tempFolder/');
       if (!fs.existsSync(fp)) { // 检查是否有“public/upload/”文件夹
         fs.mkdirSync(fp); // 没有就创建
       }
     }
   }
 }));
-// app.use(bodyParser({
-//   formLimit: "50mb",
-//   jsonLimit: "50mb",
-//   textLimit: "50mb",
-//   enableTypes: ['json', 'form', 'text']
-// }));
 
 // app.keys = [config.session.secret];
 app.keys = [sessionConfig.secret];
@@ -100,7 +94,7 @@ app.use(cors({
 
 // 静态资源就可以被koa中间件解析了
 app.use(convert(server(path.join(__dirname, "/build/"))));
-app.use(convert(server(path.join(__dirname, "/upload/"))));
+// app.use(convert(server(path.join(__dirname, "/upload/"))));
 
 
 render(app, {
