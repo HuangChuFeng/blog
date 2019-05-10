@@ -26,7 +26,7 @@ onerror(app);
 
 const isProduction = (process.env.NODE_ENV || "production") === "production";
 
-const log = require("./logs/log");
+// const log = require("./logs/log");
 
 const sessionConfig = {
   secret: 'myblog',
@@ -118,11 +118,11 @@ render(app, {
 });
 
 // 正常请求的日志 加载中间件
-app.use(koaWinston(log.logger));
+// app.use(koaWinston(log.logger));
 // add controller:
 app.use(controller());
 // 错误请求的日志
-app.use(koaWinston(log.errorloger));
+// app.use(koaWinston(log.errorloger));
 
 // error-handling
 app.on("error", (err, ctx) => {

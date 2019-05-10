@@ -20,6 +20,8 @@ module.exports = {
                 articles[i].comments = await CommentModel.getCommentsCount(articles[i]._id);
             }
         } catch (e) {
+            console.log(e);
+            
             resCode = 500;
             message = "服务器出错了";
         }
