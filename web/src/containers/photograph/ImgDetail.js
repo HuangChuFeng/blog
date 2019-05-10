@@ -98,21 +98,27 @@ class ImgDetail extends Component {
         });
     }
 
+    // 查看组图
+    toGroupImg = (groupId) => {
+        this.context.router.history.push(`/photograph/group/${groupId}`);
+    }
+
+    goBack() {
+        window.history.go(-2);
+    }
+
     render() {
         return (
             <div className="img-detail-page">
                 <div className={["img-switch-wraper", this.state.imgEnlargeble ? 'active' : ''].join(' ')}>
                     <div className="center-box">
                         { !this.state.imgEnlargeble &&
-                            <Link to="/photograph">
-                                <Icon type="close" className="icon close-icon" />
-                            </Link>
+                            // <Link to="/photograph">
+                                <Icon type="close" className="icon close-icon" onClick={this.goBack}/>
+                            // </Link>
                         }
                         <Icon type="left" className="icon left-icon" onClick={this.lastOrNextImg.bind(this, -1)}/>
-                        { this.props.curImg && this.props.curImg.src ? 
-                            <img src={require(`../../${this.props.curImg.src}`)} alt="" /> : 
-                            <img src={require('../../static/img/img1.jpg')} alt="" />
-                        }
+                        <img src={this.state.img.src} alt="" />
                         <Icon type={ this.state.imgEnlargeble ? 'shrink' : 'arrows-alt'} className="icon size-icon" onClick={ this.resizeImgHandler.bind(this) } />
                         <Icon type="right" className="icon right-icon" onClick={this.lastOrNextImg.bind(this, 1)}/>
                     </div>
@@ -124,7 +130,7 @@ class ImgDetail extends Component {
                             <span className="count-span">{this.state.img.favor_count || 0}</span>
                             <Icon className="icon" type="eye" />
                             <span className="count-span">{this.state.img.pv || 0}</span>
-                            {/* <Icon type="switcher" className="icon collection-icon" /> */}
+                            <Icon type="switcher" className="icon collection-icon" onClick={(e) => { this.toGroupImg(this.state.img.groupId) }}/>
                         </div>
                     </div>
                     <div className="comment-wrap">

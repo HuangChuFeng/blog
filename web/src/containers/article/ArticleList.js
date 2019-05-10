@@ -79,8 +79,10 @@ class ArticleListContainer extends Component {
         this.loadArticles(type);
     }
 
-    onDeleteArticle(articleId, index) {
-        deleteArticleById({articleId: articleId}).then(result => {
+    onDeleteArticle(articleId, index, url) {
+        url = url.split('/');
+        let coverName = url[url.length - 1];
+        deleteArticleById({articleId, coverName}).then(result => {
             const { data } = result;
             if (data) {
                 this.props.deleteArticle(index);

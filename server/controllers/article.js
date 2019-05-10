@@ -93,10 +93,12 @@ module.exports = {
             message = "发表成功";
         try {
             // 处理文章封面
-            let oldPath = path.resolve(__dirname, '../build/tempFolder/' + article.coverName);
-            let newPath = path.resolve(__dirname, '../build/upload/cover/' + article.coverName);
-            fs.renameSync(oldPath, newPath);
-            article.cover_url = domain + 'upload/cover/' + article.coverName;
+            if(article.coverName !== '') {
+                let oldPath = path.resolve(__dirname, '../build/tempFolder/' + article.coverName);
+                let newPath = path.resolve(__dirname, '../build/upload/cover/' + article.coverName);
+                fs.renameSync(oldPath, newPath);
+                article.cover_url = domain + 'upload/cover/' + article.coverName;
+            }
             await AritcleModel.create(article);
             // 删除临时目录下的所有图片
             let tempPath = path.resolve(__dirname, '../build/tempFolder');
@@ -118,8 +120,9 @@ module.exports = {
         if(!isLogined) {
             return;
         }
+        
         let { articleId } = ctx.params,
-            // author = ctx.session.user._id,
+            coverName = ctx.request.query.coverName,
             resCode = 200,
             message = "删除成功";
         try {
@@ -127,6 +130,9 @@ module.exports = {
                 throw new Error("文章不存在");
             }
             await AritcleModel.delArticleById(articleId);
+            // 删除对应封面
+            let tempPath = path.resolve(__dirname, '../build/upload/cover/' + coverName);
+            fs.unlink(tempPath)
         } catch (e) {
             console.log(e);
             message = "删除失败";

@@ -2,23 +2,19 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { initImgs, deleteImg, addImg, addImgFavorCount } from '../../reducers/imgs'
 import { changeCurNav } from '../../reducers/common'
-import { Button, BackTop  } from 'antd';
 import ImgList from '../../components/photograph/ImgList'
-import UploadImg from '../../components/photograph/UploadImg'
 import Header from '../../components/Header'
-import Loading from '../../components/Loading'
+import { Button } from 'antd';
 import '../../css/img.less'
 
-import { fetchImgs, deleteImgById, addImgFavor } from "../../service/fetch";
+import { fetchGroupImgs, deleteImgById, addImgFavor } from "../../service/fetch";
 
 class ImgListContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dialogVisible: false,
-            showLoading: false,
-            pageNum: 1,
-            noMore: false,  // 是否没有更多了
+            groupId: this.props.match.params.id,
+            groupInfo: {}
         }
     }
     componentDidMount() {
@@ -28,33 +24,16 @@ class ImgListContainer extends Component {
         }
     }
 
-    loadImgs(category = '') {
-        let params = {
-            pageNum: this.state.pageNum,
-            category
-        }
-        this.setState({ showLoading: true });
-        return fetchImgs(params).then(result => {
+    loadImgs() {
+        return fetchGroupImgs(this.state.groupId).then(result => {
             const {data} = result;
             if (data) {
-                this.props.initImgs(data.imgs, this.state.pageNum);
-                this.setState({ noMore: data.noMore })
-                this.setState({ showLoading: false });
-            } else {
-                this.setState({ showLoading: false });
-                this.setState({ noMore: true })
+                this.setState({
+                    groupInfo: data.group.info
+                })
+                this.props.initImgs(data.group.imgs, 1);
             }
         })
-    }
-
-    loadMore() {
-        this.setState({ pageNum: this.state.pageNum + 1 }, function () {
-            this.loadImgs();
-        })
-    }
-
-    visibleHandler = (flag) => {
-        this.setState({ dialogVisible: flag });
     }
 
     handleDeleteImg(e, img, index) {
@@ -69,6 +48,7 @@ class ImgListContainer extends Component {
             } 
         })
     }
+
     handleAddImgFavor(e, imgId, index) {
         e.stopPropagation();
         addImgFavor(imgId).then(result => {
@@ -84,6 +64,9 @@ class ImgListContainer extends Component {
         category = (category === '所有照片' ? '' : category);
         this.loadImgs(category);
     }
+    goBack() {
+        window.history.go(-1);
+    }
 
     render () {
         return (
@@ -93,30 +76,23 @@ class ImgListContainer extends Component {
                     handleNavChange={this.handleNavChange.bind(this)}
                 />
                 <div className="container img-container">
-                    { this.props.isAdmin && 
-                    <Button type="primary" className="common-btn" onClick={this.visibleHandler.bind(this, true)}>
-                        上传照片
-                    </Button>
-                    }
-                    <UploadImg 
-                        visible={this.state.dialogVisible} 
-                        visibleHandler={this.visibleHandler}
-                        onAddImg={this.props.addImg}
-                    />
+                    <div className="group-info">
+                        <p className="title">{ this.state.groupInfo.title }</p>
+                        <ul className="tag-list">
+                            <li>{ this.state.groupInfo.category }</li>
+                        </ul>
+                        <p className="date">{ this.state.groupInfo.created_at }</p>
+                    </div>
                     <ImgList
                         imgs= {this.props.imgs}
                         addImgFavor={this.handleAddImgFavor.bind(this)}
                         onDeleteImg= {this.handleDeleteImg.bind(this)}
-                        isAdmin={this.props.isAdmin} 
+                        isAdmin={this.props.isAdmin}
                     />
-                    { !this.state.noMore && 
-                    <Loading 
-                        show={this.state.showLoading}
-                        loadMore={this.loadMore.bind(this)}
-                    />
-                    }
+                    <div className="group-info">
+                        <Button onClick={this.goBack}>返 回</Button>
+                    </div>
                 </div>
-                <BackTop target={() => document.getElementsByClassName('container')[0]}/>
             </div>
         )
     }

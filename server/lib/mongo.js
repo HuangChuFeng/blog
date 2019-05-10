@@ -42,6 +42,7 @@ exports.Article = mongolass.model('Article', {
     category_id: { type: 'string' },
     description: { type: 'string' },
     content: { type: 'string' },
+    favor_count: { type: 'number', default: 0 },
     pv: { type: 'number', default: 0 },
     created_at: { type: 'string' },
 });
@@ -67,7 +68,7 @@ exports.Comment.index({ user: 1, _id: -1 }).exec();
 
 // 照片模型
 exports.Img = mongolass.model('Img', {
-    group_id: { type: 'object', ref: 'ImgsGroup' },
+    group_id: { type: Mongolass.Types.ObjectId },
     src: { type: 'string' },
     favor_count: { type: 'number', default: 0 },
     h: { type: 'number' },

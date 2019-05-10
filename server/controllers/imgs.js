@@ -43,6 +43,31 @@ module.exports = {
         };
     },
 
+    // GET 组图
+    "GET /api/groupImgs": async ctx => {
+        const { groupId } = ctx.request.query;
+        let resCode = 200,
+            message = "ok",
+            group = {};
+        try {
+            let groupInfo = await ImgModel.getGroupImgs(groupId);
+            let imgs = await ImgModel.getImgsByGroupId(groupInfo[0]._id);
+            group = {
+                info: groupInfo[0],
+                imgs,
+            }
+        } catch (e) {
+            resCode = 500;
+            console.log(e);
+            message = "服务器出错了";
+        }
+        ctx.response.body = {
+            resCode,
+            message,
+            group,
+        };
+    },
+
     // 按照id获取照片 // 上一张or下一张
     "GET /api/imgs/:imgId": async ctx => {
         const { imgId } = ctx.params,
@@ -104,6 +129,7 @@ module.exports = {
             return;
         }
         let { imgId } = ctx.params,
+            { imgName, groupId } = ctx.request.query,
             resCode = 200,
             message = "删除成功";
         try {
@@ -111,6 +137,9 @@ module.exports = {
                 throw new Error("照片不存在");
             }
             await ImgModel.delImgById(imgId);
+            // 删除对应图片
+            let tempPath = path.resolve(__dirname, '../build/upload/photograph/' + groupId + '/' + imgName);
+            fs.unlink(tempPath)
         } catch (e) {
             console.log(e);
             message = "删除失败";
@@ -122,7 +151,7 @@ module.exports = {
         };
     },
 
-    // 更新文章浏览量
+    // 更新照片浏览量
     "GET /api/imgs/:imgId/addImgPv": async ctx => {
         let { imgId } = ctx.params,
             resCode = 200,
@@ -220,10 +249,6 @@ module.exports = {
 
     // 上传图片
     "POST /api/uploadImg": async (ctx, next) => {
-        const isLogined = await authCheck(ctx);
-        if (!isLogined) {
-            return;
-        }
         let resCode = 200,
             message = "ok",
             fileName = '';

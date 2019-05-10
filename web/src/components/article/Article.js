@@ -34,7 +34,7 @@ export default class Article extends Component {
                     <p onClick={this.props.viewDetail.bind(this, article._id)}>{ article.title }</p>
                     { this.props.isAdmin &&
                         <span className="operate-btn">
-                            <Icon type="delete" onClick={this.props.deleteArticle.bind(this, article._id, this.props.index)}/>
+                            <Icon type="delete" onClick={this.props.deleteArticle.bind(this, article._id, this.props.index, article.cover_url)}/>
                             <Icon type="edit" onClick={this.props.editArticle.bind(this, article._id)}/>
                         </span>
                      }

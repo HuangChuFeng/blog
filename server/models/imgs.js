@@ -7,19 +7,30 @@ const CommentModel = require("./Comment");
 module.exports = {
   // 获取所有照片
   getImgsByGroupId: function getImgsByGroupId(groupId) {
-    var query = {}; //, skip = 0, limit = 3;
+    var query = {};
     if (groupId) {
       query.group_id = groupId;
     }
-    // skip = (pageNum - 1) * limit
     return Img
       .find(query)
-      // .limit(limit)åååßß
-      // .skip(skip)
       .exec();
   },
 
   // 根据group_id获取一组照片
+  getGroupImgs: function getGroupImgs(group_id) {
+    var query = {};
+    if (group_id) {
+      query._id = group_id;
+    }
+    console.log('groupid=======', group_id);
+    return ImgsGroup
+      .find(query)
+      // .populate({ path: '_id', model: 'Img' })
+      .sort({ _id: -1 })
+      .exec();
+  },
+
+  // 获取所有组图信息
   getGroups: function getGroups(category) {
     var query = {};
     if (category) {
@@ -41,9 +52,9 @@ module.exports = {
   },
 
   /**
-   *  上一篇或下一篇
-   *  curId: 当前文章id
-   *  typeNum: -1表示上一篇, 1表示下一篇
+   *  上一张或下一张
+   *  curId: 当前图片id
+   *  typeNum: -1表示上一张, 1表示下一张
    **/
   getLastOrNextImg: function getLastOrNextImg(curId, typeNum) {
     var query = {};
@@ -63,7 +74,7 @@ module.exports = {
     return Img.remove({ _id: id })
       .exec()
       .then(function (res) {
-        // 文章删除后，再删除该文章下的所有留言和标签
+        // 照片删除后，再删除该照片下的所有留言
         if (res.result.ok && res.result.n > 0) {
           return CommentModel.delCommentsById(id);
         }
@@ -75,7 +86,6 @@ module.exports = {
   addImgPv: function addImgPv(imgId) {
     return Img.update({ _id: imgId }, { $inc: { pv: 1 } }).exec();
   },
-
 
   // 更新照片喜欢数量
   addImgFavor: function addImgFavor(imgId) {

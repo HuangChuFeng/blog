@@ -46,10 +46,13 @@ class EditArticleContainer extends Component {
 
     // 保存文章 id存在时为编辑状态
     saveArticleHandler() {
-        let formData = Object.assign(this.child.getContent(), this.form.getFormData());
-
+        let formData = this.form.getFormData();
+        if(!formData) {
+            return;
+        }
+        formData = Object.assign(this.child.getContent(), formData);
         if (this.state.articleId) {
-            console.log('编辑====: ', formData);
+            // console.log('编辑====: ', formData);
             updateArticleById(this.state.articleId, formData).then(result => {
                 const { data } = result;
                 if (data) {
@@ -57,7 +60,7 @@ class EditArticleContainer extends Component {
                 }
             });
         } else {
-            console.log('新建====: ', formData);
+            // console.log('新建====: ', formData);
             createArticle(formData).then(result => {
                 const { data } = result;
                 if (data) {

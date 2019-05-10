@@ -13,7 +13,8 @@ export default class Img extends Component {
             imgBoxStyle: {
                 background: bgColors[Math.floor(Math.random()*bgColors.length)],
                 height: ''
-            }
+            },
+            showGroupBtn: false,
         }
     }
 
@@ -29,7 +30,14 @@ export default class Img extends Component {
         isAdmin: PropTypes.bool
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.onResizeHandler()
+    }
+
     componentDidMount() {
+        this.setState({
+            showGroupBtn: this.context.router.history.location.pathname.indexOf('group') === -1
+        });
         // 这里页面加载完成之后resizeThrottle函数立即执行了, 所以函数内的start直接打印了
         // 以后每次发生resize事件时只会触发resizeThrottle函数的返回函数
         this.onResizeHandler();
@@ -72,6 +80,12 @@ export default class Img extends Component {
         this.context.router.history.push(`/photograph/detail/${id}`);       
     }
 
+    // 查看组图
+    toGroupImg = (e, groupId) => {
+        e.stopPropagation();
+        this.context.router.history.push(`/photograph/group/${groupId}`);
+    }
+
     render() {
         return (
             <div className="img-wraper" onClick={this.toImgDetailPage.bind(this, this.props.img._id)}>
@@ -84,14 +98,16 @@ export default class Img extends Component {
                        <div>
                             <Icon className="heart-icon" type="heart" onClick={(e) => this.props.addImgFavor(e, this.props.img._id, this.props.index)} /> 
                             <span className="count-span">{this.props.img.favor_count || 0}</span>
-                            {/* <Icon type="switcher" className="collection-icon" /> */}
+                            { this.state.showGroupBtn &&
+                            <Icon type="switcher" className="collection-icon" onClick={(e) => { this.toGroupImg(e, this.props.img.group_id) }} />
+                            }
                             { this.props.isAdmin &&
-                            <Icon type="delete" className="collection-icon" onClick={(e) => { this.props.onDeleteImg(e, this.props.img._id, this.props.index)}}/>
+                            <Icon type="delete" className="collection-icon" onClick={(e) => { this.props.onDeleteImg(e, this.props.img, this.props.index)}}/>
                             }
                        </div>
                     </div>
                     <div className="info-box">
-                        名称
+                        { this.props.img.title }
                     </div>
                 </div>
             </div>

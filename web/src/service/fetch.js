@@ -1,6 +1,6 @@
-import { get, post, formPost } from "../util/post"; // 
+import { get, post, formPost } from "../util/post";
 
-const DEV_URL = 'http://localhost:3000';
+const DEV_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://huangchufeng.site';
 
 // 发布照片
 export const publishImgs = group => {
@@ -20,6 +20,11 @@ export const fetchImgs = (params) => {
   return get(`${DEV_URL}/api/imgs?pageNum=${params.pageNum}&category=${params.category}`);
 };
 
+// 获取组图
+export const fetchGroupImgs = (groupId) => {
+  return get(`${DEV_URL}/api/groupImgs?groupId=${groupId}`);
+};
+
 // 获取照片详情
 export const getImgDetail = (id, typeNum) => {
   return get(`${DEV_URL}/api/imgs/${id}?typeNum=${typeNum}`);
@@ -27,7 +32,7 @@ export const getImgDetail = (id, typeNum) => {
 
 // 删除照片
 export const deleteImgById = params => {
-  return get(`${DEV_URL}/api/imgs/${params.imgId}/remove`);
+  return get(`${DEV_URL}/api/imgs/${params._id}/remove?imgName=${params.imgName}&groupId=${params.group_id}`);
 };
 
 // 更新文章浏览量
@@ -75,7 +80,7 @@ export const createArticle = article => {
 
 // 删除文章
 export const deleteArticleById = params => {
-  return get(`${DEV_URL}/api/articles/${params.articleId}/remove`);
+  return get(`${DEV_URL}/api/articles/${params.articleId}/remove?coverName=${params.coverName}`);
 };
 
 // 更新文章

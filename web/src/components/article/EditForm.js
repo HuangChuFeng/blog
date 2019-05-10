@@ -72,19 +72,21 @@ class ArticleForm extends React.Component {
     }
 
     getFormData = () => {
-        // this.props.form.validateFields((err, values) => {
-        //     if (!err) {
-        //         console.log('Received values of form: ', values);
-        //     }
-        // });
-        return Object.assign(
-            { 
-                tags: this.state.selectedTags,
-                coverName: this.state.coverName,
-                coverUrl: this.state.coverUrl
-            }, 
-            this.props.form.getFieldsValue()
-        );
+        let res;
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+                res = Object.assign(
+                    { 
+                        tags: this.state.selectedTags,
+                        coverName: this.state.coverName,
+                        coverUrl: this.state.coverUrl
+                    }, 
+                    this.props.form.getFieldsValue()
+                );
+            }
+        });
+        return res;
     }
 
     render() {
