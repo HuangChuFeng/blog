@@ -47,12 +47,24 @@ app.use(koaBody({
     maxFieldsSize: 20 * 1024 * 1024, // 文件上传大小，缺省2M
     onFileBegin: (name, file) => { // 文件上传前的设置
       const fp = path.join(__dirname, 'build/tempFolder/');
-      if (!fs.existsSync(fp)) { // 检查是否有“public/upload/”文件夹
-        fs.mkdirSync(fp); // 没有就创建
+      if (!fs.existsSync(fp)) {
+        fs.mkdirSync(fp);
       }
     }
   }
 }));
+const uploadFp = path.join(__dirname, 'build/upload/');
+if (!fs.existsSync(uploadFp)) {
+  fs.mkdirSync(uploadFp);
+}
+const uploadFp1 = path.join(__dirname, 'build/upload/photograph/');
+if (!fs.existsSync(uploadFp1)) {
+  fs.mkdirSync(uploadFp1);
+}
+const uploadFp2 = path.join(__dirname, 'build/upload/cover/');
+if (!fs.existsSync(uploadFp2)) {
+  fs.mkdirSync(uploadFp2);
+}
 
 // app.keys = [config.session.secret];
 app.keys = [sessionConfig.secret];

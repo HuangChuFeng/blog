@@ -37,6 +37,7 @@ class ArticleForm extends React.Component {
             description,
         }
         this.setState({
+            coverUrl: article.cover_url,
             selectedTags: article.tags.map(item => {
                 return item.name
             })

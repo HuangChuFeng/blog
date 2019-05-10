@@ -159,7 +159,17 @@ module.exports = {
             if (!articleId) {
                 throw new Error("文章不存在");
             }
+            // 处理文章封面
+            if(article.coverName !== '') {
+                let oldPath = path.resolve(__dirname, '../build/tempFolder/' + article.coverName);
+                let newPath = path.resolve(__dirname, '../build/upload/cover/' + article.coverName);
+                fs.renameSync(oldPath, newPath);
+                article.cover_url = domain + 'upload/cover/' + article.coverName;
+            }
             await AritcleModel.updateArticleById(articleId, article);
+            // 删除临时目录下的所有图片
+            let tempPath = path.resolve(__dirname, '../build/tempFolder');
+            deleteFolder(tempPath);
         } catch (e) {
             console.log(e);
             message = "更新失败";
