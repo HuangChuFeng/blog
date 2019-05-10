@@ -1,7 +1,7 @@
 const moment = require('moment');
 const Article = require('../lib/mongo').Article;
 const ArticleTagModel = require("./articleTag");
-const CommentModel = require("./Comment");
+const CommentModel = require("./comment");
 module.exports = {
     // 获取所有文章
     getArticles: function getArticles(type, pageNum, author) {

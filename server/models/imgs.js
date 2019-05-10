@@ -1,7 +1,7 @@
 const moment = require('moment');
 const Img = require('../lib/mongo').Img;
 const ImgsGroup = require('../lib/mongo').ImgsGroup;
-const CommentModel = require("./Comment");
+const CommentModel = require("./comment");
 
 // 操作数据库
 module.exports = {

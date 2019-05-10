@@ -1,4 +1,4 @@
-const CommentModel = require("../models/Comment");
+const CommentModel = require("../models/comment");
 const authCheck = require("../middlewares/check").auth;
 
 module.exports = {
