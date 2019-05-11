@@ -1,7 +1,7 @@
 const fs = require('fs');
 console.log('server', process.env.NODE_ENV);
 
-const DEV_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://huangchufeng.site';
+const DEV_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://huangchufeng.site:3000';
 module.exports = { 
     domain: 'http://localhost:3000/',
 
