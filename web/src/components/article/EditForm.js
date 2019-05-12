@@ -21,6 +21,7 @@ class ArticleForm extends React.Component {
     componentDidMount() {
         this.props.onRef(this);
         this.props.form.setFieldsValue({ type: 0 })
+        
     }
 
     componentWillReceiveProps(nextProps) {
