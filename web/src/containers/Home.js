@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Anchor } from 'antd';
 import { Link as RouteLink } from 'react-router-dom';
 import { getLocation } from "../service/fetch";
+import Music from '../components/Music'
 import '../css/home.less'
 const { Link } = Anchor;
 export default class Home extends Component {
@@ -58,6 +59,7 @@ export default class Home extends Component {
     
     return (
       <div className="home-page">
+        <Music />
         {
           arr.map((item, i) => {
             const imgStyle = {
@@ -84,7 +86,7 @@ export default class Home extends Component {
             <li><Link href="#firstPage" title="01"/></li>
             <li><Link href="#secondPage" title="02"/></li>
             <li><Link href="#thirdPage" title="03"/></li>
-            <li><Link href="#fourthPage" title="04"/></li>
+            <li><Link href="#forthPage" title="04"/></li>
           </ul>
         </Anchor>
       </div>

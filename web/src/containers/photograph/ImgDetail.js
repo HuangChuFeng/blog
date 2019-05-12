@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Icon, message, Spin } from 'antd';
 import { getImgDetail, comment as commentImg, addImgPv, addImgFavor } from "../../service/fetch";
 import MyComment from '../../components/Comment'
+import Music from '../../components/Music'
 
 class ImgDetail extends Component {
     constructor(props) {
@@ -112,6 +113,7 @@ class ImgDetail extends Component {
     render() {
         return (
             <div className="img-detail-page">
+                <Music/>
                 <Spin spinning={this.state.loading}>
                     <div className={["img-switch-wraper", this.state.imgEnlargeble ? 'active' : ''].join(' ')}>
                         <div className="center-box">

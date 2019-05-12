@@ -33,7 +33,7 @@ const imgNavArr = [
     { text: '街拍' },
     { text: '风景' },
     { text: '其他' },
-    { text: '文章', url: '/articles'}
+    { text: '博客', url: '/articles'}
 ]
 
 class Header extends Component {
@@ -95,6 +95,7 @@ class Header extends Component {
     }
 
     toggleMenu() {
+        console.log(112)
         this.setState({
             showMenu: !this.state.showMenu,
         })
@@ -130,6 +131,7 @@ class Header extends Component {
                 <div className="page-header">
                     { (this.state.isLargeScreen || this.state.showMenu) && 
                     <ul className="img-nav-ul">
+                        <li><Link to='/'><Icon type="home" className="index-btn" /></Link></li>
                         { this.state.navArr.map((item, i) => {
                                 let content = '';
                                 if(item.child) {
@@ -169,11 +171,17 @@ class Header extends Component {
                     </ul>
                     }
                     { !this.state.showMenu && 
+                    <div>
+                        <Link to='/'><Icon type="home" className="index-btn-1" /></Link>
                         <span className="current-nav">{ this.props.curNav }</span>
+                    </div>
                     }
                     <div className="menu-icon" onClick={this.toggleMenu.bind(this)}>
                         { !this.state.showMenu && 
-                            <Icon type="bars"/>
+                            <span>
+                                <Icon type="bars"/>
+                            </span>
+                            
                         }
                         { this.state.showMenu && 
                             <Icon type="close"/>

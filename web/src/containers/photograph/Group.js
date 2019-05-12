@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { changeCurNav } from '../../reducers/common'
 import ImgList from '../../components/photograph/ImgList'
 import Header from '../../components/Header'
+import Music from '../../components/Music'
 import { Button, Spin } from 'antd';
 import '../../css/img.less'
 
@@ -85,6 +86,7 @@ class ImgListContainer extends Component {
                     type={0} 
                     handleNavChange={this.handleNavChange.bind(this)}
                 />
+                <Music/>
                 <div className="container img-container">
                     <Spin spinning={this.state.loading}>
                         <div className="group-info">

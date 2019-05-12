@@ -90,8 +90,13 @@ a {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   .menu-icon,
   .current-nav,
+  .index-btn-1,
   .mask {
     display: none;
+  }
+  .index-btn {
+    margin-right: 10px;
+    display: inline;
   }
   .img-nav-ul {
       overflow: hidden;
@@ -193,6 +198,16 @@ a {
           }
         }
       }
+    }
+    .index-btn {
+      display: none;
+    }
+    .index-btn-1 {
+      display: block;
+      position: absolute;
+      left: 15px;
+      transform: translateY(-50%);
+      top: 50%;
     }
     .menu-icon {
       display: block; 
