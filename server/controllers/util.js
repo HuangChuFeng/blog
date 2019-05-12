@@ -3,7 +3,7 @@ console.log('server', process.env.NODE_ENV);
 
 const DEV_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://huangchufeng.site:3000';
 module.exports = { 
-    domain: 'http://localhost:3000/',
+    domain: 'http://106.14.159.7:3000/',
 
     //删除临时图片目录下的所有图片
     deleteFolder: (path) => {
