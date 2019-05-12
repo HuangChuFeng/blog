@@ -19,7 +19,7 @@ class Tags extends Component {
         router: PropTypes.object.isRequired,
     }
     
-    componentDidMount() {
+    componentWillMount() {
         this.props.initTags();      
         setTimeout(() => {
             this.props.changeCurNav('Tags')

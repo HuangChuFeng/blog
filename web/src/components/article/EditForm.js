@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Icon, Upload, Select, Col, Row, message } from 'antd';
+import { Form, Input, Icon, Upload, Select, Col, Row } from 'antd';
 import PropTypes from 'prop-types'
 
 // 输入表单组件

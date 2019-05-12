@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { initImgs, deleteImg, addImg, addImgFavorCount } from '../../reducers/imgs'
 import { changeCurNav } from '../../reducers/common'
-import { Button, BackTop  } from 'antd';
+import { Button, BackTop, Spin } from 'antd';
 import ImgList from '../../components/photograph/ImgList'
 import UploadImg from '../../components/photograph/UploadImg'
 import Header from '../../components/Header'
@@ -16,15 +16,19 @@ class ImgListContainer extends Component {
         super(props);
         this.state = {
             dialogVisible: false,
+            loading: false,
             showLoading: false,
             pageNum: 1,
             noMore: false,  // 是否没有更多了
         }
     }
-    componentDidMount() {
-        this.loadImgs();
-        if(!this.props.curNav) {
+    componentWillMount() {
+        let otherNav = ['所有照片', '所有文章', '笔记', '生活', 'Tags'];
+        if(!this.props.curNav || otherNav.indexOf(this.props.curNav) >= 0) {
             this.props.changeCurNav('所有照片')
+            this.loadImgs()
+        } else {
+            this.loadImgs(this.props.curNav)
         }
     }
 
@@ -33,16 +37,28 @@ class ImgListContainer extends Component {
             pageNum: this.state.pageNum,
             category
         }
-        this.setState({ showLoading: true });
+        
+        if(params.pageNum === 1) {
+            this.setState({ loading: true })
+            this.props.initImgs([], this.state.pageNum);
+        } else {
+            this.setState({ showLoading: true });
+        }
         return fetchImgs(params).then(result => {
             const {data} = result;
             if (data) {
                 this.props.initImgs(data.imgs, this.state.pageNum);
-                this.setState({ noMore: data.noMore })
-                this.setState({ showLoading: false });
+                this.setState({ 
+                    noMore: data.noMore,
+                    showLoading: false,
+                    loading: false
+                })
             } else {
-                this.setState({ showLoading: false });
-                this.setState({ noMore: true })
+                this.setState({ 
+                    showLoading: false,
+                    loading: false,
+                    noMore: true
+                });
             }
         })
     }
@@ -103,13 +119,15 @@ class ImgListContainer extends Component {
                         visibleHandler={this.visibleHandler}
                         onAddImg={this.props.addImg}
                     />
-                    <ImgList
-                        imgs= {this.props.imgs}
-                        addImgFavor={this.handleAddImgFavor.bind(this)}
-                        onDeleteImg= {this.handleDeleteImg.bind(this)}
-                        isAdmin={this.props.isAdmin} 
-                    />
-                    { !this.state.noMore && 
+                    <Spin spinning={this.state.loading}>
+                        <ImgList
+                            imgs= {this.props.imgs}
+                            addImgFavor={this.handleAddImgFavor.bind(this)}
+                            onDeleteImg= {this.handleDeleteImg.bind(this)}
+                            isAdmin={this.props.isAdmin} 
+                        />
+                    </Spin>
+                    { !this.state.noMore && this.state.pageNum !== 1 && 
                     <Loading 
                         show={this.state.showLoading}
                         loadMore={this.loadMore.bind(this)}

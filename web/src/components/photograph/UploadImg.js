@@ -36,7 +36,7 @@ class PicturesWall extends React.Component {
                         w: data.file.w,
                         h: data.file.h
                     })
-                    _this.state.fileList.map((v, i) => {
+                    _this.state.fileList.forEach((v, i) => {
                         v.uid = i;
                     })
                     _this.setState({

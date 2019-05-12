@@ -1,4 +1,4 @@
-const DEV_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'http://106.14.159.7:3001';
+const DEV_URL = 'http://localhost:3001'; // process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'http://www.huangchufeng.site:3001';
 module.exports = {
 	port: 3000,
 	secretKey: "qy",

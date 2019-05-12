@@ -42,18 +42,20 @@ a {
     }
   }
   .ant-spin-container {
-    .ant-comment-avatar {
-        img {
-            display: none;
-        }
-        &:after {
-            content: '';
-            display: block;
-            height: 45px;
-            width: 45px;
-            background: #ccc;
-            border-radius: 50%;
-        }
+    .ant-list {
+      .ant-comment-avatar {
+          img {
+              display: none;
+          }
+          &:after {
+              content: '';
+              display: block;
+              height: 45px;
+              width: 45px;
+              background: #ccc;
+              border-radius: 50%;
+          }
+      }
     }
   }
   .ant-back-top {
@@ -73,8 +75,7 @@ a {
   iframe {
     position: fixed;
     z-index: 9999;
-    bottom: 40%;
-    right: 5%
+    bottom: 5%;
   }
 }
 
@@ -221,10 +222,8 @@ a {
   }
 
   iframe {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
+    width: 150px;
+    height: 150px;
   }
 
   @keyframes showNav {

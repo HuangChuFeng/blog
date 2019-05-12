@@ -53,6 +53,11 @@ app.use(koaBody({
     }
   }
 }));
+
+const uploadFp0 = path.join(__dirname, 'build/');
+if (!fs.existsSync(uploadFp0)) {
+  fs.mkdirSync(uploadFp0);
+}
 const uploadFp = path.join(__dirname, 'build/upload/');
 if (!fs.existsSync(uploadFp)) {
   fs.mkdirSync(uploadFp);

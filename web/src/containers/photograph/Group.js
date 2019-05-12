@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { initImgs, deleteImg, addImg, addImgFavorCount } from '../../reducers/imgs'
+import PropTypes from 'prop-types'
 import { changeCurNav } from '../../reducers/common'
 import ImgList from '../../components/photograph/ImgList'
 import Header from '../../components/Header'
-import { Button } from 'antd';
+import { Button, Spin } from 'antd';
 import '../../css/img.less'
 
 import { fetchGroupImgs, deleteImgById, addImgFavor } from "../../service/fetch";
@@ -13,11 +14,17 @@ class ImgListContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             groupId: this.props.match.params.id,
             groupInfo: {}
         }
     }
-    componentDidMount() {
+
+    static contextTypes = {
+        router: PropTypes.object.isRequired,
+    }
+
+    componentWillMount() {
         this.loadImgs();
         if(!this.props.curNav) {
             this.props.changeCurNav('所有照片')
@@ -25,6 +32,8 @@ class ImgListContainer extends Component {
     }
 
     loadImgs() {
+        this.setState({ loading: true })
+        this.props.initImgs([], 1);
         return fetchGroupImgs(this.state.groupId).then(result => {
             const {data} = result;
             if (data) {
@@ -33,6 +42,7 @@ class ImgListContainer extends Component {
                 })
                 this.props.initImgs(data.group.imgs, 1);
             }
+            this.setState({ loading: false })
         })
     }
 
@@ -65,7 +75,7 @@ class ImgListContainer extends Component {
         this.loadImgs(category);
     }
     goBack() {
-        window.history.go(-1);
+        this.context.router.history.push(`/photograph`);
     }
 
     render () {
@@ -76,22 +86,24 @@ class ImgListContainer extends Component {
                     handleNavChange={this.handleNavChange.bind(this)}
                 />
                 <div className="container img-container">
-                    <div className="group-info">
-                        <p className="title">{ this.state.groupInfo.title }</p>
-                        <ul className="tag-list">
-                            <li>{ this.state.groupInfo.category }</li>
-                        </ul>
-                        <p className="date">{ this.state.groupInfo.created_at }</p>
-                    </div>
-                    <ImgList
-                        imgs= {this.props.imgs}
-                        addImgFavor={this.handleAddImgFavor.bind(this)}
-                        onDeleteImg= {this.handleDeleteImg.bind(this)}
-                        isAdmin={this.props.isAdmin}
-                    />
-                    <div className="group-info">
-                        <Button onClick={this.goBack}>返 回</Button>
-                    </div>
+                    <Spin spinning={this.state.loading}>
+                        <div className="group-info">
+                            <p className="title">{ this.state.groupInfo.title }</p>
+                            <ul className="tag-list">
+                                <li>{ this.state.groupInfo.category }</li>
+                            </ul>
+                            <p className="date">{ this.state.groupInfo.created_at }</p>
+                        </div>
+                        <ImgList
+                            imgs= {this.props.imgs}
+                            addImgFavor={this.handleAddImgFavor.bind(this)}
+                            onDeleteImg= {this.handleDeleteImg.bind(this)}
+                            isAdmin={this.props.isAdmin}
+                        />
+                        <div className="group-info">
+                            <Button onClick={this.goBack.bind(this)}>返 回</Button>
+                        </div>
+                    </Spin>
                 </div>
             </div>
         )

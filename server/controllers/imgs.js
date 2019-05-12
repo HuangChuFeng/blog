@@ -4,6 +4,7 @@ const authCheck = require("../middlewares/check").auth;
 const path = require("path");
 const fs = require('fs');
 const { deleteFolder, domain } = require('./util')
+console.log('domain======', domain);
 
 module.exports = {
     // GET /imgs 所有照片
@@ -254,8 +255,6 @@ module.exports = {
             fileName = '';
         try {
             let file = ctx.request.files.file;
-            console.log('file==', file);
-
             let arr = file.path.split('/')
             fileName = arr[arr.length - 1]
         } catch (e) {

@@ -1,4 +1,4 @@
-'use strict';
+
 
 const path = require('path');
 const webpack = require('webpack');
@@ -17,6 +17,7 @@ const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
+const px2rem = require('postcss-px2rem');
 
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -82,6 +83,7 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
             },
             stage: 3,
           }),
+          px2rem({remUnit: 75})
         ],
         sourceMap: shouldUseSourceMap,
       },

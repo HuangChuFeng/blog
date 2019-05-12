@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { BackTop } from 'antd';
+import { BackTop, Spin } from 'antd';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import ArticleList from '../../components/article/ArticleList'
@@ -19,6 +19,7 @@ class ArticleListContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             showLoading: false,
             pageNum: 1,
             noMore: true,  // 是否没有更多了
@@ -52,6 +53,10 @@ class ArticleListContainer extends Component {
             type,
         }
         this.setState({ showLoading: true });
+        if(params.pageNum === 1) {
+            this.setState({ loading: true })
+            this.props.initArticles([], this.state.pageNum);
+        }
         fetchArticles(params).then(result => {
             const { data } = result;
             if (data) {
@@ -62,9 +67,13 @@ class ArticleListContainer extends Component {
                 } else {
                     this.setState({ noMore: false })
                 }
+                this.setState({ loading: false })
             } else {
-                this.setState({ showLoading: false });
-                this.setState({ noMore: true })
+                this.setState({ 
+                    showLoading: false,
+                    loading: false,
+                    noMore: true
+                });
             }
         })
     }
@@ -80,8 +89,11 @@ class ArticleListContainer extends Component {
     }
 
     onDeleteArticle(articleId, index, url) {
+        let coverName = ''
+        if(url) {
         url = url.split('/');
-        let coverName = url[url.length - 1];
+            coverName = url[url.length - 1];
+        }
         deleteArticleById({articleId, coverName}).then(result => {
             const { data } = result;
             if (data) {
@@ -109,14 +121,16 @@ class ArticleListContainer extends Component {
                     { this.props.isAdmin && 
                     <Link to='/articles/new'>写文章</Link>
                     }
-                    <ArticleList 
-                        articles= {this.props.articles} 
-                        deleteArticle={this.onDeleteArticle.bind(this)}
-                        editArticle={this.onEditArticle.bind(this)}
-                        viewDetail={this.onViewDetail.bind(this)}
-                        isAdmin={this.props.isAdmin}
-                    />
-                    { !this.state.noMore && 
+                    <Spin spinning={this.state.loading}>
+                        <ArticleList 
+                            articles= {this.props.articles} 
+                            deleteArticle={this.onDeleteArticle.bind(this)}
+                            editArticle={this.onEditArticle.bind(this)}
+                            viewDetail={this.onViewDetail.bind(this)}
+                            isAdmin={this.props.isAdmin}
+                        />
+                    </Spin>
+                    { !this.state.noMore &&
                     <Loading 
                         show={this.state.showLoading}
                         loadMore={this.loadMore.bind(this)}

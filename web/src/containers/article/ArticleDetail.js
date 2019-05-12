@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Icon, message } from 'antd';
+import { Icon, message, Spin } from 'antd';
 import Header from '../../components/Header'
 import MyComment from '../../components/Comment'
 import { getArticleDetail, comment as commentArticle, addArticlePv } from "../../service/fetch";
@@ -18,6 +18,7 @@ class ArticleDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             id: this.props.match.params.id,
             comments: [],
             article: {},
@@ -48,13 +49,14 @@ class ArticleDetail extends Component {
         }, 2000);
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.articleDetail(this.state.id);
         this.props.changeCurNav('文章详情');
     }
 
     // 获取某一篇文章及评论
     articleDetail(id, typeNum = '') {
+        this.setState({ loading: true });
         getArticleDetail(id, typeNum).then(result => {
             const { data } = result;
             if (data) {
@@ -73,6 +75,7 @@ class ArticleDetail extends Component {
                     this.handleBrowser();
                 }
             }
+            this.setState({ loading: false });
         });
     }
 
@@ -103,6 +106,7 @@ class ArticleDetail extends Component {
             <div>
                 <Header type={1} />
                 <div className="container article-detail-container">
+                    <Spin spinning={this.state.loading}>
                     <div className="left">
                         <Link to="/articles" onClick={this.backListPage.bind(this)}><Icon type="left" className="back-btn" /></Link>
                         <div className="top-info-box">
@@ -126,17 +130,18 @@ class ArticleDetail extends Component {
                             <span onClick={this.lastOrNextArticle.bind(this, 1)}>下一篇</span>
                         </div>
                     </div>
-                    <div className="right">
-                        <Highlight className='language-name-of-snippet' innerHTML={true}>
-                            {this.state.article.content}
-                        </Highlight>
-                        {/* <div dangerouslySetInnerHTML={{ __html: this.state.article.content }}></div> */}
-                        <MyComment 
-                            receiver={this.state.article.author}
-                            comments={this.state.comments} 
-                            onSubmit={this.handleSubmit.bind(this)} 
-                        />
-                    </div>
+                        <div className="right">
+                            <Highlight className='language-name-of-snippet' innerHTML={true}>
+                                {this.state.article.content}
+                            </Highlight>
+                            {/* <div dangerouslySetInnerHTML={{ __html: this.state.article.content }}></div> */}
+                            <MyComment 
+                                receiver={this.state.article.author}
+                                comments={this.state.comments} 
+                                onSubmit={this.handleSubmit.bind(this)} 
+                            />
+                        </div>
+                    </Spin>
                 </div>
             </div>
         )

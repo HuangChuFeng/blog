@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Icon, message } from 'antd';
+import { Icon, message, Spin } from 'antd';
 import { getImgDetail, comment as commentImg, addImgPv, addImgFavor } from "../../service/fetch";
 import MyComment from '../../components/Comment'
 
@@ -10,6 +9,7 @@ class ImgDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             id: this.props.match.params.id,
             imgEnlargeble: false,
             comments: [],
@@ -31,6 +31,7 @@ class ImgDetail extends Component {
     }
 
     getImgDetail(id, typeNum) {
+        this.setState({ loading: true });
         getImgDetail(id, typeNum).then(result => {
             const { data } = result;
             if (data) {
@@ -47,6 +48,7 @@ class ImgDetail extends Component {
                     this.context.router.history.push(`/photograph/detail/${data.img[0]._id}`);
                     this.handleBrowser();
                 }
+                this.setState({ loading: false });
             }
         });
     }
@@ -104,43 +106,45 @@ class ImgDetail extends Component {
     }
 
     goBack() {
-        window.history.go(-2);
+        this.context.router.history.push(`/photograph`);
     }
 
     render() {
         return (
             <div className="img-detail-page">
-                <div className={["img-switch-wraper", this.state.imgEnlargeble ? 'active' : ''].join(' ')}>
-                    <div className="center-box">
-                        { !this.state.imgEnlargeble &&
-                            // <Link to="/photograph">
-                                <Icon type="close" className="icon close-icon" onClick={this.goBack}/>
-                            // </Link>
-                        }
-                        <Icon type="left" className="icon left-icon" onClick={this.lastOrNextImg.bind(this, -1)}/>
-                        <img src={this.state.img.src} alt="" />
-                        <Icon type={ this.state.imgEnlargeble ? 'shrink' : 'arrows-alt'} className="icon size-icon" onClick={ this.resizeImgHandler.bind(this) } />
-                        <Icon type="right" className="icon right-icon" onClick={this.lastOrNextImg.bind(this, 1)}/>
-                    </div>
-                </div>
-                <div className="detail-box">
-                    <div className="operate-box">
-                        <div>
-                            <Icon className="icon heart-icon" type="heart" onClick={this.clickImgFavorHandler.bind(this)}/> 
-                            <span className="count-span">{this.state.img.favor_count || 0}</span>
-                            <Icon className="icon" type="eye" />
-                            <span className="count-span">{this.state.img.pv || 0}</span>
-                            <Icon type="switcher" className="icon collection-icon" onClick={(e) => { this.toGroupImg(this.state.img.groupId) }}/>
+                <Spin spinning={this.state.loading}>
+                    <div className={["img-switch-wraper", this.state.imgEnlargeble ? 'active' : ''].join(' ')}>
+                        <div className="center-box">
+                            { !this.state.imgEnlargeble &&
+                                // <Link to="/photograph">
+                                    <Icon type="close" className="icon close-icon" onClick={this.goBack.bind(this)}/>
+                                // </Link>
+                            }
+                            <Icon type="left" className="icon left-icon" onClick={this.lastOrNextImg.bind(this, -1)}/>
+                            <img src={this.state.img.src} alt="" />
+                            <Icon type={ this.state.imgEnlargeble ? 'shrink' : 'arrows-alt'} className="icon size-icon" onClick={ this.resizeImgHandler.bind(this) } />
+                            <Icon type="right" className="icon right-icon" onClick={this.lastOrNextImg.bind(this, 1)}/>
                         </div>
                     </div>
-                    <div className="comment-wrap">
-                        <MyComment 
-                            receiver={this.state.img.author}
-                            comments={this.state.comments} 
-                            onSubmit={this.handleSubmit.bind(this)} 
-                        />
+                    <div className="detail-box">
+                        <div className="operate-box">
+                            <div>
+                                <Icon className="icon heart-icon" type="heart" onClick={this.clickImgFavorHandler.bind(this)}/> 
+                                <span className="count-span">{this.state.img.favor_count || 0}</span>
+                                <Icon className="icon" type="eye" />
+                                <span className="count-span">{this.state.img.pv || 0}</span>
+                                <Icon type="switcher" className="icon collection-icon" onClick={(e) => { this.toGroupImg(this.state.img.groupId) }}/>
+                            </div>
+                        </div>
+                        <div className="comment-wrap">
+                            <MyComment 
+                                receiver={this.state.img.author}
+                                comments={this.state.comments} 
+                                onSubmit={this.handleSubmit.bind(this)} 
+                            />
+                        </div>
                     </div>
-                </div>
+                </Spin>
             </div>
         )
     }

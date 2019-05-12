@@ -8,7 +8,7 @@
         float: left;
         width: 70%;
         .article-wraper {
-            height: 180px;
+            // height: 180px;
             overflow: hidden;
             transform: translateY(30%);
             opacity: 0;
@@ -42,9 +42,15 @@
                     background-image: linear-gradient(to left, #9795f0 0%, #fbc8d4 100%);
                 }
             }
+            .info {
+                float: right;
+                width: calc(100% - 170px);
+            }
             .title {
                 color: @common-blue;
+                margin-bottom: 5px;
                 p {
+                    margin-bottom: 0;
                     display: inline-block;
                     &:hover {
                         cursor: pointer;

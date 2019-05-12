@@ -30,20 +30,22 @@ export default class Article extends Component {
                 <div className={["cover-box", (!article.cover_url ? 'no-cover' : '')].join(' ') }>
                     <img v-if={article.cover_url} src={article.cover_url} alt=""/>
                 </div>
-                <h3 className="title">
-                    <p onClick={this.props.viewDetail.bind(this, article._id)}>{ article.title }</p>
-                    { this.props.isAdmin &&
-                        <span className="operate-btn">
-                            <Icon type="delete" onClick={this.props.deleteArticle.bind(this, article._id, this.props.index, article.cover_url)}/>
-                            <Icon type="edit" onClick={this.props.editArticle.bind(this, article._id)}/>
-                        </span>
-                     }
-                </h3>
-                <p className="time">{ article.created_at }
-                    <span><Icon type="message" className="icon"/>{ article.comments || 0 }</span>
-                    <span><Icon type="fire" className="icon"/>{ article.pv || 0 }</span>
-                </p>
-                <div className="description">{ article.description }</div>
+               <div className="info">
+                    <h3 className="title">
+                        <p onClick={this.props.viewDetail.bind(this, article._id)}>{ article.title }</p>
+                        { this.props.isAdmin &&
+                            <span className="operate-btn">
+                                <Icon type="delete" onClick={this.props.deleteArticle.bind(this, article._id, this.props.index, article.cover_url)}/>
+                                <Icon type="edit" onClick={this.props.editArticle.bind(this, article._id)}/>
+                            </span>
+                        }
+                    </h3>
+                    <p className="time">{ article.created_at }
+                        <span><Icon type="message" className="icon"/>{ article.comments || 0 }</span>
+                        <span><Icon type="fire" className="icon"/>{ article.pv || 0 }</span>
+                    </p>
+                    <div className="description">{ article.description }</div>
+               </div>
             </div>
         )
     }

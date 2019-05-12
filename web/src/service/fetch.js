@@ -1,6 +1,6 @@
 import { get, post, formPost } from "../util/post";
 
-const DEV_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://106.14.159.7:3000';
+const DEV_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'http://www.huangchufeng.site:3000';
 
 // 发布照片
 export const publishImgs = group => {
