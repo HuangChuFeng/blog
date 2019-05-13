@@ -129,7 +129,7 @@ class ImgListContainer extends Component {
                             isAdmin={this.props.isAdmin} 
                         />
                     </Spin>
-                    { !this.state.noMore && this.state.pageNum !== 1 && 
+                    { !this.state.noMore && 
                     <Loading 
                         show={this.state.showLoading}
                         loadMore={this.loadMore.bind(this)}
