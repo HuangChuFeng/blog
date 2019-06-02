@@ -109,7 +109,7 @@ class ImgListContainer extends Component {
                     type={0} 
                     handleNavChange={this.handleNavChange.bind(this)}
                 />
-                <Music/>
+                {/* <Music/> */}
                 <div className="container img-container">
                     { this.props.isAdmin && 
                     <Button type="primary" className="common-btn" onClick={this.visibleHandler.bind(this, true)}>

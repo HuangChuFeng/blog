@@ -48,8 +48,11 @@ export default class ArticleList extends Component {
                 <div className="right">
                     <img className="avator" alt="" src={require('../../static/img/avator.jpeg')} />
                     <div>
+                        <p>麻烦让我一夜暴富<br/>实在不行的话<br/>半个月也可以<br/>一年也可以</p>
+                        <br/>
                         <p>好好学习, 天天向上</p>
-                        <a target="blank" href="https://github.com/HuangChuFeng"><Icon type="github" /> github</a>
+                        <p><a target="blank" href="https://github.com/HuangChuFeng"><Icon type="github" /> <span>github</span></a></p>
+                        <p><a target="blank" href="https://weibo.com/5454891945/profile"><Icon type="weibo-circle" /> <span>__cranky</span></a></p>
                     </div>
                 </div>
             </div>

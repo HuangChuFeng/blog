@@ -10,9 +10,8 @@ module.exports = {
         }
         let { target } = ctx.params,
             sender = ctx.session.user._id,
-            senderInfo = `来自${ctx.session.user.source}的${ctx.session.user.name}`,
-            content = ctx.request.body.content,
-            receiver = ctx.request.body.receiver
+            senderInfo = `来自${ctx.session.user.source}的${ctx.session.user.name}`;
+        let { content, receiver, belongId } = ctx.request.body
             resCode = 200,
             message = "评论成功";
         let comment = {
@@ -21,7 +20,9 @@ module.exports = {
             target,
             receiver,
             content,
+            belongId
         };
+        
         try {
             await CommentModel.create(comment);
         } catch (e) {

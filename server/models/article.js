@@ -91,6 +91,7 @@ module.exports = {
     // 编辑文章
     updateArticleById: function updateArticleById(id, data) {
         let tags = data.tags;
+        data.created_at = moment().format('YYYY-MM-DD HH:mm');
         return Article.update({ _id: id }, { $set: data })
         .exec()
         .then(function (res) {

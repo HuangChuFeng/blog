@@ -68,6 +68,20 @@ module.exports = {
                     noMore = false;
                 }
             }
+
+            // 判断评论接收者是不是当前用户
+            comment.forEach(item => {
+                item.isReceiver = false
+                if(item.receiver + '' ===  ctx.session.user._id) {
+                    item.isReceiver = true
+                }
+                item.child.forEach(item1 => {
+                    item1.isReceiver = false
+                    if(item1.receiver + '' ===  ctx.session.user._id) {
+                        item1.isReceiver = true
+                    }
+                })
+            })
         } catch (e) {
             resCode = 500;
             console.log(e);

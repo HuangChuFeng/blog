@@ -29,8 +29,8 @@ class LoginForm extends React.Component {
                     register(values).then(result => {
                         const { data } = result;
                         if (data) {
-                            window.localStorage.setItem('type', data.res.type);
-                            window.localStorage.setItem('user', `来自${data.res.source}的${data.res.name}`);
+                            window.sessionStorage.setItem('type', data.res.type);
+                            window.sessionStorage.setItem('user', `来自${data.res.source}的${data.res.name}`);
                             toast.dismiss();
                             this.props.changeLoginStatus(true); 
                             this.props.changeUserType(data.res.type === 1);
@@ -40,8 +40,8 @@ class LoginForm extends React.Component {
                     login(values).then(result => {
                         const { data } = result;
                         if (data) {
-                            window.localStorage.setItem('type', data.user.type);
-                            window.localStorage.setItem('user', `来自${data.user.source}的${data.user.name}`);
+                            window.sessionStorage.setItem('type', data.user.type);
+                            window.sessionStorage.setItem('user', `来自${data.user.source}的${data.user.name}`);
                             toast.dismiss();
                             this.props.changeLoginStatus(true);
                             this.props.changeUserType(data.user.type === 1);
@@ -76,14 +76,14 @@ class LoginForm extends React.Component {
                 }
                 <Form.Item label="邮箱">
                     {getFieldDecorator('email', {
-                        rules: [{ required: true, message: '我要知道你的名字啊朋友' }],
+                        rules: [{ required: true, message: '输入邮箱' }],
                     })(
                         <Input placeholder="邮箱" />
                     )}
                 </Form.Item>
                 <Form.Item label="密码">
                     {getFieldDecorator('password', {
-                        rules: [{ required: true, message: '我要知道你的名字啊朋友' }],
+                        rules: [{ required: true, message: '输入密码' }],
                     })(
                         <Input type="password" placeholder="密码" />
                     )}

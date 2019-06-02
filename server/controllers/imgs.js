@@ -88,10 +88,10 @@ module.exports = {
                     comment = await CommentModel.getComments(img[0]._id);
                 }
             } else {
-                // 按照id获取文章
+                // 按照id获取照片
                 let result = await Promise.all([
                     ImgModel.getImgById(imgId),
-                    CommentModel.getComments(imgId), // 获取该文章所有评论
+                    CommentModel.getComments(imgId), // 获取该照片所有评论
                 ]);
                 img = result[0];
                 comment = result[1];
@@ -114,6 +114,13 @@ module.exports = {
             }
             delete img[0].group_id
         }
+        // 判断评论接收者是不是当前用户
+        comment.forEach(item => {
+            item.isReceiver = false
+            if(item.receiver ===  ctx.session.user._id) {
+                item.isReceiver = true
+            }
+        })
         ctx.response.body = {
             resCode,
             message,

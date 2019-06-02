@@ -6,21 +6,43 @@ import {
 // import moment from 'moment';
 
 const TextArea = Input.TextArea;
-const CommentList = ({ comments }) => (
-  <List
+const CommentList = ({ comments }) => {
+  let count = comments.length;
+  if(count > 1) {
+    count += comments.reduce((prev, next, sum) => {
+      return sum + next.child.length
+    })
+  } else {
+    count += comments[0].child.length
+  }
+  return (<List
     dataSource={comments}
-    header={`${comments.length} 条评论`}
+    header={`${count} 条评论`}
     itemLayout="horizontal"
-    renderItem={props => <Comment {...props} />}
-  />
-);
+    renderItem={ props => {
+      return (<Comment {...props} >
+        { props.child && props.child.length && 
+          (<List
+            dataSource={props.child}
+            itemLayout="horizontal"
+            renderItem={ props => (
+              <Comment {...props} />
+            )
+          }
+          />)
+        }
+      </Comment>)
+    }
+  }
+  />)
+};
 
 const Editor = ({
-  onChange, onSubmit, submitting, value,
+  onChange, onSubmit, submitting, value, placeholder
 }) => (
     <div>
       <Form.Item>
-        <TextArea rows={4} onChange={onChange} value={value} />
+        <TextArea placeholder={placeholder} rows={4} onChange={onChange} value={value} />
       </Form.Item>
       <Form.Item>
         <Button
@@ -37,14 +59,17 @@ const Editor = ({
 export default class MyComment extends Component {
   state = {
     submitting: false,
-    value: '',
+    value: '',  // 评论内容
     comments: [],
+    placeholder: '输入评论内容...',
+    receiver: null,
+    belongId: '', // 属于哪条初始评论
   }
 
   static propTypes = {
     onSubmit: PropTypes.func,
     comments: PropTypes.array,
-    receiver: PropTypes.string
+    receiver: PropTypes.string   // 默认接受者是作者
   }
 
   componentWillReceiveProps(nextProps) {
@@ -60,32 +85,52 @@ export default class MyComment extends Component {
       this.setState({
         submitting: true,
       });
-      this.props.onSubmit({
-        receiver: this.props.receiver,
-        content: this.state.value
-      }, (result) => {
+      let params = {
+        receiver: this.state.receiver || this.props.receiver,
+        content: this.state.value,
+        belongId: this.state.belongId
+      }
+      this.props.onSubmit(params, (result) => {
         if (result.data && result.data.comment) {
           let resComment = result.data.comment;
           let author = '';
           if(resComment.sender === this.props.receiver) {
             author = '作者'
           } else{
-            author = window.localStorage.getItem('user');
+            author = window.sessionStorage.getItem('user');
           }
-          this.setState({
-            submitting: false,
-            value: '',
-            comments: [
-              {
-                author,
-                avatar: resComment.avatar || '',
-                content: this.state.value,
-                created_at: resComment.created_at,
-              },
-              ...this.state.comments,
-            ],
-          });
-          
+          let curComment = {
+            author,
+            avatar: resComment.avatar || '',
+            content: this.state.value,
+            created_at: resComment.created_at,
+          }
+          if(params.belongId) {
+            this.state.comments.forEach(item => {
+              if(item._id + '' === params.belongId) {
+                curComment.author += `回复@作者`
+                item.child = [
+                  curComment,
+                  ...item.child
+                ]
+                return false;
+              }
+            })
+            this.setState({
+              submitting: false,
+              value: '',
+              comments: this.state.comments
+            });
+          } else {
+            this.setState({
+              submitting: false,
+              value: '',
+              comments: [
+                curComment,
+                ...this.state.comments,
+              ]
+            });
+          }
         } else {
           this.setState({ submitting: false })
         }
@@ -99,23 +144,73 @@ export default class MyComment extends Component {
     });
   }
 
+  // 回复评论
+  replay(belongId, sender, senderInfo) {
+    console.log('replay', sender, senderInfo);
+    if(this.props.receiver === sender) {
+      senderInfo = '作者';
+    }
+    this.setState({
+      placeholder: `回复${senderInfo} :`,
+      receiver: sender,
+      belongId
+    });
+  }
+
+  // 查找接收用户的名称
+  queryReceiverName(belongId) {
+    let name = '';
+    this.state.comments.forEach(item => {
+      if(item._id === belongId) {
+        name = item.senderInfo;
+        return false;
+      }
+    })
+    return name;
+  }
+
+  // 评论配置
+  configComment(item) {
+    let avatar = '', res;
+    if (item.user && item.user.avatar) {
+      avatar = item.user.avatar;
+    }
+    item.avatar && (avatar = item.avatar);
+    res = {
+      avatar: avatar,
+      content: <p>{item.content}</p>,
+      datetime: item.created_at,
+      child: item.child
+    }
+    // 接收者是自己时显示回复按钮
+    if(item.isReceiver) {
+      res.actions = [ <span onClick={this.replay.bind(this, item.belongId || item._id, item.sender, item.author || item.senderInfo)}>回复</span>]
+    }
+    if(item.sender === this.props.receiver) {
+      res.author = '作者'
+    } else {
+      res.author = item.author || item.senderInfo
+    }
+    if(item.belongId) {
+      let name = this.queryReceiverName(item.belongId);
+      if(name === res.author) {
+        name = '作者';
+      }
+      res.author += `回复@${name}`
+    }
+    return res;
+  }
+
   render() {
-    const { submitting, value } = this.state;
+    const { submitting, value, placeholder } = this.state;
     const comments = this.state.comments.map(item => {
-      let avatar = '', res;
-      if (item.user && item.user.avatar) {
-        avatar = item.user.avatar;
-      }
-      item.avatar && (avatar = item.avatar);
-      res = {
-        avatar: avatar,
-        content: <p>{item.content}</p>,
-        datetime: item.created_at,
-      }
-      if(item.sender === this.props.receiver) {
-        res.author = '作者'
-      } else {
-        res.author = item.author || item.senderInfo
+      let res = this.configComment(item)
+      console.log('item.child====', item.child);
+      
+      if(item.child) {
+        res.child = item.child.map(item1 => {
+          return this.configComment(item1)
+        })
       }
       return res;
     }); 
@@ -133,6 +228,7 @@ export default class MyComment extends Component {
               onSubmit={this.handleSubmit}
               submitting={submitting}
               value={value}
+              placeholder={placeholder}
             />
           )}
         />

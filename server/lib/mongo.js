@@ -64,6 +64,7 @@ exports.Comment = mongolass.model('Comment', {
     target: { type: Mongolass.Types.ObjectId },
     content: { type: 'string' },
     created_at: { type: 'string' },
+    belongId: { type: 'string' }, // 属于哪条初始评论
 });
 exports.Comment.index({ user: 1, _id: -1 }).exec();
 

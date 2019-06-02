@@ -105,8 +105,8 @@ class Header extends Component {
         quit().then(result => {
             if (result) {
                 this.setState({ isLogined: false })
-                window.localStorage.removeItem('user');
-                window.localStorage.removeItem('type');
+                window.sessionStorage.removeItem('user');
+                window.sessionStorage.removeItem('type');
                 this.props.changeLoginStatus(false);
                 this.props.changeUserType(false);
                 this.context.router.history.push(`/`);     

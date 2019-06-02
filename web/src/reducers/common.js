@@ -7,8 +7,8 @@ export default function(state, action) {
         // 初始化
         state = { 
             curNav: '',             // 当前header选中标签
-            isLogined: Boolean(window.localStorage.getItem('user')),         // 是否登录
-            isAdmin: window.localStorage.getItem('type') === '1',    // 是否是管理员 
+            isLogined: Boolean(window.sessionStorage.getItem('user')),         // 是否登录
+            isAdmin: window.sessionStorage.getItem('type') === '1',    // 是否是管理员 
         }; 
     }
 
