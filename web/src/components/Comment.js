@@ -8,11 +8,14 @@ import {
 const TextArea = Input.TextArea;
 const CommentList = ({ comments }) => {
   let count = comments.length;
+  console.log('count', count);
+  
   if(count > 1) {
-    count += comments.reduce((prev, next, sum) => {
-      return sum + next.child.length
-    })
-  } else {
+    count += comments.reduce((prev, next) => {
+      console.log('prev', prev, next);
+      return (prev.child ? prev.child.length : 0) + (next.child ? next.child.length : 0)
+    }, 0)
+  } else if(comments[0].child) {
     count += comments[0].child.length
   }
   return (<List
@@ -67,6 +70,7 @@ export default class MyComment extends Component {
   }
 
   static propTypes = {
+    type: PropTypes.number, // 1: 摄影, 0: 文章
     onSubmit: PropTypes.func,
     comments: PropTypes.array,
     receiver: PropTypes.string   // 默认接受者是作者
@@ -86,6 +90,7 @@ export default class MyComment extends Component {
         submitting: true,
       });
       let params = {
+        type: this.props.type,
         receiver: this.state.receiver || this.props.receiver,
         content: this.state.value,
         belongId: this.state.belongId
@@ -146,7 +151,6 @@ export default class MyComment extends Component {
 
   // 回复评论
   replay(belongId, sender, senderInfo) {
-    console.log('replay', sender, senderInfo);
     if(this.props.receiver === sender) {
       senderInfo = '作者';
     }
@@ -205,8 +209,6 @@ export default class MyComment extends Component {
     const { submitting, value, placeholder } = this.state;
     const comments = this.state.comments.map(item => {
       let res = this.configComment(item)
-      console.log('item.child====', item.child);
-      
       if(item.child) {
         res.child = item.child.map(item1 => {
           return this.configComment(item1)

@@ -136,6 +136,7 @@ class ArticleDetail extends Component {
                             </Highlight>
                             {/* <div dangerouslySetInnerHTML={{ __html: this.state.article.content }}></div> */}
                             <MyComment 
+                                type={0}
                                 receiver={this.state.article.author}
                                 comments={this.state.comments} 
                                 onSubmit={this.handleSubmit.bind(this)} 

@@ -140,6 +140,7 @@ class ImgDetail extends Component {
                         </div>
                         <div className="comment-wrap">
                             <MyComment 
+                                type={1}
                                 receiver={this.state.img.author}
                                 comments={this.state.comments} 
                                 onSubmit={this.handleSubmit.bind(this)} 
