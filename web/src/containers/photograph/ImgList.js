@@ -109,7 +109,7 @@ class ImgListContainer extends Component {
                     handleNavChange={this.handleNavChange.bind(this)}
                 />
                 {/* <Music/> */}
-                <div className="container img-container list-wrap">
+                <div className="container img-container">
                     { this.props.isAdmin && 
                     <Button type="primary" className="common-btn" onClick={this.visibleHandler.bind(this, true)}>
                         上传照片

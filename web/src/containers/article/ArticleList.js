@@ -117,7 +117,7 @@ class ArticleListContainer extends Component {
                     type={1}
                     formParentNav="所有文章"
                     handleNavChange={this.handleNavChange.bind(this)}/>
-                <div className="container article-container list-wrap">
+                <div className="container article-container">
                     { this.props.isAdmin && 
                     <Link to='/articles/new'>写文章</Link>
                     }
