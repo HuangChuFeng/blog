@@ -20,7 +20,7 @@ const articleNavArr = [
     { text: '生活', type: 1 },
     // { text: '项目', url: '/articles' },
     { text: 'Tags', url: '/articles/tags' },
-    { text: '摄影', url: '/photograph'}
+    { text: '摄影', url: '/photograph'},
 ]
 
 const imgNavArr = [
@@ -33,7 +33,7 @@ const imgNavArr = [
     { text: '街拍' },
     { text: '风景' },
     { text: '其他' },
-    { text: '博客', url: '/articles'}
+    { text: '博客', url: '/articles'},
 ]
 
 class Header extends Component {
@@ -62,13 +62,19 @@ class Header extends Component {
         if(document.documentElement.clientWidth <= 960) {
             this.setState({ isLargeScreen: false })
         }
-        this.state.navArr.forEach((item, index) => {
-            if (item.text === this.props.formParentNav || item.text === this.props.curNav) {
-                this.setState({
-                    activeIndex: index
-                })
-            }
-        })
+        if(this.context.router.route.location.pathname === '/about') {
+            this.setState({
+                activeIndex: this.state.navArr.length
+            })
+        } else {
+            this.state.navArr.forEach((item, index) => {
+                if (item.text === this.props.formParentNav || item.text === this.props.curNav) {
+                    this.setState({
+                        activeIndex: index
+                    })
+                }
+            })
+        }
     }
     
     navClickHandler = (item, index) => {
@@ -91,11 +97,21 @@ class Header extends Component {
             }
             this.context.router.history.push(url);
             this.props.changeCurNav && this.props.changeCurNav(this.state.navArr[index].text)
+        } else {
+            this.props.changeCurNav('')
         }
     }
 
+    clickAbout() {
+        console.log(this.state.navArr.length, this.state.activeIndex)
+        this.setState({
+            activeIndex: this.state.navArr.length,
+            showMenu: false,
+        });
+        this.context.router.history.push('/about');
+    }
+
     toggleMenu() {
-        console.log(112)
         this.setState({
             showMenu: !this.state.showMenu,
         })
@@ -156,8 +172,8 @@ class Header extends Component {
                                 return <li key={i} onClick={this.navClickHandler.bind(this, item, i)} className={ i === this.state.activeIndex ? 'active' : '' }>{ content }</li>
                             }
                         )}
+                        <li onClick={this.clickAbout.bind(this)} className={ this.state.navArr.length === this.state.activeIndex ? 'active' : '' }>关于</li>
                         <li className="to-index-link">
-                            {/* <Link to='/'> <Icon type="home" /> 主页</Link> */}
                             { this.props.isLogined &&
                                 <span className="op-btn" onClick={this.quitHandle.bind(this)}>退出</span>
                             }

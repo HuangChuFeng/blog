@@ -7,7 +7,6 @@ import ImgList from '../../components/photograph/ImgList'
 import UploadImg from '../../components/photograph/UploadImg'
 import Header from '../../components/Header'
 import Loading from '../../components/Loading'
-import Music from '../../components/Music'
 import '../../css/img.less'
 
 import { fetchImgs, deleteImgById, addImgFavor } from "../../service/fetch";
@@ -110,7 +109,7 @@ class ImgListContainer extends Component {
                     handleNavChange={this.handleNavChange.bind(this)}
                 />
                 {/* <Music/> */}
-                <div className="container img-container">
+                <div className="container img-container list-wrap">
                     { this.props.isAdmin && 
                     <Button type="primary" className="common-btn" onClick={this.visibleHandler.bind(this, true)}>
                         上传照片

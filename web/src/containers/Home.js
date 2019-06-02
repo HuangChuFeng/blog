@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Anchor } from 'antd';
 import { Link as RouteLink } from 'react-router-dom';
 import { getLocation } from "../service/fetch";
-import Music from '../components/Music'
 import '../css/home.less'
 const { Link } = Anchor;
 export default class Home extends Component {
@@ -59,7 +58,6 @@ export default class Home extends Component {
     
     return (
       <div className="home-page">
-        <Music />
         {
           arr.map((item, i) => {
             const imgStyle = {

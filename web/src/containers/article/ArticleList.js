@@ -117,25 +117,27 @@ class ArticleListContainer extends Component {
                     type={1}
                     formParentNav="所有文章"
                     handleNavChange={this.handleNavChange.bind(this)}/>
-                <div className="container article-container">
+                <div className="container article-container list-wrap">
                     { this.props.isAdmin && 
                     <Link to='/articles/new'>写文章</Link>
                     }
                     <Spin spinning={this.state.loading}>
-                        <ArticleList 
-                            articles= {this.props.articles} 
-                            deleteArticle={this.onDeleteArticle.bind(this)}
-                            editArticle={this.onEditArticle.bind(this)}
-                            viewDetail={this.onViewDetail.bind(this)}
-                            isAdmin={this.props.isAdmin}
-                        />
+                        <div>
+                            <ArticleList 
+                                articles= {this.props.articles} 
+                                deleteArticle={this.onDeleteArticle.bind(this)}
+                                editArticle={this.onEditArticle.bind(this)}
+                                viewDetail={this.onViewDetail.bind(this)}
+                                isAdmin={this.props.isAdmin}
+                            />
+                            { !this.state.noMore &&
+                            <Loading 
+                                show={this.state.showLoading}
+                                loadMore={this.loadMore.bind(this)}
+                            />
+                        }
+                        </div>
                     </Spin>
-                    { !this.state.noMore &&
-                    <Loading 
-                        show={this.state.showLoading}
-                        loadMore={this.loadMore.bind(this)}
-                    />
-                    }
                     <BackTop target={() => document.getElementsByClassName('container')[0]}/>
                 </div>
             </div>

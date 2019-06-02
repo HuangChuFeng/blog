@@ -57,6 +57,12 @@ a {
           }
       }
     }
+    .ant-comment-content-author {
+      span {
+        white-space: nowrap;
+      }
+      overflow: scroll;
+    }
   }
   .ant-back-top {
     width: 50px;
@@ -75,7 +81,35 @@ a {
   iframe {
     position: fixed;
     z-index: 9999;
-    bottom: 5%;
+    bottom: 1%;
+  }
+}
+
+.about-me {
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  margin-top: 100px;
+  text-align: center;
+  div {
+      width: 100%;
+      text-align: center;
+  }
+  .avator {
+    width: 120px;
+    border-radius: 50%;
+  }
+  &>div {
+      margin: 0 auto;
+      padding: 20px 0;
+      text-align: left;
+      text-align: center;
+      a {
+          color: @common-blue;
+          i, span {
+              vertical-align: middle;
+          }
+      }
   }
 }
 
@@ -146,6 +180,9 @@ a {
   top: 85px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  &.list-wrap {
+    // margin-bottom: 30px;
+  }
   .loading-wrap {
     width: 100%;
     text-align: center;

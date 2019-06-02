@@ -8,8 +8,6 @@ import {
 const TextArea = Input.TextArea;
 const CommentList = ({ comments }) => {
   let count = comments.length;
-  console.log('count', count);
-  
   if(count > 1) {
     count += comments.reduce((prev, next) => {
       console.log('prev', prev, next);

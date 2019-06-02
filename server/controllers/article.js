@@ -72,12 +72,12 @@ module.exports = {
             // 判断评论接收者是不是当前用户
             comment.forEach(item => {
                 item.isReceiver = false
-                if(item.receiver + '' ===  ctx.session.user._id) {
+                if(ctx.session.user && item.receiver + '' ===  ctx.session.user._id) {
                     item.isReceiver = true
                 }
                 item.child.forEach(item1 => {
                     item1.isReceiver = false
-                    if(item1.receiver + '' ===  ctx.session.user._id) {
+                    if(ctx.session.user && item1.receiver + '' ===  ctx.session.user._id) {
                         item1.isReceiver = true
                     }
                 })

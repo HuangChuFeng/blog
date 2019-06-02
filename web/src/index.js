@@ -14,6 +14,8 @@ import ArticleList from './containers/article/ArticleList'
 import ArticleDetail from './containers/article/ArticleDetail'
 import EditArticle from './containers/article/EditArticle'
 import ArticlesTags from './containers/article/Tags'
+import Music from './components/Music'
+import About from './components/About'
 
 import {BrowserRouter as Router, Route } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
@@ -25,21 +27,25 @@ console.log('NODE_ENV', process.env.NODE_ENV);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <div>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/photograph" component={ImgList} />
-        <Route exact path="/photograph/detail/:id" component={ImgDetail} />
-        <Route exact path="/photograph/group/:id" component={Group} />
-        <Route exact path="/articles" component={ArticleList} />
-        <Route exact path="/articles/detail/:id" component={ArticleDetail} />
-        <Route exact path="/articles/new" component={EditArticle} />
-        <Route exact path="/articles/edit/:id" component={EditArticle} />
-        <Route exact path="/articles/tags" component={ArticlesTags} />
-        <Route exact path="/articles/tags/:tag" component={ArticleList} />
-        <ToastContainer />
-      </div>
-    </Router>
+    <div>
+      <Music />
+      <Router>
+        <div>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/about" component={About} />
+          <Route exact path="/photograph" component={ImgList} />
+          <Route exact path="/photograph/detail/:id" component={ImgDetail} />
+          <Route exact path="/photograph/group/:id" component={Group} />
+          <Route exact path="/articles" component={ArticleList} />
+          <Route exact path="/articles/detail/:id" component={ArticleDetail} />
+          <Route exact path="/articles/new" component={EditArticle} />
+          <Route exact path="/articles/edit/:id" component={EditArticle} />
+          <Route exact path="/articles/tags" component={ArticlesTags} />
+          <Route exact path="/articles/tags/:tag" component={ArticleList} />
+          <ToastContainer />
+        </div>
+      </Router>
+    </div>
   </Provider>,
   document.getElementById('root')
 );

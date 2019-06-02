@@ -1,109 +1,81 @@
 @import './common.less';
 .article-container {
-    padding: 32px 120px;
-    &>div {
+    padding: 62px 120px;
+    .article-wraper {
         overflow: hidden;
-    }
-    .left {
-        float: left;
-        width: 70%;
-        .article-wraper {
-            // height: 180px;
-            overflow: hidden;
-            transform: translateY(30%);
-            opacity: 0;
-            padding: 30px 15px;
-            border-bottom: 1px solid @common-font-color;
-            animation: show .6s;
-            animation-fill-mode: forwards;
-            &:hover {
-                box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-                border-bottom: 1px solid #fff;
+        width: 75%;
+        margin: 0 auto;
+        transform: translateY(30%);
+        opacity: 0;
+        padding: 30px 15px;
+        border-bottom: 1px solid @common-font-color;
+        animation: show .6s;
+        animation-fill-mode: forwards;
+        &:hover {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #fff;
+        }
+        &:hover .operate-btn {
+            display: block;
+        }
+        .cover-box {
+            float: left;
+            width: 150px;
+            min-height: 100px;
+            margin: 0 20px 0 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                max-width: 100%;
+                max-height: 100%;
+                background: #fff;
+                border-radius: 5px;
             }
-            &:hover .operate-btn {
-                display: block;
+            &.no-cover {
+                border-radius: 5px;
+                background-image: linear-gradient(to left, #9795f0 0%, #fbc8d4 100%);
             }
-            .cover-box {
-                float: left;
-                width: 150px;
-                min-height: 100px;
-                margin: 0 20px 0 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                img {
-                    max-width: 100%;
-                    max-height: 100%;
-                    background: #fff;
-                    border-radius: 5px;
-                }
-                &.no-cover {
-                    border-radius: 5px;
-                    background-image: linear-gradient(to left, #9795f0 0%, #fbc8d4 100%);
-                }
-            }
-            .info {
-                float: right;
-                width: calc(100% - 170px);
-            }
-            .title {
-                color: @common-blue;
-                margin-bottom: 5px;
-                p {
-                    margin-bottom: 0;
-                    display: inline-block;
-                    &:hover {
-                        cursor: pointer;
-                    }
-                }
-            }
-            .operate-btn {
-                display: none;
-                float: right;
-                color: #ccc;
-                vertical-align: middle;
-                transition: .3s;
-                i {
-                    margin-left: 5px;
-                }
-                &>i:hover {
+        }
+        .info {
+            float: right;
+            width: calc(100% - 170px);
+        }
+        .title {
+            color: @common-blue;
+            margin-bottom: 5px;
+            p {
+                margin-bottom: 0;
+                display: inline-block;
+                &:hover {
                     cursor: pointer;
-                    color: @common-blue;
-                }
-            }
-            .time {
-                color: #ccc;
-                font-size: 12px;
-            }
-            span {
-                float: right;
-                color: @common-blue;
-                margin-left: 10px;
-                .icon {
-                    margin: 0 3px 0 0;
                 }
             }
         }
-    }
-    .right {
-        float: right;
-        width: 30%;
-        min-width: 250px;
-        padding: 30px 0 0 0;
-        text-align: center;
-        .avator {
-            width: 150px;
-        }
-        &>div {
-            margin: 0 auto;
-            width: 150px;
-            padding: 20px 0;
-            text-align: left;
-            a {
+        .operate-btn {
+            display: none;
+            float: right;
+            color: #ccc;
+            vertical-align: middle;
+            transition: .3s;
+            i {
+                margin-left: 5px;
+            }
+            &>i:hover {
+                cursor: pointer;
                 color: @common-blue;
-                i, span {
-                    vertical-align: middle;
-                }
+            }
+        }
+        .time {
+            color: #ccc;
+            font-size: 12px;
+        }
+        span {
+            float: right;
+            color: @common-blue;
+            margin-left: 10px;
+            .icon {
+                margin: 0 3px 0 0;
             }
         }
     }
@@ -277,15 +249,8 @@
     }
     .article-container {
         padding: 32px;
-        &>div {
-            overflow: none;
-            .right {
-                display: none;
-            }
-            .left {
-                float: none;
-                width: 100%;
-            }
+        .article-wraper {
+            width: 100%;
         }
     }
     .article-detail-container {
