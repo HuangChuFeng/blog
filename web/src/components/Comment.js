@@ -147,6 +147,12 @@ export default class MyComment extends Component {
     });
   }
 
+  // 评论输入框失焦
+  handleBlur() {
+    console.log('blur');
+    
+  }
+
   // 回复评论
   replay(belongId, sender, senderInfo) {
     if(this.props.receiver === sender) {
@@ -224,6 +230,7 @@ export default class MyComment extends Component {
           )}
           content={(
             <Editor
+              onBlur={this.handleBlur}
               onChange={this.handleChange}
               onSubmit={this.handleSubmit}
               submitting={submitting}

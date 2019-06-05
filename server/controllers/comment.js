@@ -6,8 +6,9 @@ const nodemailer  = require('nodemailer');
 // 创建一个SMTP客户端配置
 var Emailconfig = {
 	host: 'smtp.qq.com', 
-    port: 25,
-        // secureConnection: true,
+    port: 465, //25,
+        SSLOnConnect: true,
+        secureConnection: true,
         // secure: true, // 使用SSL方式（安全方式，防止被窃取信息）
         auth: {
             user: '1378894282@qq.com', //刚才注册的邮箱账号
