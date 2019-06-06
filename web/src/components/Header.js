@@ -6,7 +6,7 @@ import { Menu, Dropdown, Icon } from 'antd';
 import { toast } from "react-toastify";
 import LoginForm from '../containers/loginToast';
 import { connect } from 'react-redux'
-import { changeCurNav, changeLoginStatus, changeUserType, changeShowMusic } from '../reducers/common'
+import { changeCurNav, changeLoginStatus, changeUserType } from '../reducers/common'
 import { quit } from "../service/fetch";
 
 
@@ -59,7 +59,6 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        // window.location.pathname !== '/about' && this.props.changeShowMusic(false)
         if(document.documentElement.clientWidth <= 960) {
             this.setState({ isLargeScreen: false })
         }
@@ -233,9 +232,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         changeUserType: (isAdmin) => {
             dispatch(changeUserType(isAdmin));
-        },
-        changeShowMusic: (show) => {
-            dispatch(changeShowMusic(show));
         }
     }
 }
