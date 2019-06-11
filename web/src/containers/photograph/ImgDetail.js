@@ -93,7 +93,8 @@ class ImgDetail extends Component {
         addImgFavor(this.state.id).then(result => {
             const { data } = result;
             if (data) {
-                let img = Object.assign(this.state.img, { favor_count: (this.state.img.favor_count || 0) + 1 })
+                let count = data.type === 0 ? (this.state.img.likes || 0) - 1 : (this.state.img.likes || 0) + 1
+                let img = Object.assign(this.state.img, { likes: count })
                 this.setState({
                     img: img
                 });
@@ -132,7 +133,7 @@ class ImgDetail extends Component {
                         <div className="operate-box">
                             <div>
                                 <Icon className="icon heart-icon" type="heart" onClick={this.clickImgFavorHandler.bind(this)}/> 
-                                <span className="count-span">{this.state.img.favor_count || 0}</span>
+                                <span className="count-span">{this.state.img.likes || 0}</span>
                                 <Icon className="icon" type="eye" />
                                 <span className="count-span">{this.state.img.pv || 0}</span>
                                 <Icon type="switcher" className="icon collection-icon" onClick={(e) => { this.toGroupImg(this.state.img.groupId) }}/>

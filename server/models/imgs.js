@@ -87,9 +87,15 @@ module.exports = {
     return Img.update({ _id: imgId }, { $inc: { pv: 1 } }).exec();
   },
 
-  // 更新照片喜欢数量
-  addImgFavor: function addImgFavor(imgId) {
-    return Img.update({ _id: imgId }, { $inc: { favor_count: 1 } }).exec();
+  /** 
+   * 更新照片喜欢数量
+   * @type 0 删除, 1 增加
+   **/
+  addImgFavor: function addImgFavor(imgId, type) {
+    if(type === 0) {
+      return Img.update({ _id: imgId }, { $inc: { likes: -1 } }).exec();
+    }
+    return Img.update({ _id: imgId }, { $inc: { likes: 1 } }).exec();
   },
 
   // 创建照片组

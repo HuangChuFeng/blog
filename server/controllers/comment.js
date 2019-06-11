@@ -44,7 +44,7 @@ module.exports = {
         try {
             await CommentModel.create(comment);
             // 发送邮件通知
-            const recevierInfo = await UserModel.getEmailById(comment.receiver);
+            const recevierInfo = await UserModel.getUserById(comment.receiver);
             console.log('接收邮箱', recevierInfo.email);
             var countOptions = {
                 from: '1378894282@qq.com',

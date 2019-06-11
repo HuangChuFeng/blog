@@ -1,5 +1,6 @@
 const ImgModel = require("../models/imgs");
 const CommentModel = require("../models/comment");
+const UserModel = require("../models/user");
 const authCheck = require("../middlewares/check").auth;
 const path = require("path");
 const fs = require('fs');
@@ -180,16 +181,28 @@ module.exports = {
         };
     },
 
-    // 更新文章喜欢数量
+    // 更新图片喜欢数量
     "GET /api/imgs/:imgId/addImgFavor": async ctx => {
+        const isLogined = await authCheck(ctx);
+        if(!isLogined) {
+            return;
+        }
         let { imgId } = ctx.params,
+            userId = ctx.session.user._id,
             resCode = 200,
-            message = "更新成功";
+            message = "更新成功",
+            type = 0;
         try {
             if (!imgId) {
                 throw new Error("照片不存在");
             }
-            await ImgModel.addImgFavor(imgId);
+            let userInfo = await UserModel.getUserById(userId);
+            console.log('likes=======', userInfo.likes);
+            if(userInfo.likes.indexOf(imgId) === -1) {
+                type = 1;
+            }
+            await ImgModel.addImgFavor(imgId, type);
+            await UserModel.updateLikes(imgId, userId, type);
         } catch (e) {
             console.log(e);
             message = "更新失败";
@@ -198,6 +211,7 @@ module.exports = {
         ctx.response.body = {
             resCode,
             message,
+            type
         };
     },
 

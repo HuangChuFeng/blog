@@ -1,7 +1,7 @@
 const fs = require('fs');
 // 上线时修改
-// const DEV_URL = 'http://localhost';
-const DEV_URL = 'http://www.huangchufeng.site';
+const DEV_URL = 'http://localhost';
+// const DEV_URL = 'http://www.huangchufeng.site';
 module.exports = { 
     domain: DEV_URL + ':3000/',
     //删除临时图片目录下的所有图片

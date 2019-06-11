@@ -12,9 +12,24 @@ module.exports = {
         return User.create(user).exec();
     },
     // 根据id获取用户邮箱
-    getEmailById: function getEmailById(id) {
+    getUserById: function getUserById(id) {
         return User
         .findOne({ _id: id })
         .exec();
     },
+    
+    /** 
+     * 更新用户likes
+     * @type 0 减少, 1 增加
+     **/
+    updateLikes: function updateLikes(likeId, userId, type) {
+        console.log({
+            likeId, userId, type
+        });
+        
+        if(type === 0) {
+            return User.update({ _id: userId }, { $pull : { likes : likeId } }).exec();
+        }
+        return User.update({ _id: userId }, { $push : { likes : likeId } }).exec();
+    }
 };

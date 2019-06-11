@@ -35,14 +35,14 @@ export const deleteImgById = params => {
   return get(`${DEV_URL}/api/imgs/${params._id}/remove?imgName=${params.imgName}&groupId=${params.group_id}`);
 };
 
-// 更新文章浏览量
+// 更新图片浏览量
 export const addImgPv = (id, num) => {
   return get(`${DEV_URL}/api/imgs/${id}/addImgPv`, {
     num: num,
   });
 };
 
-// 更新文章喜欢数量
+// 更新图片喜欢数量
 export const addImgFavor = (id) => {
   return get(`${DEV_URL}/api/imgs/${id}/addImgFavor`);
 };
@@ -55,6 +55,11 @@ export const login = (user) => {
 export const register = (user) => {
   return post(`${DEV_URL}/api/user/register`, user);
 };
+
+// 获取用户likes
+export const getLikes = () => {
+  return get(`${DEV_URL}/api/user/likes`)
+}
 
 // 退出
 export const quit = () => {
@@ -93,6 +98,11 @@ export const updateArticleById = (id, article) => {
 // 更新文章浏览量
 export const addArticlePv = (id) => {
   return get(`${DEV_URL}/api/articles/${id}/addArticlePv`);
+};
+
+// 更新图片喜欢数量
+export const addArticleFavor = (id) => {
+  return get(`${DEV_URL}/api/articles/${id}/addArticleFavor`);
 };
 
 // 发表评论

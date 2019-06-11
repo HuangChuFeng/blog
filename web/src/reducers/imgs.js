@@ -52,7 +52,8 @@ export default function(state, action) {
             state.imgs.forEach((item, index) => {
                 imgs.push(item)
                 if(index === action.index) {
-                    imgs[index].favor_count = (item.favor_count || 0) + 1;
+                    let count = action.likeType === 0 ? (item.likes || 0) - 1 : (item.likes || 0) + 1
+                    imgs[index].likes = count;
                 }
             })
             return {
@@ -77,8 +78,8 @@ export const deleteImg = (imgIndex) => {
     return { type: DELETE_IMG, imgIndex }
 }
 
-export const addImgFavorCount = (index) => {
-    return { type: ADD_IMG_FAVOR_COUNT, index }
+export const addImgFavorCount = (index, likeType) => {
+    return { type: ADD_IMG_FAVOR_COUNT, index, likeType }
 }
 
 

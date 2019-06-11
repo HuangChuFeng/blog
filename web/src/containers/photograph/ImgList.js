@@ -90,7 +90,7 @@ class ImgListContainer extends Component {
         addImgFavor(imgId).then(result => {
             const { data } = result;
             if (data) {
-                this.props.addImgFavorCount(index);
+                this.props.addImgFavorCount(index, data.type);
             }
         });
     }
@@ -146,7 +146,8 @@ const mapStateToProps = (state) => {
     return {
         imgs: state.imgsReducer.imgs,
         curNav: state.commonReducer.curNav,
-        isAdmin: state.commonReducer.isAdmin
+        isAdmin: state.commonReducer.isAdmin,
+        likes: state.commonReducer.likes
     }
 }
   
@@ -165,8 +166,8 @@ const mapDispatchToProps = (dispatch) => {
         changeCurNav: (nav) => {
             dispatch(changeCurNav(nav));
         },
-        addImgFavorCount: (index) => {
-            dispatch(addImgFavorCount(index));
+        addImgFavorCount: (index, type) => {
+            dispatch(addImgFavorCount(index, type));
         }
     }
 }

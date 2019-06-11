@@ -55,6 +55,16 @@ module.exports = {
     addArticlePv: function addArticlePv(articleId) {
         return Article.update({ _id: articleId }, { $inc:{ pv: 1 }}).exec();
     },
+    /** 
+     * 更新文章喜欢数量
+     * @type 0 删除, 1 增加
+     **/
+    addArticleFavor: function addArticleFavor(articleId, type) {
+        if(type === 0) {
+        return Article.update({ _id: articleId }, { $inc: { likes: -1 } }).exec();
+        }
+        return Article.update({ _id: articleId }, { $inc: { likes: 1 } }).exec();
+    },
 
     // 创建文章
     create: function create(article) {

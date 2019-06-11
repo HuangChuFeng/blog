@@ -28,6 +28,7 @@ exports.User = mongolass.model('User', {
     password: { type: 'string' },
     source: { type: 'string' },
     avatar: { type: 'string' },
+    likes: [{ type: 'string' }],
     type: {type: 'number'} // 1 管理员, 0 普通用户
 });
 exports.User.index({ email: 1, _id: -1 }).exec(); // 根据用户名找到用户，用户名全局唯一
@@ -42,7 +43,7 @@ exports.Article = mongolass.model('Article', {
     category_id: { type: 'string' },
     description: { type: 'string' },
     content: { type: 'string' },
-    favor_count: { type: 'number', default: 0 },
+    likes: { type: 'number', default: 0 },
     location: { type: 'string'},
     pv: { type: 'number', default: 0 },
     created_at: { type: 'string' },
@@ -72,7 +73,7 @@ exports.Comment.index({ user: 1, _id: -1 }).exec();
 exports.Img = mongolass.model('Img', {
     group_id: { type: Mongolass.Types.ObjectId },
     src: { type: 'string' },
-    favor_count: { type: 'number', default: 0 },
+    likes: { type: 'number', default: 0 },
     h: { type: 'number' },
     w: { type: 'number' },
     pv: { type: 'number', default: 0 },

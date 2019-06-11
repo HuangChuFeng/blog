@@ -1,6 +1,7 @@
 const AritcleModel = require("../models/article");
 const ArticleTagModel = require("../models/articleTag");
 const CommentModel = require("../models/comment");
+const UserModel = require("../models/user");
 const authCheck = require("../middlewares/check").auth;
 const path = require("path");
 const fs = require('fs');
@@ -200,7 +201,6 @@ module.exports = {
     // 更新文章浏览量
     "GET /api/articles/:articleId/addArticlePv": async ctx => {
         let { articleId } = ctx.params,
-            // author = ctx.session.user._id,
             resCode = 200,
             message = "更新成功";
         try {
@@ -216,6 +216,40 @@ module.exports = {
         ctx.response.body = {
             resCode,
             message,
+        };
+    },
+
+    // 更新文章喜欢数量
+    "GET /api/articles/:articleId/addArticleFavor": async ctx => {
+        const isLogined = await authCheck(ctx);
+        if(!isLogined) {
+            return;
+        }
+        let { articleId } = ctx.params,
+            userId = ctx.session.user._id,
+            resCode = 200,
+            message = "更新成功",
+            type = 0;
+        try {
+            if (!articleId) {
+                throw new Error("文章不存在");
+            }
+            let userInfo = await UserModel.getUserById(userId);
+            console.log('likes=======', userInfo.likes);
+            if(userInfo.likes.indexOf(articleId) === -1) {
+                type = 1;
+            }
+            await AritcleModel.addArticleFavor(articleId, type);
+            await UserModel.updateLikes(articleId, userId, type);
+        } catch (e) {
+            console.log(e);
+            message = "更新失败";
+            resCode = 500;
+        }
+        ctx.response.body = {
+            resCode,
+            message,
+            type
         };
     },
 }

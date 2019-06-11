@@ -92,7 +92,7 @@ export default class Img extends Component {
                     <div className="operate-box">
                        <div>
                             <Icon className="heart-icon" type="heart" onClick={(e) => this.props.addImgFavor(e, this.props.img._id, this.props.index)} /> 
-                            <span className="count-span">{this.props.img.favor_count || 0}</span>
+                            <span className="count-span">{this.props.img.likes || 0}</span>
                             { this.state.showGroupBtn &&
                             <Icon type="switcher" className="collection-icon" onClick={(e) => { this.toGroupImg(e, this.props.img.group_id) }} />
                             }

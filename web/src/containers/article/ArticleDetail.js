@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Icon, message, Spin } from 'antd';
 import Header from '../../components/Header'
 import MyComment from '../../components/Comment'
-import { getArticleDetail, comment as commentArticle, addArticlePv } from "../../service/fetch";
+import { getArticleDetail, comment as commentArticle, addArticlePv, addArticleFavor } from "../../service/fetch";
 import { changeCurNav } from '../../reducers/common'
 import Highlight from 'react-highlight'
 import 'highlight.js/styles/hopscotch.css'
@@ -84,6 +84,22 @@ class ArticleDetail extends Component {
         this.articleDetail(this.state.id, typeNum);
     }
 
+    // 更新文章喜欢数量
+    clickArticleFavorHandler() {
+        console.log('click');
+        
+        addArticleFavor(this.state.id).then(result => {
+            const { data } = result;
+            if (data) {
+                let count = data.type === 0 ? (this.state.article.likes || 0) - 1 : (this.state.article.likes || 0) + 1
+                let article = Object.assign(this.state.article, { likes: count })
+                this.setState({
+                    article: article
+                });
+            }
+        });
+    }
+
     // 发表评论
     handleSubmit = (comment, cb) => {
         commentArticle(this.state.id, comment).then(result => {
@@ -114,7 +130,7 @@ class ArticleDetail extends Component {
                             <div className="top-bottom">
                                 <span>{date} Beijing</span>
                                 <span className="browse-num"><Icon type="fire" className="fire-icon" />{this.state.article.pv || 0}</span>
-                                
+                                <span className="browse-num like-num" onClick={this.clickArticleFavorHandler.bind(this)}><Icon type="heart" className="fire-icon" />{this.state.article.likes || 0}</span>
                             </div>
                         </div>
                         <div className="left-bottom-box">
@@ -134,7 +150,6 @@ class ArticleDetail extends Component {
                             <Highlight className='language-name-of-snippet' innerHTML={true}>
                                 {this.state.article.content}
                             </Highlight>
-                            {/* <div dangerouslySetInnerHTML={{ __html: this.state.article.content }}></div> */}
                             <MyComment 
                                 type={0}
                                 receiver={this.state.article.author}
