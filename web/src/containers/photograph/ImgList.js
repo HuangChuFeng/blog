@@ -19,6 +19,7 @@ class ImgListContainer extends Component {
             loading: false,
             showLoading: false,
             pageNum: 1,
+            pageSize: 3,
             noMore: false,  // 是否没有更多了
         }
     }
@@ -35,7 +36,8 @@ class ImgListContainer extends Component {
     loadImgs(category = '') {
         let params = {
             pageNum: this.state.pageNum,
-            category
+            category,
+            pageSize: this.state.pageSize
         }
         
         if(params.pageNum === 1) {
@@ -49,10 +51,14 @@ class ImgListContainer extends Component {
             if (data) {
                 this.props.initImgs(data.imgs, this.state.pageNum);
                 this.setState({ 
-                    noMore: data.noMore,
                     showLoading: false,
                     loading: false
                 })
+                if(data.allCount <= params.pageNum * params.pageSize) {
+                    this.setState({ noMore: true })
+                } else {
+                    this.setState({ noMore: false })
+                }
             } else {
                 this.setState({ 
                     showLoading: false,

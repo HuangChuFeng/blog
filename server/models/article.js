@@ -4,8 +4,8 @@ const ArticleTagModel = require("./articleTag");
 const CommentModel = require("./comment");
 module.exports = {
     // 获取所有文章
-    getArticles: function getArticles(type, pageNum, author) {
-        var query = {}, skip = 0, limit = 10;
+    getArticles: function getArticles(type, pageNum, pageSize, author) {
+        var query = {}, skip = 0, limit = pageSize;
         if (author) {
             query.author = author;
         }
@@ -14,7 +14,7 @@ module.exports = {
         }
         skip = (pageNum - 1) * limit
         return Article
-        .find(query)
+        .find(query, { 'content': 0 })
         // .populate({ path: 'author', model: 'User' })
         .sort({ _id: -1 })
         .limit(limit)
@@ -31,6 +31,12 @@ module.exports = {
         return Article
         .find(query)
         .exec();
+    },
+
+    // 通过类型获取所有文章数量
+    getArticleCount: function getArticleCount(type) {
+        let query = type ? { type: type } : {}
+        return Article.count(query).exec();
     },
 
     /**

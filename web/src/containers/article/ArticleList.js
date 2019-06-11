@@ -22,6 +22,7 @@ class ArticleListContainer extends Component {
             loading: false,
             showLoading: false,
             pageNum: 1,
+            pageSize: 10,
             noMore: true,  // 是否没有更多了
         }
     }
@@ -50,6 +51,7 @@ class ArticleListContainer extends Component {
     loadArticles(type = '') {
         let params = {
             pageNum: this.state.pageNum,
+            pageSize: this.state.pageSize,
             type,
         }
         this.setState({ showLoading: true });
@@ -62,7 +64,7 @@ class ArticleListContainer extends Component {
             if (data) {
                 this.props.initArticles(data.articles, this.state.pageNum);
                 this.setState({ showLoading: false });
-                if(data.articles.length === 0) {
+                if(data.allCount <= params.pageNum * params.pageSize) {
                     this.setState({ noMore: true })
                 } else {
                     this.setState({ noMore: false })

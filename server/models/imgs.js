@@ -22,7 +22,6 @@ module.exports = {
     if (group_id) {
       query._id = group_id;
     }
-    console.log('groupid=======', group_id);
     return ImgsGroup
       .find(query)
       // .populate({ path: '_id', model: 'Img' })
@@ -30,13 +29,30 @@ module.exports = {
       .exec();
   },
 
+  // 删除组图 by id
+  delGroupById: function delGroupById(id) {
+    return ImgsGroup.remove({ _id: id }).exec();
+  },
+
   // 获取所有组图信息
-  getGroups: function getGroups(category) {
-    var query = {};
+  getGroups: function getGroups(category, pageNum, pageSize) {
+    var query = {}, skip = 0, limit = pageSize; // limit 一次获取3个组图图片
     if (category) {
       query.category = category;
     }
-    return ImgsGroup.find(query).sort({ _id: -1 }).exec();
+    skip = (pageNum - 1) * limit
+    return ImgsGroup
+    .find(query)
+    .sort({ _id: -1 })
+    .limit(limit)
+    .skip(skip)
+    .exec();
+  },
+
+  // 通过类型获取所有组图数量
+  getGroupCount: function getGroupCount(category) {
+    let query = category ? { category: category } : {}
+    return ImgsGroup.count(query).exec();
   },
 
   // 按照id根据某张照片详情
@@ -69,7 +85,7 @@ module.exports = {
       .exec();
   },
 
-  // 删除文章
+  // 删除
   delImgById: function delImgById(id) {
     return Img.remove({ _id: id })
       .exec()

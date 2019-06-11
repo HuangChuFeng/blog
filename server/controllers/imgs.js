@@ -10,14 +10,13 @@ console.log('domain======', domain);
 module.exports = {
     // GET /imgs 所有照片
     "GET /api/imgs": async ctx => {
-        const { category, pageNum } = ctx.request.query;
-        const pageSize = 10;
-        let noMore = false;
+        const { category, pageNum, pageSize } = ctx.request.query;
         let resCode = 200,
             message = "ok",
-            imgs = [];
+            imgs = []
+            allCount = 0;
         try {
-            let groups = await ImgModel.getGroups(category);
+            let groups = await ImgModel.getGroups(category, pageNum, pageSize);
             for (let i = 0; i < groups.length; i++) {
                 let subImgs = await ImgModel.getImgsByGroupId(groups[i]._id);
                 subImgs = subImgs.map(item => {
@@ -28,10 +27,7 @@ module.exports = {
                 });
                 imgs.push(...subImgs);
             }
-            if (imgs.length <= (pageNum - 1) * pageSize + pageSize) {
-                noMore = true;
-            }
-            imgs = imgs.splice((pageNum - 1) * pageSize, pageSize)
+            allCount = await ImgModel.getGroupCount(category);
         } catch (e) {
             resCode = 500;
             console.log(e);
@@ -41,7 +37,7 @@ module.exports = {
             resCode,
             message,
             imgs,
-            noMore
+            allCount
         };
     },
 
@@ -149,6 +145,13 @@ module.exports = {
             // 删除对应图片
             let tempPath = path.resolve(__dirname, '../build/upload/photograph/' + groupId + '/' + imgName);
             fs.unlink(tempPath)
+            let imgs = await ImgModel.getImgsByGroupId(groupId);
+            if(!imgs.length) {
+                await ImgModel.delGroupById(groupId);
+                // 删除文件夹
+                tempPath = path.resolve(__dirname, '../build/upload/photograph/' + groupId);
+                fs.rmdirSync(tempPath);
+            }
         } catch (e) {
             console.log(e);
             message = "删除失败";

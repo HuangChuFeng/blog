@@ -10,19 +10,19 @@ const { deleteFolder, domain } = require('./util')
 module.exports = {
     // 获取所有文章
     "GET /api/articles": async ctx => {
-        const { type, pageNum } = ctx.request.query;
-        const pageSize = 10;
+        const { type, pageNum, pageSize } = ctx.request.query;
         let resCode = 200,
-            message;
+            message,
+            allCount = 0;
         try {
-            var articles = await AritcleModel.getArticles(type, pageNum);
+            var articles = await AritcleModel.getArticles(type, pageNum, pageSize);
 
             for (let i = 0; i < articles.length; i++) {
                 articles[i].comments = await CommentModel.getCommentsCount(articles[i]._id);
             }
+            allCount = await AritcleModel.getArticleCount(type)
         } catch (e) {
             console.log(e);
-            
             resCode = 500;
             message = "服务器出错了";
         }
@@ -31,6 +31,7 @@ module.exports = {
             resCode,
             message,
             articles,
+            allCount
         };
     },
     // 按照id获取单个文章 // 上一篇or下一篇
