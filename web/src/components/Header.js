@@ -205,7 +205,7 @@ class Header extends Component {
                     </div>
                 </div>
                 { this.state.showMenu && 
-                    <div className="nav-mask"></div>
+                    <div className="nav-mask" onClick={this.toggleMenu.bind(this)}></div>
                 }
             </div>
         )
