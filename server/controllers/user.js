@@ -14,7 +14,7 @@ module.exports = {
 			let newPas = md5.update(password).digest("hex");
 			if (user && newPas == user.password) {
 				delete user.password;
-				delete ctx.session.user.likes;
+				delete user.likes;
 				ctx.session.user = user;
 				console.log('user', user);
 			} else {

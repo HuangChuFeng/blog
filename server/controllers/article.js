@@ -5,7 +5,7 @@ const UserModel = require("../models/user");
 const authCheck = require("../middlewares/check").auth;
 const path = require("path");
 const fs = require('fs');
-const { deleteFolder, domain } = require('./util')
+const { deleteFolder, domain, transporter } = require('./util')
 
 module.exports = {
     // 获取所有文章
@@ -236,12 +236,28 @@ module.exports = {
                 throw new Error("文章不存在");
             }
             let userInfo = await UserModel.getUserById(userId);
-            console.log('likes=======', userInfo.likes);
             if(userInfo.likes.indexOf(articleId) === -1) {
                 type = 1;
             }
             await AritcleModel.addArticleFavor(articleId, type);
             await UserModel.updateLikes(articleId, userId, type);
+            if(type === 1) {
+                // 发送邮件通知
+                var countOptions = {
+                    from: '"____cranky 👻" <1378894282@qq.com>',
+                    to: 'chufeng_huang@163.com',
+                    subject: '文章喜爱',
+                    text: `一封来自"____就算减不下去也要继续减肥的可能被摄影耽误的程序员网站"的邮件`,
+                    html: `<p>来自${ctx.session.user.source}的${ctx.session.user.name}喜欢了你的文章:<a href="http://www.huangchufeng.site/articles/detail/${articleId}">点击查看详情</a></p>`,
+                }; 
+                transporter().sendMail(countOptions, function(err, msg){
+                    if(err){
+                        console.log(err);
+                    } else {
+                        console.log('发送邮件成功: ', `www.huangchufeng.site/articles/detail/${articleId}`);
+                    }
+                });
+            }
         } catch (e) {
             console.log(e);
             message = "更新失败";

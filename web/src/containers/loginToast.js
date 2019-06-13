@@ -24,12 +24,14 @@ class LoginForm extends React.Component {
 
     handleResult(result) {
         const { data } = result;
+        console.log('data===', data);
+        
         if (data) {
-            window.sessionStorage.setItem('type', data.res.type);
-            window.sessionStorage.setItem('user', `来自${data.res.source}的${data.res.name}`);
+            window.sessionStorage.setItem('type', data.user.type);
+            window.sessionStorage.setItem('user', `来自${data.user.source}的${data.user.name}`);
             toast.dismiss();
             this.props.changeLoginStatus(true); 
-            this.props.changeUserType(data.res.type === 1);
+            this.props.changeUserType(data.user.type === 1);
         }
     }
 

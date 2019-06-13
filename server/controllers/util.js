@@ -1,4 +1,5 @@
 const fs = require('fs');
+const nodemailer  = require('nodemailer');	
 // 上线时修改
 const DEV_URL = 'http://localhost';
 // const DEV_URL = 'http://www.huangchufeng.site';
@@ -19,5 +20,21 @@ module.exports = {
             });
             fs.rmdirSync(path);
         }
+    },
+    transporter: () => {
+        // 创建一个SMTP客户端配置
+        const Emailconfig = {
+            host: 'smtp.qq.com', 
+            port: 465, //25,
+            SSLOnConnect: true,
+            secureConnection: true,
+            // secure: true, // 使用SSL方式（安全方式，防止被窃取信息）
+            auth: {
+                user: '1378894282@qq.com', //刚才注册的邮箱账号
+                pass: 'ewlvdbbrroygicgh'  //邮箱的授权码，不是注册时的密码
+            }
+        };
+        // 创建一个SMTP客户端对象
+        return nodemailer.createTransport(Emailconfig);
     }
 }
