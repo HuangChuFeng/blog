@@ -10,7 +10,6 @@ const CommentList = ({ comments }) => {
   let count = comments.length;
   if(count > 1) {
     count += comments.reduce((prev, next) => {
-      console.log('prev', prev, next);
       return (prev.child ? prev.child.length : 0) + (next.child ? next.child.length : 0)
     }, 0)
   } else if(comments[0].child) {
@@ -38,25 +37,6 @@ const CommentList = ({ comments }) => {
   />)
 };
 
-const Editor = ({
-  onChange, onSubmit, submitting, value, placeholder
-}) => (
-    <div>
-      <Form.Item>
-        <TextArea placeholder={placeholder} rows={4} onChange={onChange} value={value} />
-      </Form.Item>
-      <Form.Item>
-        <Button
-          className="common-btn"
-          htmlType="submit"
-          loading={submitting}
-          onClick={onSubmit}
-          type="primary">
-          评论
-        </Button>
-      </Form.Item>
-    </div>
-  );
 export default class MyComment extends Component {
   state = {
     submitting: false,
@@ -64,6 +44,7 @@ export default class MyComment extends Component {
     comments: [],
     placeholder: '输入评论内容...',
     receiver: null,
+    textArea: null, // 评论输入框
     belongId: '', // 属于哪条初始评论
   }
 
@@ -148,9 +129,14 @@ export default class MyComment extends Component {
   }
 
   // 评论输入框失焦
-  handleBlur() {
-    console.log('blur');
-    
+  handleBlur = () => {
+    if(!this.state.value) {
+      this.setState({
+        placeholder: `输入评论内容...`,
+        receiver: null,
+        belongId: ''
+      });
+    }
   }
 
   // 回复评论
@@ -163,6 +149,7 @@ export default class MyComment extends Component {
       receiver: sender,
       belongId
     });
+    this.textArea.focus()
   }
 
   // 查找接收用户的名称
@@ -229,14 +216,36 @@ export default class MyComment extends Component {
             <Avatar src="" alt="" />
           )}
           content={(
-            <Editor
-              onBlur={this.handleBlur}
-              onChange={this.handleChange}
-              onSubmit={this.handleSubmit}
-              submitting={submitting}
-              value={value}
-              placeholder={placeholder}
-            />
+            // <Editor
+            //   textArea={this.textArea}
+            //   onBlur={this.handleBlur}
+            //   onChange={this.handleChange}
+            //   onSubmit={this.handleSubmit}
+            //   submitting={submitting}
+            //   value={value}
+            //   placeholder={placeholder}
+            // />
+            <div>
+            <Form.Item>
+              <TextArea 
+                placeholder={placeholder} 
+                ref={(textArea) => this.textArea = textArea} 
+                rows={4} 
+                onBlur={this.handleBlur}
+                onChange={this.handleChange} 
+                value={value} />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                className="common-btn"
+                htmlType="submit"
+                loading={submitting}
+                onClick={this.handleSubmit}
+                type="primary">
+                评论
+              </Button>
+            </Form.Item>
+          </div>
           )}
         />
       </div>
