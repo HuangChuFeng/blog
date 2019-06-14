@@ -20,6 +20,7 @@ module.exports = {
             for (let i = 0; i < groups.length; i++) {
                 let subImgs = await ImgModel.getImgsByGroupId(groups[i]._id);
                 subImgs = subImgs.map(item => {
+                    delete item.pv;
                     return {
                         ...item,
                         title: groups[i].title,

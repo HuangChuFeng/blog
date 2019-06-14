@@ -18,6 +18,10 @@ module.exports = {
             var articles = await AritcleModel.getArticles(type, pageNum, pageSize);
 
             for (let i = 0; i < articles.length; i++) {
+                delete articles[i].content;
+                delete articles[i].type;
+                delete articles[i].author;
+                delete articles[i].likes;
                 articles[i].comments = await CommentModel.getCommentsCount(articles[i]._id);
             }
             allCount = await AritcleModel.getArticleCount(type)

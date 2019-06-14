@@ -14,7 +14,7 @@ module.exports = {
         }
         skip = (pageNum - 1) * limit
         return Article
-        .find(query, { 'content': 0 })
+        .find(query, { content: 0 })
         // .populate({ path: 'author', model: 'User' })
         .sort({ _id: -1 })
         .limit(limit)

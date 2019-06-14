@@ -78,7 +78,7 @@ class LoginForm extends React.Component {
                     {getFieldDecorator('email', {
                         rules: [{ required: true, message: '输入邮箱' }],
                     })(
-                        <Input placeholder="邮箱" />
+                        <Input placeholder="邮箱(接收评论回复)" />
                     )}
                 </Form.Item>
                 <Form.Item label="密码">
