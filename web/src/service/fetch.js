@@ -17,7 +17,7 @@ export const uploadImg = group => {
     /api/imgs
  */
 export const fetchImgs = (params) => {
-  return get(`${DEV_URL}/api/imgs?pageNum=${params.pageNum}&category=${params.category}`);
+  return get(`${DEV_URL}/api/imgs?pageNum=${params.pageNum}&pageSize=${params.pageSize}&category=${params.category}`);
 };
 
 // 获取组图
@@ -68,7 +68,7 @@ export const quit = () => {
 
 // 获取文章列表
 export const fetchArticles = (params) => {
-  return get(`${DEV_URL}/api/articles?pageNum=${params.pageNum}&type=${params.type}`);
+  return get(`${DEV_URL}/api/articles?pageNum=${params.pageNum}&pageSize=${params.pageSize}&type=${params.type}`);
 };
 
 // 获取文章详情
