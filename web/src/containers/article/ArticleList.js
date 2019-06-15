@@ -35,6 +35,7 @@ class ArticleListContainer extends Component {
             this.loadArticles(type);
             let curNav = (type === '0' ? '笔记' : '生活');
             this.props.changeCurNav(curNav)
+            
         } else {
             // 按标签获取
             if(tag) {
@@ -87,7 +88,9 @@ class ArticleListContainer extends Component {
     }
 
     handleNavChange(type) {
-        this.loadArticles(type);
+        this.setState({ pageNum: 1 }, () => {
+            this.loadArticles(type);
+        })
     }
 
     onDeleteArticle(articleId, index, url) {
