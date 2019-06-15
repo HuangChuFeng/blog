@@ -15,7 +15,7 @@ module.exports = {
             message,
             allCount = 0;
         try {
-            var articles = await AritcleModel.getArticles(type, pageNum, pageSize);
+            var articles = await AritcleModel.getArticles(type, pageNum, Number(pageSize));
 
             for (let i = 0; i < articles.length; i++) {
                 delete articles[i].content;
@@ -28,7 +28,7 @@ module.exports = {
         } catch (e) {
             console.log(e);
             resCode = 500;
-            message = "服务器出错了";
+            message = e;
         }
 
         ctx.response.body = {

@@ -16,7 +16,7 @@ module.exports = {
             imgs = []
             allCount = 0;
         try {
-            let groups = await ImgModel.getGroups(category, pageNum, pageSize);
+            let groups = await ImgModel.getGroups(category, pageNum, Number(pageSize));
             for (let i = 0; i < groups.length; i++) {
                 let subImgs = await ImgModel.getImgsByGroupId(groups[i]._id);
                 subImgs = subImgs.map(item => {
