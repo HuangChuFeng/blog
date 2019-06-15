@@ -103,7 +103,7 @@ class ArticleForm extends React.Component {
         const selects = [];
         if (this.props.allTags) {
             for (let i = 0; i < this.props.allTags.length; i++) {
-                selects.push(<Option key={this.props.allTags[i].name}>{this.props.allTags[i].name}</Option>);
+                selects.push(<Option key={this.props.allTags[i].name} value={this.props.allTags[i].name}>{this.props.allTags[i].name}</Option>);
             }
         }
 
