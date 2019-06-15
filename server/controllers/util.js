@@ -1,8 +1,8 @@
 const fs = require('fs');
 const nodemailer  = require('nodemailer');	
 // 上线时修改 util
-const DEV_URL = 'http://localhost:3000/';
-// const DEV_URL = 'http://www.huangchufeng.site:3000/;
+// const DEV_URL = 'http://localhost:3000/';
+const DEV_URL = 'http://www.huangchufeng.site/';
 module.exports = { 
     domain: DEV_URL,
     //删除临时图片目录下的所有图片
