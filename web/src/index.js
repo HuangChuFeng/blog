@@ -17,7 +17,7 @@ import ArticlesTags from './containers/article/Tags'
 import Music from './components/Music'
 import About from './components/About'
 
-import {BrowserRouter as Router, Route } from 'react-router-dom';
+import {HashRouter as Router, Route } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
