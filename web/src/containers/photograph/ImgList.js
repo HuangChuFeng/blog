@@ -20,7 +20,7 @@ class ImgListContainer extends Component {
             showLoading: false,
             pageNum: 1,
             pageSize: 3,
-            noMore: false,  // 是否没有更多了
+            noMore: true,  // 是否没有更多了
         }
     }
     componentWillMount() {

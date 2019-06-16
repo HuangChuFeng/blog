@@ -55,22 +55,25 @@ class ArticleListContainer extends Component {
             pageSize: this.state.pageSize,
             type,
         }
-        this.setState({ showLoading: true });
         if(params.pageNum === 1) {
             this.setState({ loading: true })
             this.props.initArticles([], this.state.pageNum);
+        } else {
+            this.setState({ showLoading: true });
         }
         fetchArticles(params).then(result => {
             const { data } = result;
             if (data) {
                 this.props.initArticles(data.articles, this.state.pageNum);
-                this.setState({ showLoading: false });
+                this.setState({ 
+                    showLoading: false,
+                    loading: false
+                })
                 if(data.allCount <= params.pageNum * params.pageSize) {
                     this.setState({ noMore: true })
                 } else {
                     this.setState({ noMore: false })
                 }
-                this.setState({ loading: false })
             } else {
                 this.setState({ 
                     showLoading: false,
