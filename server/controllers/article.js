@@ -22,6 +22,7 @@ module.exports = {
                 delete articles[i].type;
                 delete articles[i].author;
                 delete articles[i].likes;
+                articles[i].cover_url && (articles[i].cover_url = articles[i].cover_url.replace(/:3000/, ''))
                 articles[i].comments = await CommentModel.getCommentsCount(articles[i]._id);
             }
             allCount = await AritcleModel.getArticleCount(type)

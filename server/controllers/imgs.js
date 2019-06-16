@@ -21,6 +21,7 @@ module.exports = {
                 let subImgs = await ImgModel.getImgsByGroupId(groups[i]._id);
                 subImgs = subImgs.map(item => {
                     delete item.pv;
+                    item.src && (item.src = item.src.replace(/:3000/, ''))
                     return {
                         ...item,
                         title: groups[i].title,
@@ -51,6 +52,9 @@ module.exports = {
         try {
             let groupInfo = await ImgModel.getGroupImgs(groupId);
             let imgs = await ImgModel.getImgsByGroupId(groupInfo[0]._id);
+            imgs.forEach(item => {
+                item.src && (item.src = item.src.replace(/:3000/, ''))
+            })
             group = {
                 info: groupInfo[0],
                 imgs,
@@ -107,6 +111,7 @@ module.exports = {
         if (img.length > 0) {
             img[0] = {
                 ...img[0],
+                src: img[0].src.replace(/:3000/, ''),
                 groupId: img[0].group_id._id,
                 author: img[0].group_id.author,
             }
