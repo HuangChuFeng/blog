@@ -13,6 +13,7 @@ module.exports = {
     }
     return Img
       .find(query)
+      .sort({ created_at: -1 })
       .exec();
   },
 
@@ -25,7 +26,7 @@ module.exports = {
     return ImgsGroup
       .find(query)
       // .populate({ path: '_id', model: 'Img' })
-      .sort({ _id: -1 })
+      .sort({ created_at: -1 })
       .exec();
   },
 

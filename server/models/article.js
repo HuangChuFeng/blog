@@ -16,7 +16,7 @@ module.exports = {
         return Article
         .find(query, { content: 0 })
         // .populate({ path: 'author', model: 'User' })
-        .sort({ _id: -1 })
+        .sort({ created_at: -1 })
         .limit(limit)
         .skip(skip)
         .exec();
