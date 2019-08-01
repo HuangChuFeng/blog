@@ -18,16 +18,13 @@ module.exports = {
         try {
             let groups = await ImgModel.getGroups(category, pageNum, Number(pageSize));
             for (let i = 0; i < groups.length; i++) {
-                let subImgs = await ImgModel.getImgsByGroupId(groups[i]._id);
-                subImgs = subImgs.map(item => {
-                    delete item.pv;
-                    item.src && (item.src = item.src.replace(/:3000/, ''))
-                    return {
-                        ...item,
-                        title: groups[i].title,
-                    }
-                });
-                imgs.push(...subImgs);
+                let subImgs = await ImgModel.getImgsByGroupId(groups[i]._id, true);
+                delete subImgs.pv;
+                subImgs = Object.assign(subImgs, {
+                    src: subImgs.src && (subImgs.src = subImgs.src.replace(/:3000/, '')),
+                    title: groups[i].title,
+                })
+                imgs.push(subImgs);
             }
             allCount = await ImgModel.getGroupCount(category);
         } catch (e) {

@@ -6,15 +6,21 @@ const CommentModel = require("./comment");
 // 操作数据库
 module.exports = {
   // 获取所有照片
-  getImgsByGroupId: function getImgsByGroupId(groupId) {
+  getImgsByGroupId: function getImgsByGroupId(groupId, isGetFirst) {
     var query = {};
     if (groupId) {
       query.group_id = groupId;
     }
-    return Img
-      .find(query)
-      .sort({ created_at: -1 })
-      .exec();
+    if(isGetFirst) {
+      return Img
+        .findOne(query)
+        .exec();
+    } else {
+      return Img
+        .find(query)
+        .sort({ created_at: -1 })
+        .exec();
+    }
   },
 
   // 根据group_id获取一组照片

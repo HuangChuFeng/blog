@@ -19,7 +19,7 @@ class ImgListContainer extends Component {
             loading: false,
             showLoading: false,
             pageNum: 1,
-            pageSize: 3,
+            pageSize: 10,
             noMore: true,  // 是否没有更多了
         }
     }
