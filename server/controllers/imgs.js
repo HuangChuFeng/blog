@@ -12,7 +12,6 @@ module.exports = {
     "GET /api/imgs": async ctx => {
         const { category, pageNum, pageSize } = ctx.request.query;
         let resCode = 200,
-            error = '',
             message = "ok",
             imgs = []
             allCount = 0;
@@ -20,18 +19,19 @@ module.exports = {
             let groups = await ImgModel.getGroups(category, pageNum, Number(pageSize));
             for (let i = 0; i < groups.length; i++) {
                 let subImgs = await ImgModel.getImgsByGroupId(groups[i]._id, true);
-                delete subImgs.pv;
-                subImgs = Object.assign(subImgs, {
-                    src: subImgs.src ? subImgs.src.replace(/:3000/, '') : '',
-                    title: groups[i].title,
-                })
-                imgs.push(subImgs);
+                if(subImgs) {
+                    delete subImgs.pv;
+                    subImgs = Object.assign(subImgs, {
+                        src: subImgs.src ? subImgs.src.replace(/:3000/, '') : '',
+                        title: groups[i].title,
+                    })
+                    imgs.push(subImgs);
+                }
             }
             allCount = await ImgModel.getGroupCount(category);
         } catch (e) {
             resCode = 500;
             console.log(e);
-            error = e;
             message = "服务器出错了";
         }
         ctx.response.body = {
@@ -39,7 +39,6 @@ module.exports = {
             message,
             imgs,
             allCount,
-            error
         };
     },
 
