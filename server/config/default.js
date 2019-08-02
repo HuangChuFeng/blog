@@ -11,6 +11,6 @@ module.exports = {
 		key: 'myblog',
 		maxAge: '2592000000'
 	},
-	mongodb: 'mongodb://localhost:27017/myblog',
+	mongodb: 'mongodb://localhost:27017/myblog', // 106.14.159.7
 	cors: DEV_URL + ':3001/',
 }
