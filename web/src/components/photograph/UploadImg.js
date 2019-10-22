@@ -24,17 +24,17 @@ class PicturesWall extends React.Component {
     }
     upload(data) {
         const formData = new FormData();
-        formData.append(data.filename, data.file);
         const _this = this;
-        this.getImgWH(data.file, function() {
+        this.getNewImg(data.file, function(newFile) {
+            formData.append(data.filename, newFile);
             uploadImg(formData).then(res => {
                 if (res.data.resCode === 200) {
                     _this.state.fileList.push({
                         name: res.data.fileName,
                         status: 'done',
                         url: res.data.url,
-                        w: data.file.w,
-                        h: data.file.h
+                        w: newFile.w,
+                        h: newFile.h
                     })
                     _this.state.fileList.forEach((v, i) => {
                         v.uid = i;
@@ -46,23 +46,49 @@ class PicturesWall extends React.Component {
                 } 
             })
         })
-        // console.log('data====', data);
     }
     // handleStart
-    getImgWH(file, cb) {
+    getNewImg(file, cb) {
         // 获取图片宽高
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var data = e.target.result;
-            var image = new Image();
-            image.onload = function () {
-                file.w = this.width;
-                file.h = this.height;
-                cb();
-            }
-            image.src= data;
-        }
+        let reader = new FileReader();
+        let name = file.name;
         reader.readAsDataURL(file);
+        reader.onload = function (e) {
+            let data = e.target.result;            
+            let image = new Image();
+            let canvas = document.createElement('canvas');
+            let context = canvas.getContext('2d');
+            image.onload = function () {
+                // 目标尺寸
+                canvas.width = this.width * 0.5;
+                canvas.height = this.height * 0.5;
+                // 清除画布
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                // 图片压缩
+                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                let newFile = dataURLtoFile(canvas.toDataURL('image/jpeg', 0.92), name);
+                newFile.w = canvas.width;
+                newFile.h = canvas.height;
+                newFile.uid = file.uid;
+                cb(newFile);
+            }
+            image.src = data;
+        }
+
+        function dataURLtoFile(dataurl, filename) {
+            //将base64转换为文件
+            var arr = dataurl.split(","),
+              mime = arr[0].match(/:(.*?);/)[1],
+              bstr = atob(arr[1]),
+              n = bstr.length,
+              u8arr = new Uint8Array(n);
+            while (n--) {
+              u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, {
+              type: mime
+            });
+          }
     }
 
     onUploadRemove = (info) => {
