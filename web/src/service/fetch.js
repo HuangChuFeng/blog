@@ -33,6 +33,7 @@ export const getImgDetail = (id, typeNum) => {
 // 删除照片
 export const deleteImgById = params => {
   params = {
+    _id: params._id,
     imgName: params.imgName,
     groupId: params.group_id
   }
