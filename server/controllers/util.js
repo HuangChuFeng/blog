@@ -1,10 +1,11 @@
 const fs = require('fs');
 const nodemailer  = require('nodemailer');	
+const isDev = process.env.NODE_ENV === 'development'
 // 上线时修改 utils
-// const DEV_URL = 'http://localhost:3000/';
-const DEV_URL = 'http://www.huangchufeng.site/';
+const domain = isDev ? 'http://localhost:3000/' : 'http://www.huangchufeng.site/';
 module.exports = { 
-    domain: DEV_URL,
+    domain,
+    isDev,
     //删除临时图片目录下的所有图片
     deleteFolder: (path) => {
         var files = [];

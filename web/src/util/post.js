@@ -4,7 +4,19 @@ import LoginForm from '../containers/loginToast';
 
 const CREDENTIALS = process.env.ORIGIN ? "include" : "same-origin";
 
-export const get = async url => {
+function serialize(obj) {
+  var str = [];
+  for (var p in obj)
+    if (obj.hasOwnProperty(p)) {
+      str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+    }
+  return str.join("&");
+}
+
+export const get = async (url, params) => {
+  if(params) {
+    url += `?${serialize(params)}`;
+  }
   try {
     var result = await fetch(url, {
       method: "GET",
@@ -77,9 +89,6 @@ export const formPost = async (url, formData) => {
   try {
     var result = await fetch(url, {
       method: "POST",
-      // headers: {
-        // "Content-Type": "multipart/form-data"
-      // },
       body: formData
     });
     const data = await result.json();

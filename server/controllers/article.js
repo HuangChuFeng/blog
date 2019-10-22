@@ -5,7 +5,7 @@ const UserModel = require("../models/user");
 const authCheck = require("../middlewares/check").auth;
 const path = require("path");
 const fs = require('fs');
-const { deleteFolder, domain, transporter } = require('./util')
+const { deleteFolder, domain, isDev, transporter } = require('./util')
 
 module.exports = {
     // 获取所有文章
@@ -22,7 +22,7 @@ module.exports = {
                 delete articles[i].type;
                 delete articles[i].author;
                 delete articles[i].likes;
-                articles[i].cover_url && (articles[i].cover_url = articles[i].cover_url.replace(/:3000/, ''))
+                (articles[i].cover_url && !isDev) && (articles[i].cover_url = articles[i].cover_url.replace(/:3000/, ''))
                 articles[i].comments = await CommentModel.getCommentsCount(articles[i]._id);
             }
             allCount = await AritcleModel.getArticleCount(type)

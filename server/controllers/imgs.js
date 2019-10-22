@@ -4,8 +4,9 @@ const UserModel = require("../models/user");
 const authCheck = require("../middlewares/check").auth;
 const path = require("path");
 const fs = require('fs');
-const { deleteFolder, domain, transporter } = require('./util')
-console.log('domain======', domain);
+const { deleteFolder, domain, isDev, transporter } = require('./util')
+console.log('domain======', domain, isDev);
+
 
 module.exports = {
     // GET /imgs 所有照片
@@ -22,9 +23,9 @@ module.exports = {
                 if(subImgs) {
                     delete subImgs.pv;
                     subImgs = Object.assign(subImgs, {
-                        src: subImgs.src ? subImgs.src.replace(/:3000/, '') : '',
                         title: groups[i].title,
                     })
+                    !isDev && (subImgs.src = subImgs.src ? subImgs.src.replace(/:3000/, '') : '');
                     imgs.push(subImgs);
                 }
             }
@@ -51,9 +52,11 @@ module.exports = {
         try {
             let groupInfo = await ImgModel.getGroupImgs(groupId);
             let imgs = await ImgModel.getImgsByGroupId(groupInfo[0]._id);
-            imgs.forEach(item => {
-                item.src && (item.src = item.src.replace(/:3000/, ''))
-            })
+            if(!isDev) {
+                imgs.forEach(item => {
+                    item.src && (item.src = item.src.replace(/:3000/, ''))
+                })
+            }
             group = {
                 info: groupInfo[0],
                 imgs,
@@ -110,10 +113,11 @@ module.exports = {
         if (img.length > 0) {
             img[0] = {
                 ...img[0],
-                src: img[0].src.replace(/:3000/, ''),
                 groupId: img[0].group_id._id,
                 author: img[0].group_id.author,
             }
+
+            !isDev && (img[0].src = img[0].src.replace(/:3000/, ''));
             delete img[0].group_id
         }
         // 判断评论接收者是不是当前用户

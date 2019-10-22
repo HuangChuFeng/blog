@@ -17,28 +17,32 @@ export const uploadImg = group => {
     /api/imgs
  */
 export const fetchImgs = (params) => {
-  return get(`${DEV_URL}/api/imgs?pageNum=${params.pageNum}&pageSize=${params.pageSize}&category=${params.category}`);
+  return get(`${DEV_URL}/api/imgs`, params);
 };
 
 // 获取组图
 export const fetchGroupImgs = (groupId) => {
-  return get(`${DEV_URL}/api/groupImgs?groupId=${groupId}`);
+  return get(`${DEV_URL}/api/groupImgs`, { groupId });
 };
 
 // 获取照片详情
 export const getImgDetail = (id, typeNum) => {
-  return get(`${DEV_URL}/api/imgs/${id}?typeNum=${typeNum}`);
+  return get(`${DEV_URL}/api/imgs/${id}`, { typeNum });
 };
 
 // 删除照片
 export const deleteImgById = params => {
-  return get(`${DEV_URL}/api/imgs/${params._id}/remove?imgName=${params.imgName}&groupId=${params.group_id}`);
+  params = {
+    imgName: params.imgName,
+    groupId: params.group_id
+  }
+  return get(`${DEV_URL}/api/imgs/${params._id}/remove`, params);
 };
 
 // 更新图片浏览量
 export const addImgPv = (id, num) => {
   return get(`${DEV_URL}/api/imgs/${id}/addImgPv`, {
-    num: num,
+    num,
   });
 };
 
@@ -68,30 +72,30 @@ export const quit = () => {
 
 // 获取文章列表
 export const fetchArticles = (params) => {
-  return get(`${DEV_URL}/api/articles?pageNum=${params.pageNum}&pageSize=${params.pageSize}&type=${params.type}`);
+  return get(`${DEV_URL}/api/articles`, params);
 };
 
 // 获取文章详情
 export const getArticleDetail = (id, typeNum) => {
-  return get(`${DEV_URL}/api/articles/${id}?typeNum=${typeNum}`);
+  return get(`${DEV_URL}/api/articles/${id}`, { typeNum });
 };
 
 // 创建文章
 export const createArticle = article => {
   return post(`${DEV_URL}/api/articles/create`, {
-    article: article
+    article
   });
 };
 
 // 删除文章
 export const deleteArticleById = params => {
-  return get(`${DEV_URL}/api/articles/${params.articleId}/remove?coverName=${params.coverName}`);
+  return get(`${DEV_URL}/api/articles/${params.articleId}/remove`, { coverName: params.coverName });
 };
 
 // 更新文章
 export const updateArticleById = (id, article) => {
   return post(`${DEV_URL}/api/articles/${id}/update`, {
-    article: article,
+    article,
   });
 };
 
@@ -132,7 +136,7 @@ export const getTagsByArticleId = params => {
 
 // 根据标签name获取对应文章
 export const getArticlesByTagName = tag => {
-  return get(`${DEV_URL}/api/tag/articles?tag=${tag}`);
+  return get(`${DEV_URL}/api/tag/articles`, { tag });
 };
 
 
