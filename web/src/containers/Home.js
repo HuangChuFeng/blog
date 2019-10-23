@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import { Anchor } from 'antd';
 import { Link as RouteLink } from 'react-router-dom';
 import { getLocation } from "../service/fetch";
 import '../css/home.less'
-const { Link } = Anchor;
 export default class Home extends Component {
   constructor(props) {
       super(props);
@@ -62,7 +60,7 @@ export default class Home extends Component {
           arr.map((item, i) => {
             const imgStyle = {
               height: document.documentElement.clientHeight + 'px',
-              backgroundImage: `url(${require("../static/img/img" +  Math.floor(Math.random()*17 + 1) + ".jpg")})`, 
+              backgroundImage: `url(${require("../static/img/img" +  Math.floor(Math.random()*20 + 1) + ".jpg")})`, 
               backgroundSize: 'cover'
             }
             return (
@@ -79,14 +77,6 @@ export default class Home extends Component {
             )
           })
         }
-        <Anchor>
-          <ul className="anchor-list">
-            <li><Link href="#firstPage" title="01"/></li>
-            <li><Link href="#secondPage" title="02"/></li>
-            <li><Link href="#thirdPage" title="03"/></li>
-            <li><Link href="#forthPage" title="04"/></li>
-          </ul>
-        </Anchor>
       </div>
     )
   }
