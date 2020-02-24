@@ -6,7 +6,7 @@ export default class Footer extends Component {
             <div>
                 <footer>
                     <div>Copyright © 2019-2020 黄初凤</div>
-                    <div><a target="_blank" href="http://www.beian.miit.gov.cn">京ICP备19025225号 - 1</a></div>
+                    <div><a target="_blank" href="http://www.beian.miit.gov.cn">京ICP备19025225号</a></div>
                 </footer>
             </div>
         )
