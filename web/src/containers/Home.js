@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link as RouteLink } from 'react-router-dom';
 import { getLocation } from "../service/fetch";
 import '../css/home.less'
+import Footer from '../components/Footer'
 export default class Home extends Component {
   constructor(props) {
       super(props);
@@ -66,7 +67,12 @@ export default class Home extends Component {
             return (
               <div key={i} id={item.id + 'Page'} className={'index-bg ' + item.id } style={ this.state.bgHeight }>
                 <div className="img" style={ imgStyle }></div>
-                <div className="mask" style={ this.state.bgHeight }>{ item.text }</div>
+                <div className="mask" style={ this.state.bgHeight }>
+                  { item.text }
+                  { i === 3 && 
+                    <Footer/>
+                  }
+                </div>
                 { i === 0 &&
                 <ul className="nav-ul">
                   <li><RouteLink to="/photograph">摄影</RouteLink></li>

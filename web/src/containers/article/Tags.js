@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 import EditTag from '../../components/article/editTag'
 import { createTag, removeTag, getTags } from '../../service/fetch'
 import { addTag, deleteTag, initTags } from '../../reducers/articles'
@@ -44,6 +45,7 @@ class Tags extends Component {
                         deleteTag={this.props.deleteTag}
                         clickTagHandler={this.clickTagHandler.bind(this)}
                     />
+                    <Footer/>
                 </div>
             </div>
         )

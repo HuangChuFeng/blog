@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { changeCurNav } from '../../reducers/common'
 import ImgList from '../../components/photograph/ImgList'
 import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 import Music from '../../components/Music'
 import { Button, Spin } from 'antd';
 import '../../css/img.less'
@@ -106,6 +107,7 @@ class ImgListContainer extends Component {
                             <Button onClick={this.goBack.bind(this)}>返 回</Button>
                         </div>
                     </Spin>
+                    <Footer/>
                 </div>
             </div>
         )
