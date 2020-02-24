@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import Footer from '../../components/Footer'
 import { Icon, message, Spin } from 'antd';
 import { getImgDetail, comment as commentImg, addImgPv, addImgFavor } from "../../service/fetch";
 import MyComment from '../../components/Comment'
@@ -113,7 +114,6 @@ class ImgDetail extends Component {
     render() {
         return (
             <div className="img-detail-page">
-                {/* <Music/> */}
                 <Spin spinning={this.state.loading}>
                     <div className={["img-switch-wraper", this.state.imgEnlargeble ? 'active' : ''].join(' ')}>
                         <div className="center-box">
@@ -148,6 +148,7 @@ class ImgDetail extends Component {
                         </div>
                     </div>
                 </Spin>
+                <Footer/>
             </div>
         )
     }

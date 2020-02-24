@@ -143,7 +143,7 @@ class Header extends Component {
 
     render() {
         return (
-            <div>
+            <div className="header-wrap">
                 <div className="page-header">
                     { (this.state.isLargeScreen || this.state.showMenu) && 
                     <ul className="img-nav-ul">

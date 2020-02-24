@@ -6,6 +6,7 @@ import { Button, BackTop, Spin } from 'antd';
 import ImgList from '../../components/photograph/ImgList'
 import UploadImg from '../../components/photograph/UploadImg'
 import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 import Loading from '../../components/Loading'
 import '../../css/img.less'
 
@@ -141,6 +142,7 @@ class ImgListContainer extends Component {
                         loadMore={this.loadMore.bind(this)}
                     />
                     }
+                    <Footer/>
                 </div>
                 <BackTop target={() => document.getElementsByClassName('container')[0]}/>
             </div>

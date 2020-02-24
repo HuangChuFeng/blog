@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Icon, message, Spin } from 'antd';
 import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 import MyComment from '../../components/Comment'
 import { getArticleDetail, comment as commentArticle, addArticlePv, addArticleFavor } from "../../service/fetch";
 import { changeCurNav } from '../../reducers/common'
@@ -158,6 +159,7 @@ class ArticleDetail extends Component {
                             />
                         </div>
                     </Spin>
+                    <Footer/>
                 </div>
             </div>
         )

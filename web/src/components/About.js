@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Icon } from 'antd';
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import { connect } from 'react-redux'
 import { changeCurNav, changeShowMusic } from '../reducers/common'
-class Footer extends Component {
+class About extends Component {
     componentWillMount() {
         setTimeout(() => {
             this.props.changeCurNav('关于')
@@ -28,6 +29,7 @@ class Footer extends Component {
                     <a target="blank" href="https://weibo.com/5454891945/profile"><Icon type="weibo-circle" /> <span>__cranky</span></a></p>
                     <p onClick={this.changeSong.bind(this)}><span className="change-song-btn">换歌</span></p>
                 </div>
+                <Footer />
             </div>
         </div>
     )
@@ -53,4 +55,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Footer)
+)(About)

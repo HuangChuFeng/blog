@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import ArticleList from '../../components/article/ArticleList'
 import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 import Loading from '../../components/Loading'
 import { initArticles, deleteArticle } from '../../reducers/articles'
 import { changeCurNav } from '../../reducers/common'
@@ -146,7 +147,8 @@ class ArticleListContainer extends Component {
                         }
                         </div>
                     </Spin>
-                    <BackTop target={() => document.getElementsByClassName('container')[0]}/>
+                    <BackTop target={() => document.getElementsByClassName('container')[0]} />
+                    <Footer />
                 </div>
             </div>
         )

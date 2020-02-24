@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 import { setCurArticle, initTags } from '../../reducers/articles'
 import '../../css/article.less'
 import { Button } from 'antd';
@@ -94,6 +95,7 @@ class EditArticleContainer extends Component {
                         发布
                     </Button>
                     <Button className="operate-btn"><Link to="/articles">取消</Link></Button>
+                    <Footer/>
                 </div>
             </div>
         )
