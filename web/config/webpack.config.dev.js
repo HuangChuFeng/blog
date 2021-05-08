@@ -173,6 +173,10 @@ module.exports = {
   module: {
     strictExportPresence: true,
     rules: [
+      {
+        test: /\.md$/,
+        use: "raw-loader"
+      },
       // Disable require.ensure as it's not a standard language feature.
       { parser: { requireEnsure: false } },
 

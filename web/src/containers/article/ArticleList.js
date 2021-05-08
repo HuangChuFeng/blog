@@ -10,13 +10,13 @@ import Loading from '../../components/Loading'
 import { initArticles, deleteArticle } from '../../reducers/articles'
 import { changeCurNav } from '../../reducers/common'
 import '../../css/article.less'
-
 import { fetchArticles, deleteArticleById, getArticlesByTagName } from "../../service/fetch";
 
 class ArticleListContainer extends Component {
     static contextTypes = {
         router: PropTypes.object.isRequired,
     }
+
     constructor(props) {
         super(props);
         this.state = {
