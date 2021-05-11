@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Index.scss';
-import Footer from '../../common/lib/Footer';
+import Footer from '@common/lib/Footer';
 
 interface imgItem {
   id: string;

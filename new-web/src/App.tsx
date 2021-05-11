@@ -1,5 +1,5 @@
 import { routes, RouteItem } from './routes';
-import { environment } from './environment/environment';
+import { environment } from '@environment/environment';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 console.log(environment);

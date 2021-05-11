@@ -1,4 +1,4 @@
-import Home from './page/Home/Index';
+import Home from '@page/Home/Index';
 import React from 'react';
 
 export interface RouteItem {
