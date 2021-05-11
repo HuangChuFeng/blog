@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import './Index.less'; // TODO: less 引入不生效
+import { useState, useEffect } from 'react';
+import './Index.scss';
+import Footer from '../../common/lib/Footer';
 
 interface imgItem {
   id: string;
   text: string;
-  imgStyle?: { [key: string]: any };
+  imgStyle?: { [key: string]: string };
 }
 
 const originImgs: imgItem[] = [
@@ -51,7 +52,6 @@ function Home(): JSX.Element {
     });
     Promise.all(imgPromises).then((imgs) => {
       setImgs(imgs);
-      console.log(imgs);
     });
   }, []);
 
@@ -63,9 +63,7 @@ function Home(): JSX.Element {
             <div className="img" style={item.imgStyle}></div>
             <div className="mask" style={bgStyle}>
               {item.text}
-              {/* { i === 3 &&
-              <Footer/>
-            } */}
+              {i === 3 && <Footer />}
             </div>
             {/* { i === 0 &&
           <ul className="nav-ul">

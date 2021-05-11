@@ -1,5 +1,3 @@
-@import '../../common/common.less';
-
 .bottom-center-text a,
 .nav-ul a {
   color: #f1f3fe !important;
@@ -142,6 +140,10 @@
   }
 }
 
-@media screen and (max-width: 960px) .index-bg .mask {
-  font-size: 230px;
+@media screen and (max-width: 960px) {
+  // blank line
+
+  .index-bg .mask {
+    font-size: 230px;
+  }
 }
