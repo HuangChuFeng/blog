@@ -1,0 +1,14 @@
+.nav {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 9999;
+    overflow: hidden;
+
+    a {
+        float: right;
+        margin-left: 60px;
+        color: #f1f3fe !important;
+        text-decoration: underline;
+    }
+}
