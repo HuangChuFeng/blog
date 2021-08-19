@@ -4,6 +4,10 @@ import { pojoaque } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import gfm from 'remark-gfm';
 
+type MarkDownProps = {
+    content: string;
+};
+
 const components = {
     code({ node, inline, className, children, ...props }: any) {
         const match = /language-(\w+)/.exec(className || '');
@@ -22,26 +26,8 @@ const components = {
         );
     },
 };
-
-// Did you know you can use tildes instead of backticks for code in markdown? ✨
-const markdown = `A paragraph with *emphasis* and **strong importance**.
-
-> A block quote with ~~strikethrough~~ and a URL: https://reactjs.org.
-
-* Lists
-* [ ] todo
-* [x] done
-
-
-
-~~~js
-class Test {
-
-}
-~~~
-`;
-export default class MarkDown extends React.PureComponent {
+export default class MarkDown extends React.PureComponent<MarkDownProps> {
     render(): JSX.Element {
-        return <ReactMarkdown remarkPlugins={[gfm]} components={components} children={markdown} />;
+        return <ReactMarkdown remarkPlugins={[gfm]} components={components} children={this.props.content} />;
     }
 }
