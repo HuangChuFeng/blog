@@ -28,7 +28,7 @@
     "koa2-history-api-fallback": "0.0.5",
     "koa2-session-mongolass": "^1.0.1",
     "koa2-session-store": "^1.0.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "nodemailer": "^6.2.1",
     "objectid-to-timestamp": "^1.3.0",
     "pug": "^2.0.0-rc.1",
